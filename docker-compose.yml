@@ -1,0 +1,12 @@
+services:
+  frontend:
+    build: .
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "4200:4200"
+    environment:
+      - NG_CLI_ANALYTICS=ci
+    stdin_open: true
+    tty: true
