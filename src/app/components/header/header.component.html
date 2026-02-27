@@ -1,42 +1,31 @@
-<nav class="navbar">
-  <div class="navbar__logo" routerLink="/" style="cursor: pointer;">OUTFITGO</div>
-
-  <ul class="navbar__links">
+<div class="navbar bg-base-100 shadow-sm">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+        </svg>
+      </div>
+      <ul tabindex="-1" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+        <li><a routerLink="/products/men">HOMBRE</a></li>
+        <li><a routerLink="/products/women">MUJER</a></li>
+        <li><a routerLink="/products/kids">INFANTIL</a></li>
+      </ul>
+    </div>
+    <a routerLink="/" class="btn btn-ghost text-xl">OutfitGo</a>
+  </div>
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1">
       <li><a routerLink="/products/men">HOMBRE</a></li>
       <li><a routerLink="/products/women">MUJER</a></li>
       <li><a routerLink="/products/kids">INFANTIL</a></li>
-  </ul>
-
-  <div class="navbar__icons">
-      <div class="search-container">
-          <input 
-            type="text" 
-            class="search-input" 
-            [class.active]="isSearchVisible()" 
-            placeholder="Buscar..."
-            #searchInput
-            (keyup.enter)="handleSearch(searchInput.value)">
-          
-          <img 
-            src="https://img.icons8.com/ios-filled/30/ffffff/search.png" 
-            alt="Search" 
-            (click)="handleToggle()"
-            style="cursor: pointer;">
-      </div>
-
-      <!-- Control de flujo Angular 19 para mostrar usuario o login según estado -->
-      @if (isLoggedIn()) {
-        <a routerLink="/profile"><img src="https://img.icons8.com/ios-filled/30/ffffff/user-male-circle.png" alt="Profile"></a>
-      } @else {
-        <a routerLink="/login"><img src="https://img.icons8.com/ios-filled/30/ffffff/user.png" alt="Login"></a>
-      }
-
-      <a routerLink="/cart" class="cart-icon">
-          <img src="https://img.icons8.com/ios-filled/30/ffffff/shopping-cart.png" alt="Cart">
-          <!-- Control de flujo Angular 19: Si hay items mostramos el badge -->
-          @if (cartCount() > 0) {
-            <span class="badge">{{ cartCount() }}</span>
-          }
-      </a>
+    </ul>
   </div>
-</nav>
+  <div class="navbar-end">
+    @if (isLoggedIn()) {
+    <a routerLink="/profile" class="btn">Cuenta</a>
+    } @else {
+    <a routerLink="/login" class="btn">Entrar</a>
+    }
+  </div>
+</div>
