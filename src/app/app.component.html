@@ -2,8 +2,7 @@
    Pasamos el estado desde este Smart Component al Dumb Component Header
    usando Signals y Property Binding.
 -->
-<app-header [cartCount]="globalCartCount()" [isLoggedIn]="isUserLoggedIn()" [isSearchVisible]="isSearchVisible()"
-  (onSearch)="handleSearchEvent($event)" (onToggleSearch)="handleToggleSearch()"></app-header>
+<app-header [isLoggedIn]="isUserLoggedIn()"></app-header>
 
 <!-- Contenedor Principal para las páginas de ruta -->
 <main class="main-content">

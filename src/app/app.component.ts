@@ -12,18 +12,6 @@ import { FooterComponent } from './components/footer/footer.component';
 })
 export class AppComponent {
   // --- Estado Global Básico (Simulado/Gestionado por este Smart Component) ---
-  // En el futuro, estos datos podrían venir inyectados desde un AuthService o CartService
+  // En el futuro, estos datos podrían venir inyectados desde un AuthService
   isUserLoggedIn = signal<boolean>(false);
-  globalCartCount = signal<number>(0);
-  isSearchVisible = signal<boolean>(false);
-
-  // Manejador del evento emitido por el Dumb Component
-  handleSearchEvent(query: string) {
-    console.log('Búsqueda ejecutada desde Header dumb comp:', query);
-    // Aquí iría la lógica (ej: redigir a la ruta /search?q=...)
-  }
-
-  handleToggleSearch() {
-    this.isSearchVisible.update(visible => !visible);
-  }
 }
