@@ -1,59 +1,58 @@
-# OutfitGoAngular19
+# OutfitGo
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.21.
+Este proyecto fue generado usando [Angular CLI](https://github.com/angular/angular-cli) versión 19.2.21.
 
-## Development server
+## 🚀 Despliegue con Docker
 
-To start a local development server, run:
+El proyecto está configurado para ejecutarse fácilmente dentro de un contenedor Docker, asegurando que cuentas con el entorno correcto (Node 22 y Angular CLI 19) sin necesidad de instalar nada en tu máquina locał (solamente Docker y Docker Compose).
 
+### Comandos necesarios para arrancar con Docker:
+
+1. **Levantar el contenedor en segundo plano:**
+   ```bash
+   docker-compose up -d
+   ```
+
+2. **Acceder a la terminal del contenedor:**
+   ```bash
+   docker-compose exec frontend bash
+   ```
+
+3. **Instalar las dependencias (dentro del contenedor):**
+   ```bash
+   npm install
+   ```
+
+4. **Arrancar el servidor de desarrollo:**
+   Dentro del contenedor, se ha creado un comando rápido (alias) llamado `ng-serve` que arranca Angular expuesto a tu máquina y con recarga automática para los cambios de archivos:
+   ```bash
+   ng-serve
+   ```
+   *(También puedes usar el comando completo: `ng serve --host 0.0.0.0 --poll 2000`)*
+
+Una vez arrancado, abre tu navegador y visita `http://localhost:4200/`.
+
+---
+
+## 🛠️ Comandos de Angular CLI
+
+### Servidor de Desarrollo Local (Sin Docker)
+Si prefieres usar Node y Angular instalados directamente en tu propia máquina (Windows/Mac/Linux), puedes ejecutar:
 ```bash
 ng serve
 ```
+Luego visita `http://localhost:4200/`.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
+### Compilar el Proyecto (`ng build`)
+Para compilar el proyecto y prepararlo para un entorno real de producción, debes ejecutar el siguiente comando:
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+**¿Qué hace y qué carpeta genera `ng build`?**
+Angular CLI compilará todo el código TypeScript a JavaScript puro, optimizará los recursos (minificar código, eliminar código muerto o no usado, etc) y **creará los archivos de producción estáticos**.
 
-## Running unit tests
+Todos estos archivos listos para producción se generarán y guardarán dentro de la carpeta:
+👉 **`dist/outfit-go-angular19/`**
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+El contenido de esta carpeta (donde se encontrará el `index.html` resultante junto con sus dependencias `.js` y estilos) es lo que deberás coger y subir a tu servidor de producción final web (por ejemplo: Nginx, Apache, Vercel, Firebase Hosting, Netlify, etc.).
