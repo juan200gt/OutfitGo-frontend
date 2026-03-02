@@ -1,0 +1,21 @@
+<div class="card bg-base-100 w-full shadow-sm">
+    <figure>
+        <img [src]="product().image" [alt]="product().name" class="object-cover h-64 w-full" />
+    </figure>
+    <div class="card-body">
+        <h2 class="card-title">
+            {{ product().name }}
+            @if (product().category) {
+            <div class="badge badge-secondary">{{ product().category }}</div>
+            }
+        </h2>
+        <p class="text-lg font-semibold">{{ product().price | currency:'EUR' }}</p>
+        <div class="card-actions justify-end mt-2">
+            <div class="badge badge-outline">{{ product().brand }}</div>
+            <div class="badge badge-outline">{{ product().color }}</div>
+        </div>
+        <div class="card-actions mt-4">
+            <button class="btn btn-primary w-full" (click)="action.emit(product())">Añadir al carrito</button>
+        </div>
+    </div>
+</div>
