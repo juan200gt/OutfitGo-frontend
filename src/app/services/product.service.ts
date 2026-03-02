@@ -96,7 +96,7 @@ export class ProductService {
             name: 'Camisa Oxford Ralph Lauren',
             price: 75.00,
             image: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500&q=80',
-            category: 'men',
+            category: 'man',
             size: ['M', 'L', 'XL'],
             color: 'Blanco',
             brand: 'Ralph Lauren'
@@ -106,7 +106,7 @@ export class ProductService {
             name: 'Vaqueros Levi\'s 501 Original',
             price: 99.00,
             image: 'https://images.unsplash.com/photo-1542272454315-4c01d7abdf4a?w=500&q=80',
-            category: 'men',
+            category: 'man',
             size: ['30', '32', '34', '36'],
             color: 'Azul Denim',
             brand: 'Levi\'s'
@@ -116,7 +116,7 @@ export class ProductService {
             name: 'Chaqueta North Face Resolve',
             price: 110.00,
             image: 'https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=500&q=80',
-            category: 'men',
+            category: 'man',
             size: ['M', 'L', 'XL'],
             color: 'Negro',
             brand: 'The North Face'
@@ -126,7 +126,7 @@ export class ProductService {
             name: 'Camiseta Gráfica Vans',
             price: 25.00,
             image: 'https://images.unsplash.com/photo-1503341338985-c0477be52513?w=500&q=80',
-            category: 'men',
+            category: 'man',
             size: ['S', 'M', 'L'],
             color: 'Negro',
             brand: 'Vans'
@@ -146,7 +146,7 @@ export class ProductService {
             name: 'Gafas de Sol Aviator',
             price: 135.00,
             image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=500&q=80',
-            category: 'men',
+            category: 'man',
             size: ['Única'],
             color: 'Dorado',
             brand: 'Ray-Ban'
@@ -166,7 +166,7 @@ export class ProductService {
             name: 'Botas Timberland Premium',
             price: 145.00,
             image: 'https://images.unsplash.com/photo-1608256246200-53e635b5b69f?w=500&q=80',
-            category: 'men',
+            category: 'man',
             size: ['40', '41', '42', '43', '44'],
             color: 'Mostaza',
             brand: 'Timberland'
@@ -186,7 +186,7 @@ export class ProductService {
             name: 'Forro Polar Patagonia',
             price: 120.00,
             image: 'https://images.unsplash.com/photo-1551488852-081bd4c9a66f?w=500&q=80',
-            category: 'men',
+            category: 'man',
             size: ['M', 'L', 'XL', 'XXL'],
             color: 'Verde Oliva',
             brand: 'Patagonia'
