@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { ProductsPageComponent } from './pages/products-page/products-page.component';
 
 export const routes: Routes = [
     {
@@ -12,6 +13,26 @@ export const routes: Routes = [
         path: 'login',
         component: LoginPageComponent,
         title: 'Iniciar Sesión'
+    },
+    {
+        path: 'products/all',
+        component: ProductsPageComponent,
+        title: 'Todos los productos'
+    },
+    {
+        path: 'products/men',
+        component: ProductsPageComponent,
+        title: 'Productos para hombres'
+    },
+    {
+        path: 'products/women',
+        component: ProductsPageComponent,
+        title: 'Productos para mujeres'
+    },
+    {
+        path: 'products/kids',
+        component: ProductsPageComponent,
+        title: 'Productos para niños'
     },
     {
         path: '**',

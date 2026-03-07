@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { LoginCredentials } from '../../interfaces/auth';
+import { LoginCredentials } from '../../interfaces/auth.interface';
 
 @Component({
   selector: 'app-login-form',
@@ -12,7 +12,7 @@ export class LoginFormComponent {
   isLoading = input<boolean>(false);
   errorMessage = input<string | null>(null);
 
-  submitLogin = output<LoginCredentials>();
+  submitLogin = output<LoginCredentials >();
 
   loginForm = new FormGroup({
     email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),

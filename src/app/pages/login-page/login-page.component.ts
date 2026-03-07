@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginFormComponent } from '../../components/login-form/login-form.component';
-import { LoginCredentials } from '../../interfaces/auth';
+import { LoginCredentials } from '../../interfaces/auth.interface';
 
 @Component({
   selector: 'app-login-page',
