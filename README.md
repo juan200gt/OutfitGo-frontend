@@ -1,58 +1,65 @@
-# OutfitGo
+# 🚀 E-Commerce Frontend v2.0 | OutfitGo
 
-Este proyecto fue generado usando [Angular CLI](https://github.com/angular/angular-cli) versión 19.2.21.
+![Angular](https://img.shields.io/badge/Angular_19-DD0031?style=for-the-badge&logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/CI/CD-GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
 
-## 🚀 Despliegue con Docker
+Este repositorio contiene la interfaz de usuario oficial de **OutfitGo**, un E-Commerce de moda construido usando [Angular CLI](https://github.com/angular/angular-cli) versión 19. Está optimizado para integrarse directamente con el *Core Engine Backend API*.
 
-El proyecto está configurado para ejecutarse fácilmente dentro de un contenedor Docker, asegurando que cuentas con el entorno correcto (Node 22 y Angular CLI 19) sin necesidad de instalar nada en tu máquina locał (solamente Docker y Docker Compose).
+---
 
-### Comandos necesarios para arrancar con Docker:
+## ⚠️ Reglas Core de Negocio (Consumo de la API V2)
+
+Para interactuar con el catálogo de ropa de la forma esperada y no romper el diseño, la UI **DEBE** acatar estas normas:
+
+1. **Procedencia Estricta de Textos**: Absolutamente todas las descripciones mostradas en las tarjetas y detalles de producto provienen de la lectura directa del campo `descripcion` devuelto por el Backend.
+2. **Longitud Controlada Asegurada**: El Backend garantiza desde base de datos que **toda descripción siempre posee una longitud estricta de entre 300 y 500 caracteres**. 
+   * Debes maquetar y diseñar los componentes previendo siempre estos textos extensos.
+   * Si una tarjeta (*Card*) de producto tiene una altura estricta, debes implementar restricciones UI, como por ejemplo la utilidad CSS (`text-truncate`), un `line-clamp` para cortar visualmente a 3 líneas, o un panel expansible de "Leer Más".
+
+---
+
+## 🐳 Despliegue Local con Docker
+
+El proyecto está configurado para ejecutarse fácilmente dentro de un contenedor Docker, asegurando que cuentas con el entorno correcto (Node 22 y Angular CLI 19) sin necesidad de instalar dependencias en tu máquina local.
+
+### Comandos de Arranque Rápidos:
 
 1. **Levantar el contenedor en segundo plano:**
    ```bash
    docker-compose up -d
    ```
 
-2. **Acceder a la terminal del contenedor:**
+2. **Acceder a la terminal del contenedor e instalar paquetes:**
    ```bash
    docker-compose exec frontend bash
-   ```
-
-3. **Instalar las dependencias (dentro del contenedor):**
-   ```bash
    npm install
    ```
 
-4. **Arrancar el servidor de desarrollo:**
-   Dentro del contenedor, se ha creado un comando rápido (alias) llamado `ng-serve` que arranca Angular expuesto a tu máquina y con recarga automática para los cambios de archivos:
+3. **Arrancar el servidor de desarrollo en Docker:**
+   Dentro del contenedor, tenemos un comando rápido (alias) que arranca Angular expuesto a tu máquina y con recarga automática:
    ```bash
    ng-serve
    ```
-   *(También puedes usar el comando completo: `ng serve --host 0.0.0.0 --poll 2000`)*
+   *(Alternativa: `ng serve --host 0.0.0.0 --poll 2000`)*
 
 Una vez arrancado, abre tu navegador y visita `http://localhost:4200/`.
 
 ---
 
-## 🛠️ Comandos de Angular CLI
+## 🛠️ Comandos de Angular CLI (Sin Docker)
 
-### Servidor de Desarrollo Local (Sin Docker)
-Si prefieres usar Node y Angular instalados directamente en tu propia máquina (Windows/Mac/Linux), puedes ejecutar:
-```bash
-ng serve
-```
-Luego visita `http://localhost:4200/`.
+Si prefieres usar Node y Angular instalados directamente en tu propia máquina (Windows/Mac/Linux):
 
-### Compilar el Proyecto (`ng build`)
-Para compilar el proyecto y prepararlo para un entorno real de producción, debes ejecutar el siguiente comando:
-```bash
-ng build
-```
+* **Servidor de Desarrollo**: `ng serve` (Visita `http://localhost:4200/`)
+* **Compilar Proyecto**: `ng build`
 
-**¿Qué hace y qué carpeta genera `ng build`?**
-Angular CLI compilará todo el código TypeScript a JavaScript puro, optimizará los recursos (minificar código, eliminar código muerto o no usado, etc) y **creará los archivos de producción estáticos**.
+El comando de compilación generará los archivos de producción estáticos dentro de la carpeta: 👉 **`dist/outfit-go-angular19/`**.
 
-Todos estos archivos listos para producción se generarán y guardarán dentro de la carpeta:
-👉 **`dist/outfit-go-angular19/`**
+---
 
-El contenido de esta carpeta (donde se encontrará el `index.html` resultante junto con sus dependencias `.js` y estilos) es lo que deberás coger y subir a tu servidor de producción final web (por ejemplo: Nginx, Apache, Vercel, Firebase Hosting, Netlify, etc.).
+## 🚀 Despliegue Automatizado (CI/CD) en AWS
+
+Este frontend cuenta con un pipeline integrado de CI/CD mediante **GitHub Actions**.
+Cada vez que se realiza un envío de código (`push`) a la rama `main`, la aplicación se auto-compilará para producción y subirá el empaquetado resultante a nuestra instancia segura de Amazon EC2 ubicada en `/var/www/html/frontend`.
