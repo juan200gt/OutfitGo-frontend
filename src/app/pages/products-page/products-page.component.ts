@@ -1,4 +1,5 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../interfaces/product.interface';
@@ -9,14 +10,10 @@ import { Product } from '../../interfaces/product.interface';
   imports: [ProductCardComponent],
   templateUrl: './products-page.component.html',
 })
-export class ProductsPageComponent implements OnInit {
+export class ProductsPageComponent {
   #productService = inject(ProductService);
 
-  products = signal<Product[]>([]);
-
-  ngOnInit() {
-    this.products.set(this.#productService.products());
-  }
+  products = toSignal(this.#productService.getProducts(), { initialValue: [] as Product[] });
 
   handleProductAction(product: Product) {
     console.log('Action dispatched for product:', product.name);
