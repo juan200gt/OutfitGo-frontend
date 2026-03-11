@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
 import { ProductService } from '../../services/product.service';
+import { CartService } from '../../services/cart.service';
 import { Product } from '../../interfaces/product.interface';
 
 @Component({
@@ -12,10 +13,12 @@ import { Product } from '../../interfaces/product.interface';
 })
 export class ProductsPageComponent {
   #productService = inject(ProductService);
+  cartService = inject(CartService);
 
   products = toSignal(this.#productService.getProducts(), { initialValue: [] as Product[] });
 
-  handleProductAction(product: Product) {
-    console.log('Action dispatched for product:', product.name);
+  handleAddToCart(product: Product) {
+    this.cartService.addToCart(product.id, 1).subscribe();
+    console.log('Añadido al carrito con éxito:', product.name);
   }
 }

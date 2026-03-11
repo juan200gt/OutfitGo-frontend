@@ -9,5 +9,5 @@ import { Product } from '../../interfaces/product.interface';
 })
 export class ProductCardComponent {
   product = input.required<Product>();
-  action = output<Product>();
+  addToCart = output<Product>();
 }

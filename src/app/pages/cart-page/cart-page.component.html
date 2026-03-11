@@ -20,15 +20,15 @@
 
             <div class="flex justify-between mb-2">
                 <span class="text-base-content/80">Artículos ({{ cartService.totalItemsCount() }}):</span>
-                <span class="font-medium">{{ cartService.cartTotal() | currency:'EUR':'symbol':'1.2-2':'es-ES' }}</span>
+                <span class="font-medium">{{ cartService.cartTotal() | currency:'EUR' }}</span>
             </div>
 
             <div class="flex justify-between font-bold text-2xl border-t border-base-200 pt-4 mt-4">
                 <span>Total:</span>
-                <span>{{ cartService.cartTotal() | currency:'EUR':'symbol':'1.2-2':'es-ES' }}</span>
+                <span>{{ cartService.cartTotal() | currency:'EUR' }}</span>
             </div>
 
-            <button class="btn btn-neutral w-full mt-6 btn-lg" disabled>
+            <button class="btn btn-neutral w-full mt-6 btn-lg" [disabled]="cartService.cartItems().length === 0">
                 Proceder al Pago
             </button>
         </div>

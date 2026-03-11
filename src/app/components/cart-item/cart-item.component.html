@@ -5,13 +5,12 @@
     <div class="flex-1 flex flex-col sm:flex-row justify-between w-full">
         <div class="flex flex-col">
             <h3 class="font-semibold text-lg">{{ item().producto.nombre }}</h3>
-            <p class="text-sm text-base-content/70">Precio unidad: {{ item().producto.precio |
-                currency:'EUR':'symbol':'1.2-2':'es-ES' }}</p>
+            <p class="text-sm text-base-content/70">Precio unidad: {{ item().producto.precio | currency:'EUR' }}</p>
             <p class="text-sm text-base-content/70">Cantidad: {{ item().cantidad }}</p>
         </div>
 
         <div class="flex flex-col sm:items-end justify-center mt-4 sm:mt-0 gap-2">
-            <span class="font-bold text-xl">{{ item().subtotal | currency:'EUR':'symbol':'1.2-2':'es-ES' }}</span>
+            <span class="font-bold text-xl">{{ item().subtotal | currency:'EUR' }}</span>
             <button class="btn btn-error btn-sm w-fit" (click)="remove.emit(item().id)">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">

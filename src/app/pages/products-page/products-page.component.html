@@ -2,7 +2,7 @@
     <h2 class="text-3xl font-bold mb-6 text-center">Catálogo de Productos</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         @for (item of products(); track item.id) {
-        <app-product-card [product]="item" (action)="handleProductAction($event)" />
+        <app-product-card [product]="item" (addToCart)="handleAddToCart($event)" />
         } @empty {
         <div class="col-span-full text-center py-10">
             <p class="text-xl opacity-70">No se encontraron productos.</p>
