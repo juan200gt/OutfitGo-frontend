@@ -13,7 +13,8 @@ export const MOCK_PRODUCTS: Product[] = [
 ];
 
 export const MOCK_USERS: User[] = [
-    { id: 1, name: 'Administrador', email: 'admin@admin.com' }
+    { id: 1, name: 'Administrador', email: 'admin@admin.com' },
+    { id: 2, name: 'Cliente', email: 'cliente@outfitgo.com' }
 ];
 
 export const MOCK_CART: CartItem[] = [

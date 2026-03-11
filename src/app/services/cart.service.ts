@@ -80,4 +80,18 @@ export class CartService {
         this.mockCartState = this.mockCartState.filter(item => item.id !== id);
         return of({ message: 'Eliminado simulado' }).pipe(delay(300), tap(() => this.loadCart()));
     }
+    checkout(): Observable<any> {
+        // TODO: Descomentar cuando la API vuelva
+        /* return this.#http.post(`${this.#apiUrl.replace('/cart', '/checkout')}`, {}).pipe(
+            tap(() => this.loadCart())
+        ); */
+
+        return of({ message: 'Compra realizada con éxito' }).pipe(
+            delay(800),
+            tap(() => {
+                this.mockCartState = [];
+                this.cartItems.set([]);
+            })
+        );
+    }
 }

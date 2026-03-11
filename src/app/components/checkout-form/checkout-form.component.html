@@ -1,0 +1,61 @@
+<form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()" class="card bg-base-100 shadow-xl border border-base-200">
+    <div class="card-body">
+        <h2 class="card-title text-2xl font-bold mb-4">Datos de Pago</h2>
+
+        <div class="form-control w-full mb-4">
+            <label class="label">
+                <span class="label-text font-medium">Nombre en la tarjeta</span>
+            </label>
+            <input type="text" formControlName="cardholderName" placeholder="Ej. Juan Pérez"
+                class="input input-bordered w-full hover:border-primary focus:border-primary transition-colors"
+                [class.input-error]="checkoutForm.get('cardholderName')?.invalid && checkoutForm.get('cardholderName')?.touched" />
+            @if (checkoutForm.get('cardholderName')?.invalid && checkoutForm.get('cardholderName')?.touched) {
+            <label class="label"><span class="label-text-alt text-error">El nombre es requerido</span></label>
+            }
+        </div>
+
+        <div class="form-control w-full mb-4">
+            <label class="label">
+                <span class="label-text font-medium">Número de Tarjeta</span>
+            </label>
+            <input type="text" formControlName="cardNumber" placeholder="0000 0000 0000 0000"
+                class="input input-bordered w-full hover:border-primary focus:border-primary transition-colors"
+                [class.input-error]="checkoutForm.get('cardNumber')?.invalid && checkoutForm.get('cardNumber')?.touched" />
+            @if (checkoutForm.get('cardNumber')?.invalid && checkoutForm.get('cardNumber')?.touched) {
+            <label class="label"><span class="label-text-alt text-error">Requerido (Mín. 16 dígitos)</span></label>
+            }
+        </div>
+
+        <div class="flex gap-4 mb-6">
+            <div class="form-control w-1/2">
+                <label class="label">
+                    <span class="label-text font-medium">Caducidad</span>
+                </label>
+                <input type="text" formControlName="expiryDate" placeholder="MM/AA"
+                    class="input input-bordered w-full hover:border-primary focus:border-primary transition-colors"
+                    [class.input-error]="checkoutForm.get('expiryDate')?.invalid && checkoutForm.get('expiryDate')?.touched" />
+            </div>
+
+            <div class="form-control w-1/2">
+                <label class="label">
+                    <span class="label-text font-medium">CVV</span>
+                </label>
+                <input type="text" formControlName="cvv" placeholder="123"
+                    class="input input-bordered w-full hover:border-primary focus:border-primary transition-colors"
+                    [class.input-error]="checkoutForm.get('cvv')?.invalid && checkoutForm.get('cvv')?.touched" />
+            </div>
+        </div>
+
+        <div class="card-actions justify-end mt-4">
+            <button type="submit" class="btn btn-primary w-full btn-lg"
+                [disabled]="isProcessing() || checkoutForm.invalid">
+                @if (isProcessing()) {
+                <span class="loading loading-spinner"></span>
+                Procesando...
+                } @else {
+                Pagar Ahora
+                }
+            </button>
+        </div>
+    </div>
+</form>

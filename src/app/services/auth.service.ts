@@ -27,7 +27,7 @@ export class AuthService {
         ); */
 
         const user = MOCK_USERS.find(u => u.email === credentials.email);
-        if (user && credentials.password === 'admin') {
+        if (user && (credentials.password === 'admin' || credentials.password === 'password123')) {
             const mockToken = 'mock_jwt_token_12345';
             if (isPlatformBrowser(this.#platformId)) {
                 localStorage.setItem('auth_token', mockToken);
