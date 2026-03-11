@@ -12,7 +12,7 @@ export class LoginFormComponent {
   isLoading = input<boolean>(false);
   errorMessage = input<string | null>(null);
 
-  submitLogin = output<LoginCredentials >();
+  submitLogin = output<LoginCredentials>();
 
   loginForm = new FormGroup({
     email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),

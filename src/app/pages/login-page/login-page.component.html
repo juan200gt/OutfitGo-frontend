@@ -1,1 +1,1 @@
-<app-login-form [isLoading]="loading()" [errorMessage]="error()" (submitLogin)="onLogin($event)" />
+<app-login-form [isLoading]="isLoggingIn()" [errorMessage]="error()" (submitLogin)="handleLogin($event)" />

@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 import { LoginFormComponent } from '../../components/login-form/login-form.component';
 import { LoginCredentials } from '../../interfaces/auth.interface';
 
@@ -10,20 +11,25 @@ import { LoginCredentials } from '../../interfaces/auth.interface';
   templateUrl: './login-page.component.html',
 })
 export class LoginPageComponent {
+  #authService = inject(AuthService);
   #router = inject(Router);
 
-  loading = signal<boolean>(false);
+  isLoggingIn = signal<boolean>(false);
   error = signal<string | null>(null);
 
-  onLogin(credentials: LoginCredentials) {
-    this.loading.set(true);
-    this.error.set(null); // Limpia posibles errores previos
+  handleLogin(credentials: LoginCredentials) {
+    this.isLoggingIn.set(true);
+    this.error.set(null);
 
-    // Simulación de llamada a backend
-    setTimeout(() => {
-      this.loading.set(false);
-      this.error.set(null);
-      this.#router.navigate(['/products']);
-    }, 2000);
+    this.#authService.login(credentials).subscribe({
+      next: () => {
+        this.isLoggingIn.set(false);
+        this.#router.navigate(['/']);
+      },
+      error: (err) => {
+        this.isLoggingIn.set(false);
+        this.error.set('Usuario o contraseña incorrectos');
+      }
+    });
   }
 }
