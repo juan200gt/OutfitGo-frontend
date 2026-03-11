@@ -1,7 +1,9 @@
 import { Routes } from '@angular/router';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import { ProductsPageComponent } from './pages/products-page/products-page.component';
+import { CartPageComponent } from './pages/cart-page/cart-page.component';
 
 export const routes: Routes = [
     {
@@ -13,6 +15,11 @@ export const routes: Routes = [
         path: 'login',
         component: LoginPageComponent,
         title: 'Iniciar Sesión'
+    },
+    {
+        path: 'register',
+        component: RegisterPageComponent,
+        title: 'Registrarse'
     },
     {
         path: 'products/all',
@@ -33,6 +40,11 @@ export const routes: Routes = [
         path: 'products/kids',
         component: ProductsPageComponent,
         title: 'Productos para niños'
+    },
+    {
+        path: 'cart',
+        component: CartPageComponent,
+        title: 'Tu Carrito'
     },
     {
         path: '**',

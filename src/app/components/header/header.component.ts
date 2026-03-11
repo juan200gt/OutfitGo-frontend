@@ -9,4 +9,5 @@ import { RouterLink } from '@angular/router';
 })
 export class HeaderComponent {
     isLoggedIn = input<boolean>(false);
+    cartItemCount = input<number>(0);
 }

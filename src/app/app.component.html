@@ -1,10 +1,5 @@
-<!-- 
-   Pasamos el estado desde este Smart Component al Dumb Component Header
-   usando Signals y Property Binding.
--->
-<app-header [isLoggedIn]="isUserLoggedIn()"></app-header>
+<app-header [isLoggedIn]="isUserLoggedIn()" [cartItemCount]="cartService.totalItemsCount()"></app-header>
 
-<!-- Contenedor Principal para las páginas de ruta -->
 <main class="main-content">
   <router-outlet></router-outlet>
 </main>

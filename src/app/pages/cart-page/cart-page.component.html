@@ -1,0 +1,37 @@
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">Tu Carrito de Compras</h1>
+
+    @if (cartService.cartItems().length === 0) {
+    <div class="text-center py-16 bg-base-200 rounded-xl">
+        <h2 class="text-2xl font-semibold mb-4">El carrito está vacío</h2>
+        <p class="mb-6 opacity-75">No tienes ningún producto en tu carrito en este momento.</p>
+        <a routerLink="/" class="btn btn-neutral">Explorar la tienda</a>
+    </div>
+    } @else {
+    <div class="flex flex-col lg:flex-row gap-8">
+        <div class="flex-1 bg-base-100 rounded-xl shadow-md p-6 border border-base-200 h-fit">
+            @for (item of cartService.cartItems(); track item.id) {
+            <app-cart-item [item]="item" (remove)="handleRemove($event)" />
+            }
+        </div>
+
+        <div class="w-full lg:w-96 bg-base-100 rounded-xl shadow-lg p-6 border border-base-200 h-fit sticky top-24">
+            <h2 class="text-xl font-bold border-b border-base-200 pb-4 mb-4">Resumen de Compra</h2>
+
+            <div class="flex justify-between mb-2">
+                <span class="text-base-content/80">Artículos ({{ cartService.totalItemsCount() }}):</span>
+                <span class="font-medium">{{ cartService.cartTotal() | currency:'EUR':'symbol':'1.2-2':'es-ES' }}</span>
+            </div>
+
+            <div class="flex justify-between font-bold text-2xl border-t border-base-200 pt-4 mt-4">
+                <span>Total:</span>
+                <span>{{ cartService.cartTotal() | currency:'EUR':'symbol':'1.2-2':'es-ES' }}</span>
+            </div>
+
+            <button class="btn btn-neutral w-full mt-6 btn-lg" disabled>
+                Proceder al Pago
+            </button>
+        </div>
+    </div>
+    }
+</div>

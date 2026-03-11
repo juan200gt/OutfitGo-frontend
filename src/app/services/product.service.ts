@@ -1,19 +1,22 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of, delay } from 'rxjs';
 import { Product, BackendProduct, PaginatedResponse } from '../interfaces/product.interface';
+import { MOCK_PRODUCTS } from '../mocks/mock-data';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProductService {
     #http = inject(HttpClient);
-    #apiUrl = 'http://34.229.141.169:8000/api/productos';
+    #apiUrl = 'http://35.172.39.217:8000/api/productos';
 
     getProducts(): Observable<Product[]> {
-        return this.#http.get<PaginatedResponse>(this.#apiUrl).pipe(
-            map(response => response.data.map(apiProduct => this.mapToProduct(apiProduct)))
-        );
+        // TODO: Descomentar cuando la API vuelva
+        // return this.#http.get<PaginatedResponse>(this.#apiUrl).pipe(
+        //     map(response => response.data.map(apiProduct => this.mapToProduct(apiProduct)))
+        // );
+        return of(MOCK_PRODUCTS).pipe(delay(500));
     }
 
     private mapToProduct(apiItem: BackendProduct): Product {

@@ -1,7 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject, computed } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { CartService } from './services/cart.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +13,8 @@ import { FooterComponent } from './components/footer/footer.component';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  // --- Estado Global Básico (Simulado/Gestionado por este Smart Component) ---
-  // En el futuro, estos datos podrían venir inyectados desde un AuthService
-  isUserLoggedIn = signal<boolean>(false);
+  cartService = inject(CartService);
+  authService = inject(AuthService);
+
+  isUserLoggedIn = computed(() => this.authService.currentUser() !== null);
 }
