@@ -1,0 +1,44 @@
+<div class="hero bg-base-200 min-h-screen">
+    <div class="hero-content flex-col lg:flex-row-reverse w-full">
+        <div class="card bg-base-100 w-full max-w-lg shrink-0 shadow-2xl">
+            <div class="card-body">
+                <form class="fieldset" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+                    @if (errorMessage()) {
+                    <div class="alert alert-error mb-4">
+                        <span>{{ errorMessage() }}</span>
+                    </div>
+                    }
+
+                    <label class="label">Nombre</label>
+                    <input type="text" formControlName="name" class="input input-bordered w-full"
+                        placeholder="Nombre completo" />
+
+                    <label class="label">Email</label>
+                    <input type="email" formControlName="email" class="input input-bordered w-full"
+                        placeholder="Email" />
+
+                    <label class="label">Contraseña</label>
+                    <input type="password" formControlName="password" class="input input-bordered w-full"
+                        placeholder="Contraseña" />
+
+                    <label class="label">Confirmar Contraseña</label>
+                    <input type="password" formControlName="password_confirmation" class="input input-bordered w-full"
+                        placeholder="Confirmar Contraseña" />
+
+                    <button type="submit" class="btn btn-neutral mt-4 w-full"
+                        [disabled]="registerForm.invalid || isLoading()">
+                        @if (isLoading()) {
+                        <span class="loading loading-spinner"></span>
+                        }
+                        Registrarse
+                    </button>
+
+                    <div class="mt-4 text-center">
+                        <a routerLink="/login" class="btn btn-link">¿Ya tienes cuenta? Inicia Sesión</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
