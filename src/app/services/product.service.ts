@@ -21,8 +21,10 @@ export class ProductService {
         let mappedCategory: 'man' | 'woman' | 'kids' = 'man';
         if (apiItem.publico === 'infantil') {
             mappedCategory = 'kids';
-        } else if (apiItem.publico === 'adulto') {
+        } else if (apiItem.publico === 'hombre') {
             mappedCategory = 'man';
+        } else if (apiItem.publico === 'mujer') {
+            mappedCategory = 'woman';
         }
 
         return {
