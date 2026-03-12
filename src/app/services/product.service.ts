@@ -12,11 +12,9 @@ export class ProductService {
     #apiUrl = 'http://35.172.39.217:8000/api/productos';
 
     getProducts(): Observable<Product[]> {
-        // TODO: Descomentar cuando la API vuelva
-        // return this.#http.get<PaginatedResponse>(this.#apiUrl).pipe(
-        //     map(response => response.data.map(apiProduct => this.mapToProduct(apiProduct)))
-        // );
-        return of(MOCK_PRODUCTS).pipe(delay(500));
+        return this.#http.get<PaginatedResponse>(this.#apiUrl).pipe(
+            map(response => response.data.map(apiProduct => this.mapToProduct(apiProduct)))
+        );
     }
 
     private mapToProduct(apiItem: BackendProduct): Product {

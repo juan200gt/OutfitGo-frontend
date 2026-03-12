@@ -16,47 +16,25 @@ export class AuthService {
     currentUser = signal<User | null>(null);
 
     login(credentials: LoginCredentials): Observable<AuthResponse> {
-        // TODO: Descomentar cuando la API vuelva
-        /* return this.#http.post<AuthResponse>(`${this.#apiUrl}/login`, credentials).pipe(
+        return this.#http.post<AuthResponse>(`${this.#apiUrl}/login`, credentials).pipe(
             tap(response => {
                 if (response.access_token) {
                     localStorage.setItem('auth_token', response.access_token);
                     this.currentUser.set(response.user);
                 }
             })
-        ); */
-
-        const user = MOCK_USERS.find(u => u.email === credentials.email);
-        if (user && (credentials.password === 'admin' || credentials.password === 'password123')) {
-            const mockToken = 'mock_jwt_token_12345';
-            if (isPlatformBrowser(this.#platformId)) {
-                localStorage.setItem('auth_token', mockToken);
-            }
-            this.currentUser.set(user);
-            return of({ message: 'Inicio simulado', user, access_token: mockToken, token_type: 'Bearer' }).pipe(delay(500));
-        } else {
-            return throwError(() => ({ error: { message: 'Las credenciales proporcionadas son incorrectas.' } })).pipe(delay(500));
-        }
+        );
     }
 
     register(credentials: RegisterCredentials): Observable<AuthResponse> {
-        // TODO: Descomentar cuando la API vuelva
-        /* return this.#http.post<AuthResponse>(`${this.#apiUrl}/register`, credentials).pipe(
+        return this.#http.post<AuthResponse>(`${this.#apiUrl}/register`, credentials).pipe(
             tap(response => {
                 if (response.access_token && isPlatformBrowser(this.#platformId)) {
                     localStorage.setItem('auth_token', response.access_token);
                     this.currentUser.set(response.user);
                 }
             })
-        ); */
-
-        const newUser: User = { id: Date.now(), name: credentials.name, email: credentials.email };
-        const mockToken = 'mock_jwt_token_67890';
-        if (isPlatformBrowser(this.#platformId)) {
-            localStorage.setItem('auth_token', mockToken);
-        }
-        this.currentUser.set(newUser);
-        return of({ message: 'Usuario registrado exitosamente', user: newUser, access_token: mockToken, token_type: 'Bearer' }).pipe(delay(500));
+        );
     }
 
     logout(): Observable<any> {
