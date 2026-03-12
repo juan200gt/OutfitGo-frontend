@@ -4,6 +4,8 @@ import { ProductCardComponent } from '../../components/product-card/product-card
 import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
 import { Product } from '../../interfaces/product.interface';
+import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-products-page',
@@ -14,8 +16,20 @@ import { Product } from '../../interfaces/product.interface';
 export class ProductsPageComponent {
   #productService = inject(ProductService);
   cartService = inject(CartService);
+  route = inject(ActivatedRoute);
 
-  products = toSignal(this.#productService.getProducts(), { initialValue: [] as Product[] });
+  products = toSignal(
+    this.#productService.getProducts().pipe(
+      map(allProducts => {
+        const path = this.route.snapshot.url.map(segment => segment.path).join('/');
+        if (path.includes('men')) return allProducts.filter(p => p.category === 'man');
+        if (path.includes('women')) return allProducts.filter(p => p.category === 'woman');
+        if (path.includes('kids')) return allProducts.filter(p => p.category === 'kids');
+        return allProducts; // 'all' or default
+      })
+    ),
+    { initialValue: [] as Product[] }
+  );
 
   handleAddToCart(product: Product) {
     this.cartService.addToCart(product.id, 1).subscribe();
