@@ -22,8 +22,8 @@ export class ProductsPageComponent {
     this.#productService.getProducts().pipe(
       map(allProducts => {
         const path = this.route.snapshot.url.map(segment => segment.path).join('/');
-        if (path.includes('men')) return allProducts.filter(p => p.category === 'man');
         if (path.includes('women')) return allProducts.filter(p => p.category === 'woman');
+        if (path.includes('men')) return allProducts.filter(p => p.category === 'man');
         if (path.includes('kids')) return allProducts.filter(p => p.category === 'kids');
         return allProducts; // 'all' or default
       })
