@@ -5,6 +5,7 @@ import { RegisterPageComponent } from './pages/register-page/register-page.compo
 import { ProductsPageComponent } from './pages/products-page/products-page.component';
 import { CartPageComponent } from './pages/cart-page/cart-page.component';
 import { CheckoutPageComponent } from './pages/checkout-page/checkout-page.component';
+import { CheckoutSuccessPageComponent } from './pages/checkout-success-page/checkout-success-page.component';
 
 export const routes: Routes = [
     {
@@ -51,6 +52,11 @@ export const routes: Routes = [
         path: 'checkout',
         component: CheckoutPageComponent,
         title: 'Finalizar Compra'
+    },
+    {
+        path: 'checkout/success',
+        component: CheckoutSuccessPageComponent,
+        title: 'Compra Exitosa'
     },
     {
         path: '**',

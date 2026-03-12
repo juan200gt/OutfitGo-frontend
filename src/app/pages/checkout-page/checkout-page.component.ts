@@ -32,9 +32,9 @@ export class CheckoutPageComponent implements OnInit {
     handlePayment(): void {
         this.isProcessing.set(true);
         this.cartService.checkout().subscribe({
-            next: () => {
+            next: (response) => {
                 this.isProcessing.set(false);
-                this.router.navigate(['/']);
+                this.router.navigate(['/checkout/success'], { state: { message: response.message, order: response.order } });
             },
             error: () => this.isProcessing.set(false)
         });
