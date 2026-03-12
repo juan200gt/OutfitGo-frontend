@@ -9,7 +9,7 @@ import { MOCK_CART, MOCK_PRODUCTS } from '../mocks/mock-data';
 })
 export class CartService {
     #http = inject(HttpClient);
-    #apiUrl = 'http://35.172.39.217/api/cart';
+    #apiUrl = '/api/cart';
 
     cartItems = signal<CartItem[]>([]);
     private mockCartState = [...MOCK_CART];
