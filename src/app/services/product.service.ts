@@ -9,7 +9,7 @@ import { MOCK_PRODUCTS } from '../mocks/mock-data';
 })
 export class ProductService {
     #http = inject(HttpClient);
-    #apiUrl = 'http://35.172.39.217:8000/api/productos';
+    #apiUrl = 'http://35.172.39.217/api/productos';
 
     getProducts(): Observable<Product[]> {
         return this.#http.get<PaginatedResponse>(this.#apiUrl).pipe(

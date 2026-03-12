@@ -11,7 +11,7 @@ import { MOCK_USERS } from '../mocks/mock-data';
 export class AuthService {
     #http = inject(HttpClient);
     #platformId = inject(PLATFORM_ID);
-    #apiUrl = 'http://35.172.39.217:8000/api';
+    #apiUrl = 'http://35.172.39.217/api';
 
     currentUser = signal<User | null>(null);
 
