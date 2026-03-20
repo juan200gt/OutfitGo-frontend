@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap, of, delay, throwError } from 'rxjs';
 import { LoginCredentials, RegisterCredentials, AuthResponse, User } from '../interfaces/auth.interface';
 import { MOCK_USERS } from '../mocks/mock-data';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +12,7 @@ import { MOCK_USERS } from '../mocks/mock-data';
 export class AuthService {
     #http = inject(HttpClient);
     #platformId = inject(PLATFORM_ID);
-    #apiUrl = '/api';
+    #apiUrl = environment.apiUrl + '/api';
 
     currentUser = signal<User | null>(null);
 
