@@ -10,7 +10,7 @@ import { environment } from '../../environments/environment';
 })
 export class ProductService {
     #http = inject(HttpClient);
-    #apiUrl = environment.apiUrl + '/api/productos';
+    #apiUrl = environment.apiUrl + 'productos';
 
     getProducts(): Observable<Product[]> {
         return this.#http.get<PaginatedResponse>(this.#apiUrl).pipe(

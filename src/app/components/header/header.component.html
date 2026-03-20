@@ -36,7 +36,8 @@
     </a>
 
     @if (isLoggedIn()) {
-    <a routerLink="/profile" class="btn">Cuenta</a>
+      <a routerLink="/profile" class="btn">Cuenta</a>
+      <button (click)="onLogout()" class="btn">Cerrar sesión</button>
     } @else {
     <a routerLink="/login" class="btn">Entrar</a>
     }
