@@ -1,5 +1,8 @@
-<app-header [isLoggedIn]="isUserLoggedIn()" [cartItemCount]="cartService.totalItemsCount()"></app-header>
-
+<app-header 
+    [isLoggedIn]="!!authService.currentUser()" 
+    [cartItemCount]="cartService.totalItemsCount()"
+    (logoutEvent)="handleLogout()">
+</app-header>
 <main class="main-content">
   <router-outlet></router-outlet>
 </main>
