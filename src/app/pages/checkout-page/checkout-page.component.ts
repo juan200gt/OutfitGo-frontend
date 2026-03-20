@@ -29,14 +29,24 @@ export class CheckoutPageComponent implements OnInit {
         }
     }
 
-    handlePayment(): void {
+    handlePayment(formData: any): void {
         this.isProcessing.set(true);
-        this.cartService.checkout().subscribe({
+
+        // Mapeamos los campos al formato que espera el Backend
+        const payload = {
+            direccion_envio: formData.shippingAddress,
+            // Aquí podríamos añadir más campos si el backend los necesitara en el futuro
+        };
+
+        this.cartService.checkout(payload).subscribe({
             next: (response) => {
                 this.isProcessing.set(false);
                 this.router.navigate(['/checkout/success'], { state: { message: response.message, order: response.order } });
             },
-            error: () => this.isProcessing.set(false)
+            error: (err) => {
+                this.isProcessing.set(false);
+                console.error('Error en el pago:', err);
+            }
         });
     }
 }

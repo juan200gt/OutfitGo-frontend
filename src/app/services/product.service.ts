@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, map, of, delay } from 'rxjs';
 import { Product, BackendProduct, PaginatedResponse } from '../interfaces/product.interface';
 import { MOCK_PRODUCTS } from '../mocks/mock-data';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProductService {
     #http = inject(HttpClient);
-    #apiUrl = '/api/productos';
+    #apiUrl = environment.apiUrl + '/api/productos';
 
     getProducts(): Observable<Product[]> {
         return this.#http.get<PaginatedResponse>(this.#apiUrl).pipe(

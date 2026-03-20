@@ -14,6 +14,18 @@
             }
         </div>
 
+        <div class="form-control w-full mb-4 border-b border-base-200 pb-6">
+            <label class="label">
+                <span class="label-text font-medium">Dirección de Envío</span>
+            </label>
+            <textarea formControlName="shippingAddress" placeholder="Ej. Calle Mayor 1, 2ºA, 28001 Madrid"
+                class="textarea textarea-bordered h-24 w-full hover:border-primary focus:border-primary transition-colors"
+                [class.textarea-error]="checkoutForm.get('shippingAddress')?.invalid && checkoutForm.get('shippingAddress')?.touched"></textarea>
+            @if (checkoutForm.get('shippingAddress')?.invalid && checkoutForm.get('shippingAddress')?.touched) {
+            <label class="label"><span class="label-text-alt text-error">La dirección de envío es obligatoria</span></label>
+            }
+        </div>
+
         <div class="form-control w-full mb-4">
             <label class="label">
                 <span class="label-text font-medium">Número de Tarjeta</span>

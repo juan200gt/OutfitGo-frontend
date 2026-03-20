@@ -32,7 +32,7 @@ export class ProductsPageComponent {
   );
 
   handleAddToCart(product: Product) {
-    this.cartService.addToCart(product.id, 1).subscribe();
+    this.cartService.addToCart(product, 1).subscribe();
     console.log('Añadido al carrito con éxito:', product.name);
   }
 }
