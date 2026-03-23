@@ -59,6 +59,10 @@ export const routes: Routes = [
         title: 'Compra Exitosa'
     },
     {
+        path: 'producto/:slug',
+        loadComponent: () => import('./pages/product-detail-page/product-detail-page.component').then(m => m.ProductDetailPageComponent)
+    },
+    {
         path: '**',
         redirectTo: ''
     }

@@ -6,13 +6,14 @@
         <h2 class="card-title">
             {{ product().name }}
             @if (product().category) {
-            <div class="badge badge-secondary">{{ product().category }}</div>
+                <div class="badge badge-secondary">{{ product().category }}</div>
             }
         </h2>
         <p class="text-lg font-semibold">{{ product().price | currency:'EUR' }}</p>
         <div class="card-actions justify-end mt-2">
             <div class="badge badge-outline">{{ product().brand }}</div>
             <div class="badge badge-outline">{{ product().color }}</div>
+            <a [routerLink]="['/producto', product().slug]" class="w-full">Ver detalles</a>
         </div>
         <div class="card-actions mt-4">
             <button class="btn btn-primary w-full" (click)="addToCart.emit(product())">Añadir al carrito</button>
