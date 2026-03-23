@@ -40,16 +40,23 @@ export class ProductService {
         else if (apiItem.publico === 'hombre') mappedCategory = 'man';
         else if (apiItem.publico === 'mujer') mappedCategory = 'woman';
 
+        const extraImages = apiItem.imagenes ? apiItem.imagenes.map(img => img.url_imagen) : [];
+        const fullGallery = [apiItem.url_imagen_principal, ...extraImages];
+
         return {
             id: apiItem.id,
             name: apiItem.nombre,
             slug: apiItem.slug,
+            description: apiItem.descripcion,
             price: parseFloat(apiItem.precio),
             image: apiItem.url_imagen_principal,
+            gallery: fullGallery,
             category: mappedCategory,
             size: apiItem.tallas ? apiItem.tallas.map(t => t.nombre) : [],
+            colors: apiItem.colores || [],
             color: apiItem.colores && apiItem.colores.length > 0 ? apiItem.colores[0].nombre : 'Genérico',
-            brand: apiItem.marca?.nombre || 'OutfitGo'
+            brand: apiItem.marca?.nombre || 'OutfitGo',
+            stock: apiItem.stock || 0
         };
     }
 }
