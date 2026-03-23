@@ -34,7 +34,7 @@ export class ProductService {
         );
     }
 
-    private mapToProduct(apiItem: BackendProduct): Product {
+    public mapToProduct(apiItem: BackendProduct): Product {
         let mappedCategory: 'man' | 'woman' | 'kids' = 'man';
         if (apiItem.publico === 'infantil') mappedCategory = 'kids';
         else if (apiItem.publico === 'hombre') mappedCategory = 'man';
@@ -54,8 +54,8 @@ export class ProductService {
             category: mappedCategory,
             size: apiItem.tallas ? apiItem.tallas.map(t => t.nombre) : [],
             colors: apiItem.colores || [],
-            color: apiItem.colores && apiItem.colores.length > 0 ? apiItem.colores[0].nombre : 'Genérico',
-            brand: apiItem.marca?.nombre || 'OutfitGo',
+            color: apiItem.colores && apiItem.colores.length > 0 ? apiItem.colores[0].nombre : '',
+            brand: apiItem.marca?.nombre || '',
             stock: apiItem.stock || 0
         };
     }
