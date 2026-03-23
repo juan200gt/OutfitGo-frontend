@@ -1,12 +1,52 @@
 <div class="container mx-auto p-4 py-8">
     <h2 class="text-3xl font-bold mb-6 text-center">Catálogo de Productos</h2>
+
+    <div class="bg-base-200 p-4 rounded-xl mb-8 flex flex-col md:flex-row gap-4 justify-center items-center shadow-sm">
+        <div class="form-control w-full max-w-xs">
+            <select class="select select-bordered w-full" (change)="updateFilter('categoria_id', $event)">
+                <option value="">Todas las Categorías</option>
+                @for(cat of availableCategories(); track cat.id) {
+                    <option [value]="cat.id">{{ cat.nombre }}</option>
+                }
+            </select>
+        </div>
+        
+        <div class="form-control w-full max-w-xs">
+            <select class="select select-bordered w-full" (change)="updateFilter('talla', $event)">
+                <option value="">Todas las Tallas</option>
+                @for(talla of availableSizes(); track talla.id) {
+                    <option [value]="talla.nombre">{{ talla.nombre }}</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-control w-full max-w-xs">
+            <select class="select select-bordered w-full" (change)="updateFilter('color', $event)">
+                <option value="">Todos los Colores</option>
+                @for(color of availableColors(); track color.id) {
+                    <option [value]="color.nombre">{{ color.nombre }}</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-control w-full max-w-xs">
+            <select class="select select-bordered w-full" (change)="updateFilter('marca_id', $event)">
+                <option value="">Todas las Marcas</option>
+                @for(marca of availableBrands(); track marca.id) {
+                    <option [value]="marca.id">{{ marca.nombre }}</option>
+                }
+            </select>
+        </div>
+    </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         @for (item of products(); track item.id) {
-        <app-product-card [product]="item" (addToCart)="handleAddToCart($event)" />
+            <app-product-card [product]="item" (addToCart)="handleAddToCart($event)" />
         } @empty {
-        <div class="col-span-full text-center py-10">
-            <p class="text-xl opacity-70">No se encontraron productos.</p>
-        </div>
+            <div class="col-span-full text-center py-10">
+                <p class="text-xl opacity-70">No se encontraron productos con estos filtros.</p>
+                <button class="btn btn-outline mt-4" onclick="location.reload()">Limpiar Filtros</button>
+            </div>
         }
     </div>
 </div>
