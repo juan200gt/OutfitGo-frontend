@@ -42,6 +42,13 @@ export class CartService {
             tap(() => this.loadCart())
         );
     }
+
+    updateQuantity(id: number, cantidad: number): Observable<any> {
+        return this.#http.patch(`${this.#apiUrl}/${id}`, { cantidad }).pipe(
+            tap(() => this.loadCart())
+        );
+    }
+
     checkout(data: any): Observable<any> {
         return this.#http.post(`${this.#apiUrl.replace('/cart', '/checkout')}`, data).pipe(
             tap(() => this.cartItems.set([]))

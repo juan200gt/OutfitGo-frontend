@@ -11,4 +11,5 @@ import { CartItem } from '../../interfaces/cart.interface';
 export class CartItemComponent {
   item = input.required<CartItem>();
   remove = output<number>();
+  updateQuantity = output<{ id: number, cantidad: number }>();
 }

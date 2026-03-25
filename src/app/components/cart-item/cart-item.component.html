@@ -6,7 +6,24 @@
         <div class="flex flex-col">
             <h3 class="font-semibold text-lg">{{ item().producto.nombre }}</h3>
             <p class="text-sm text-base-content/70">Precio unidad: {{ item().producto.precio | currency:'EUR' }}</p>
-            <p class="text-sm text-base-content/70">Cantidad: {{ item().cantidad }}</p>
+            
+            <div class="flex items-center gap-2 mt-2">
+                <span class="text-sm text-base-content/70">Cantidad:</span>
+                <div class="flex items-center gap-2">
+                    <button class="btn btn-outline btn-xs btn-square" 
+                        (click)="updateQuantity.emit({ id: item().id, cantidad: item().cantidad - 1 })"
+                        [disabled]="item().cantidad <= 1">
+                        -
+                    </button>
+                    <span class="text-center font-medium w-6">
+                        {{ item().cantidad }}
+                    </span>
+                    <button class="btn btn-outline btn-xs btn-square" 
+                        (click)="updateQuantity.emit({ id: item().id, cantidad: item().cantidad + 1 })">
+                        +
+                    </button>
+                </div>
+            </div>
         </div>
 
         <div class="flex flex-col sm:items-end justify-center mt-4 sm:mt-0 gap-2">

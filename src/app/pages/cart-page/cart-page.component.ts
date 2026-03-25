@@ -20,4 +20,8 @@ export class CartPageComponent implements OnInit {
   handleRemove(id: number): void {
     this.cartService.removeItem(id).subscribe();
   }
+
+  handleUpdateQuantity(event: { id: number, cantidad: number }): void {
+    this.cartService.updateQuantity(event.id, event.cantidad).subscribe();
+  }
 }
