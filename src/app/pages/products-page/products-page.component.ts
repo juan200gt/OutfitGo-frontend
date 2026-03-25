@@ -1,11 +1,11 @@
-import { Component, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, inject, signal } from '@angular/core';
+import { toSignal, toObservable } from '@angular/core/rxjs-interop';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
 import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
 import { Product } from '../../interfaces/product.interface';
 import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs';
+import { switchMap, tap, map } from 'rxjs';
 
 @Component({
   selector: 'app-products-page',
@@ -18,21 +18,47 @@ export class ProductsPageComponent {
   cartService = inject(CartService);
   route = inject(ActivatedRoute);
 
+  filters = signal({ publico: '', talla: '', color: '', marca_id: '', categoria_id: '' });
+
+  availableCategories = signal<{id: number, nombre: string}[]>([]);
+  availableBrands = signal<{id: number, nombre: string}[]>([]);
+  availableColors = signal<{id: number, nombre: string}[]>([]);
+  availableSizes = signal<{id: number, nombre: string}[]>([]);
+
+  constructor() {
+    this.route.url.subscribe(segments => {
+      const path = segments.map(segment => segment.path).join('/');
+      let publico = '';
+      if (path.includes('women')) publico = 'mujer';
+      else if (path.includes('men')) publico = 'hombre';
+      else if (path.includes('kids')) publico = 'infantil';
+      
+      this.filters.update(f => ({ ...f, publico }));
+    });
+  }
+
   products = toSignal(
-    this.#productService.getProducts().pipe(
-      map(allProducts => {
-        const path = this.route.snapshot.url.map(segment => segment.path).join('/');
-        if (path.includes('women')) return allProducts.filter(p => p.category === 'woman');
-        if (path.includes('men')) return allProducts.filter(p => p.category === 'man');
-        if (path.includes('kids')) return allProducts.filter(p => p.category === 'kids');
-        return allProducts; // 'all' or default
-      })
+    toObservable(this.filters).pipe(
+      switchMap(currentFilters => this.#productService.getProducts(currentFilters)),
+      tap(response => {
+          if (response.filtros) {
+              this.availableCategories.set(response.filtros.categorias);
+              this.availableBrands.set(response.filtros.marcas);
+              this.availableColors.set(response.filtros.colores);
+              this.availableSizes.set(response.filtros.tallas);
+          }
+      }),
+      map(response => response.productos)
     ),
     { initialValue: [] as Product[] }
   );
 
+  updateFilter(key: 'talla' | 'color' | 'marca_id' | 'categoria_id', event: Event) {
+    const value = (event.target as HTMLSelectElement).value;
+    this.filters.update(f => ({ ...f, [key]: value }));
+  }
+
   handleAddToCart(product: Product) {
-    this.cartService.addToCart(product.id, 1).subscribe();
-    console.log('Añadido al carrito con éxito:', product.name);
+    this.cartService.addToCart(product, 1).subscribe();
   }
 }

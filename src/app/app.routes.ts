@@ -59,8 +59,16 @@ export const routes: Routes = [
         title: 'Compra Exitosa'
     },
     {
+        path: 'favoritos',
+        loadComponent: () => import('./pages/favorites-page/favorites-page.component').then(m => m.FavoritesPageComponent),
+        title: 'Mis Favoritos'
+    },
+    {
+        path: 'producto/:slug',
+        loadComponent: () => import('./pages/product-detail-page/product-detail-page.component').then(m => m.ProductDetailPageComponent)
+    },
+    {
         path: '**',
         redirectTo: ''
     }
 ];
-

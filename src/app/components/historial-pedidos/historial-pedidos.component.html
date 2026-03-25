@@ -1,0 +1,78 @@
+<div class="contenedor-pedidos">
+  <h2>Mi Historial de Pedidos</h2>
+
+  @if (cargando()) {
+  <p>Cargando tus pedidos...</p>
+  }
+
+  @else if (error()) {
+  <div class="alerta-error" style="color: red;">{{ error() }}</div>
+  }
+
+  @else {
+  <div class="lista-pedidos">
+
+    @for (pedido of pedidos(); track pedido.id) {
+    <div class="tarjeta-pedido" style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 8px;">
+
+      <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+        <h3>Pedido #{{ pedido.id }}</h3>
+        <span>{{ pedido.created_at | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+
+      <div style="margin-top: 10px;">
+        <p><strong>Estado:</strong> {{ pedido.estado }}</p>
+        <p><strong>Enviado a:</strong> {{ pedido.nombre }} {{ pedido.apellidos }} ({{ pedido.direccion }}, {{
+          pedido.ciudad }})</p>
+      </div>
+
+      <h4 style="margin-top: 15px;">Artículos:</h4>
+      <ul>
+        @for (articulo of pedido.order_items; track articulo.id) {
+        <li>
+          {{ articulo.cantidad }}x Artículo ID: {{ articulo.producto_id }}
+          - {{ articulo.precio | currency:'EUR' }}
+        </li>
+        }
+      </ul>
+
+      <div style="margin-top: 15px; text-align: right; font-size: 1.2em;">
+        <strong>Total pagado: {{ pedido.total | currency:'EUR' }}</strong>
+      </div>
+
+    </div>
+
+    <div style="margin-top: 10px;">
+      <p><strong>Estado:</strong> {{ pedido.estado }}</p>
+
+      @if (pedido.estado === 'pendiente') {
+      <button (click)="cancelar(pedido.id)"
+        style="background-color: #ff4d4f; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-top: 5px;">
+        ❌ Cancelar Pedido
+      </button>
+      }
+      @else if (pedido.estado === 'cancelado') {
+      <span style="color: #ff4d4f; font-weight: bold;">🚫 Pedido Cancelado</span>
+      }
+      @if (pedido.estado === 'entregado') {
+      <button (click)="devolver(pedido.id)"
+        style="background-color: #fa8c16; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-top: 5px;">
+        📦 Solicitar Devolución
+      </button>
+      }
+      @else if (pedido.estado === 'devolucion_solicitada') {
+      <span style="color: #fa8c16; font-weight: bold;">⏳ Devolución en trámite (Esperando paquete)</span>
+      }
+      @else if (pedido.estado === 'devuelto') {
+      <span style="color: #52c41a; font-weight: bold;">↩️ Devuelto y Reembolsado</span>
+      }
+    </div>
+    }
+
+    @empty {
+    <p>Aún no tienes pedidos en tu historial. ¡Descubre nuestra ropa!</p>
+    }
+
+  </div>
+  }
+</div>
