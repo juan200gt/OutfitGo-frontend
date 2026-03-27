@@ -28,6 +28,9 @@ export class FavoritesPageComponent {
 
   // Manejamos la adición al carrito desde la lista de favoritos
   handleAddToCart(product: Product) {
-    this.cartService.addToCart(product, 1).subscribe();
+    const defaultSize = product.variants && product.variants.length > 0 ? product.variants[0].size : 'Única';
+    const defaultColor = product.variants && product.variants.length > 0 ? product.variants[0].color : 'Único';
+    
+    this.cartService.addToCart(product, 1, defaultSize, defaultColor).subscribe();
   }
 }

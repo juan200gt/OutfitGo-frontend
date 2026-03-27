@@ -45,30 +45,47 @@ export class CartService {
         }
     }
 
-    addToCart(producto: Product, cantidad: number): Observable<any> {
+    addToCart(product: Product, quantity: number, size: string, color: string): Observable<any> {
         if (this.isLoggedIn()) {
-            return this.#http.post(this.#apiUrl, { producto_id: producto.id, cantidad }).pipe(
+            return this.#http.post(this.#apiUrl, { 
+                producto_id: product.id, 
+                cantidad: quantity,
+                talla: size,
+                color: color 
+            }).pipe(
                 tap(() => this.loadCart())
             );
         } else {
             const currentItems = [...this.cartItems()];
-            const existingItemIndex = currentItems.findIndex(item => item.producto.id === producto.id);
+            
+            const existingItemIndex = currentItems.findIndex(item => 
+                item.variante?.producto?.id === product.id && 
+                item.variante?.talla?.nombre === size && 
+                item.variante?.color?.nombre === color
+            );
 
             if (existingItemIndex !== -1) {
-                currentItems[existingItemIndex].cantidad += cantidad;
-                currentItems[existingItemIndex].subtotal = currentItems[existingItemIndex].cantidad * producto.price;
+                currentItems[existingItemIndex].cantidad += quantity;
+                currentItems[existingItemIndex].subtotal = currentItems[existingItemIndex].cantidad * product.price;
             } else {
                 const newItem: CartItem = {
-                    id: Date.now(),
-                    cantidad: cantidad,
-                    subtotal: cantidad * producto.price,
-                    creado_en: new Date().toISOString(),      // <-- Añadido para TypeScript
-                    actualizado_en: new Date().toISOString(), // <-- Añadido para TypeScript
-                    producto: {
-                        id: producto.id,
-                        nombre: producto.name,
-                        precio: producto.price.toString(),
-                        url_imagen_principal: producto.image,
+                    id: Date.now(), // ID temporal para el modo invitado
+                    cantidad: quantity,
+                    subtotal: quantity * product.price,
+                    creado_en: new Date().toISOString(),
+                    actualizado_en: new Date().toISOString(),
+                    variante: {
+                        id: 0, 
+                        stock: product.stock,
+                        talla: { nombre: size },
+                        color: { nombre: color },
+                        producto: {
+                            id: product.id,
+                            nombre: product.name,
+                            slug: product.slug,
+                            precio: product.price.toString(),
+                            url_imagen_principal: product.image,
+                        }
                     } as any
                 };
                 currentItems.push(newItem);
@@ -105,7 +122,7 @@ export class CartService {
             if (itemIndex !== -1) {
                 const item = currentItems[itemIndex];
                 item.cantidad = cantidad;
-                const precio = Number(item.producto.precio);
+                const precio = Number(item.variante.producto.precio);
                 item.subtotal = cantidad * (isNaN(precio) ? 0 : precio);
                 
                 this.cartItems.set(currentItems);
@@ -129,7 +146,12 @@ export class CartService {
         if (guestCart && this.isLoggedIn()) {
             const items: CartItem[] = JSON.parse(guestCart);
             items.forEach(item => {
-                this.#http.post(this.#apiUrl, { producto_id: item.producto.id, cantidad: item.cantidad }).subscribe();
+                this.#http.post(this.#apiUrl, { 
+                    producto_id: item.variante.producto.id, 
+                    cantidad: item.cantidad,
+                    talla: item.variante.talla.nombre,
+                    color: item.variante.color.nombre
+                }).subscribe();
             });
             localStorage.removeItem('guest_cart');
             setTimeout(() => this.loadCart(), 1000);
