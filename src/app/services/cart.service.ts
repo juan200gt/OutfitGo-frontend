@@ -122,7 +122,7 @@ export class CartService {
             if (itemIndex !== -1) {
                 const item = currentItems[itemIndex];
                 item.cantidad = cantidad;
-                const precio = Number(item.producto.precio);
+                const precio = Number(item.variante.producto.precio);
                 item.subtotal = cantidad * (isNaN(precio) ? 0 : precio);
                 
                 this.cartItems.set(currentItems);
