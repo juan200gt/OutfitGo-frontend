@@ -67,7 +67,7 @@
             <div class="mt-8 bg-base-200 p-6 rounded-2xl">
                 <div class="flex justify-between items-center mb-4">
                     <span class="text-sm font-semibold text-base-content/70">
-                        Stock disponible: <span [class.text-error]="product().stock < 5">{{ product().stock }} uds.</span>
+                        Stock disponible: <span [class.text-error]="currentStock() < 5">{{ currentStock() }} uds.</span>
                     </span>
                 </div>
                 
@@ -75,13 +75,13 @@
                     <div class="join border border-base-300 bg-base-100 flex-none">
                         <button class="join-item btn btn-square btn-ghost text-xl" (click)="decrease()" [disabled]="quantity() <= 1">-</button>
                         <button class="join-item btn btn-square btn-ghost pointer-events-none text-lg font-bold">{{ quantity() }}</button>
-                        <button class="join-item btn btn-square btn-ghost text-xl" (click)="increase()" [disabled]="quantity() >= product().stock">+</button>
+                        <button class="join-item btn btn-square btn-ghost text-xl" (click)="increase()" [disabled]="quantity() >= currentStock()">+</button>
                     </div>
                     
                     <button class="btn btn-primary flex-1 text-lg" 
                             (click)="submit()"
-                            [disabled]="!selectedSize() || !selectedColor() || product().stock === 0">
-                        {{ product().stock === 0 ? 'Agotado' : 'Añadir al carrito' }}
+                            [disabled]="!selectedSize() || !selectedColor() || currentStock() === 0">
+                        {{ currentStock() === 0 ? 'Agotado' : 'Añadir al carrito' }}
                     </button>
                 </div>
             </div>

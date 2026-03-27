@@ -4,14 +4,21 @@ export interface CartProduct {
     slug: string;
     precio: string;
     url_imagen_principal: string;
+}
+
+export interface CartVariant {
+    id: number;
     stock: number;
+    talla: { nombre: string };
+    color: { nombre: string };
+    producto: CartProduct;
 }
 
 export interface CartItem {
     id: number;
     cantidad: number;
     subtotal: number;
-    producto: CartProduct;
+    variante: CartVariant;
     creado_en: string;
     actualizado_en: string;
 }

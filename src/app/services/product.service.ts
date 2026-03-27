@@ -56,7 +56,12 @@ export class ProductService {
             colors: apiItem.colores || [],
             color: apiItem.colores && apiItem.colores.length > 0 ? apiItem.colores[0].nombre : 'Genérico',
             brand: apiItem.marca?.nombre || 'OutfitGo',
-            stock: apiItem.stock || 0
+            stock: apiItem.stock || 0,
+            variants: apiItem.variantes ? apiItem.variantes.map(v => ({
+                size: v.talla.nombre,
+                color: v.color.nombre,
+                stock: v.stock
+            })) : []
         };
     }
 }

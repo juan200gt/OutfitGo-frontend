@@ -27,7 +27,7 @@ export class ProductDetailPageComponent {
   );
 
   handleAddToCart(event: { product: any, quantity: number, size: string, color: string }) {
-    this.cartService.addToCart(event.product, event.quantity).subscribe();
+    this.cartService.addToCart(event.product, event.quantity, event.size, event.color).subscribe();
     console.log(`Añadido: ${event.quantity}x ${event.product.name} (Talla: ${event.size}, Color: ${event.color})`);
   }
 }

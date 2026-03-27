@@ -1,4 +1,4 @@
-import { Component, input, output, signal, effect } from '@angular/core';
+import { Component, input, output, signal, effect, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Product } from '../../interfaces/product.interface';
@@ -20,6 +20,17 @@ export class ProductDetailInfoComponent {
   
   addToCart = output<{ product: Product, quantity: number, size: string, color: string }>();
 
+  currentStock = computed(() => {
+    const p = this.product();
+    const size = this.selectedSize();
+    const color = this.selectedColor();
+
+    if (!p || !size || !color || !p.variants) return p?.stock || 0; // Fallback
+
+    const variante = p.variants.find(v => v.size === size && v.color === color);
+    return variante ? variante.stock : 0;
+  });
+
   constructor() {
     effect(() => {
       const p = this.product();
@@ -29,11 +40,11 @@ export class ProductDetailInfoComponent {
         this.selectedColor.set(null);
         this.quantity.set(1);
       }
-    });
+    }, { allowSignalWrites: true });
   }
 
   increase() {
-    if (this.quantity() < this.product().stock) {
+    if (this.quantity() < this.currentStock()) {
       this.quantity.update(q => q + 1);
     }
   }
