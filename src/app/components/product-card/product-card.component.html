@@ -1,6 +1,17 @@
-<div class="card bg-base-100 w-full shadow-sm">
-    <figure>
-        <img [src]="product().image" [alt]="product().name" class="object-cover h-64 w-full" />
+<div class="card bg-base-100 w-full shadow-sm relative overflow-hidden group">
+    <!-- Botón de Favorito (Corazón) -->
+    <button 
+        (click)="toggleFavorite($event)" 
+        class="absolute top-2 right-2 z-20 btn btn-circle btn-ghost btn-sm bg-base-100/50 backdrop-blur-sm"
+        [class.text-red-500]="favoriteService.isFavorite(product().id)"
+    >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" [attr.fill]="favoriteService.isFavorite(product().id) ? 'currentColor' : 'none'" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+    </button>
+
+    <figure class="cursor-pointer" [routerLink]="['/producto', product().slug]">
+        <img [src]="product().image" [alt]="product().name" class="object-cover h-64 w-full transition-transform duration-300 group-hover:scale-105" />
     </figure>
     <div class="card-body">
         <h2 class="card-title">
@@ -11,9 +22,13 @@
         </h2>
         <p class="text-lg font-semibold">{{ product().price | currency:'EUR' }}</p>
         <div class="card-actions justify-end mt-2">
-            <div class="badge badge-outline">{{ product().brand }}</div>
-            <div class="badge badge-outline">{{ product().color }}</div>
-            <a [routerLink]="['/producto', product().slug]" class="w-full">Ver detalles</a>
+            @if (product().brand) {
+                <div class="badge badge-outline">{{ product().brand }}</div>
+            }
+            @if (product().color) {
+                <div class="badge badge-outline">{{ product().color }}</div>
+            }
+            <a [routerLink]="['/producto', product().slug]" class="w-full btn btn-sm btn-ghost mt-2">Ver detalles</a>
         </div>
         <div class="card-actions mt-4">
             <button class="btn btn-primary w-full" (click)="addToCart.emit(product())">Añadir al carrito</button>

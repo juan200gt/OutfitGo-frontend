@@ -110,6 +110,28 @@ export class CartService {
         }
     }
 
+    updateQuantity(id: number, cantidad: number): Observable<any> {
+        if (this.isLoggedIn()) {
+            return this.#http.patch(`${this.#apiUrl}/${id}`, { cantidad }).pipe(
+                tap(() => this.loadCart())
+            );
+        } else {
+            const currentItems = [...this.cartItems()];
+            const itemIndex = currentItems.findIndex(item => item.id === id);
+
+            if (itemIndex !== -1) {
+                const item = currentItems[itemIndex];
+                item.cantidad = cantidad;
+                const precio = Number(item.producto.precio);
+                item.subtotal = cantidad * (isNaN(precio) ? 0 : precio);
+                
+                this.cartItems.set(currentItems);
+                localStorage.setItem('guest_cart', JSON.stringify(currentItems));
+            }
+            return of(currentItems);
+        }
+    }
+
     checkout(data: any): Observable<any> {
         return this.#http.post(`${environment.apiUrl}/checkout/iniciar`, data).pipe(
             tap(() => {

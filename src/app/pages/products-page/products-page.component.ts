@@ -30,8 +30,8 @@ export class ProductsPageComponent {
       const path = segments.map(segment => segment.path).join('/');
       let publico = '';
       if (path.includes('women')) publico = 'mujer';
-      if (path.includes('men')) publico = 'hombre';
-      if (path.includes('kids')) publico = 'infantil';
+      else if (path.includes('men')) publico = 'hombre';
+      else if (path.includes('kids')) publico = 'infantil';
       
       this.filters.update(f => ({ ...f, publico }));
     });

@@ -34,7 +34,7 @@ export class ProductService {
         );
     }
 
-    private mapToProduct(apiItem: BackendProduct): Product {
+    public mapToProduct(apiItem: BackendProduct): Product {
         let mappedCategory: 'man' | 'woman' | 'kids' = 'man';
         if (apiItem.publico === 'infantil') mappedCategory = 'kids';
         else if (apiItem.publico === 'hombre') mappedCategory = 'man';
