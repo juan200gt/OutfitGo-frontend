@@ -28,6 +28,25 @@ export class LoginPageComponent {
       if (params['email']) {
         this.prefilledEmail.set(params['email']);
       }
+      
+      // Capturar token de Google OAuth
+      if (params['token']) {
+        this.isLoggingIn.set(true);
+        this.#authService.saveToken(params['token']).subscribe({
+          next: () => {
+            this.isLoggingIn.set(false);
+            this.#router.navigate(['/']);
+          },
+          error: () => {
+            this.isLoggingIn.set(false);
+            this.error.set('Error al iniciar sesión con Google');
+          }
+        });
+      }
+
+      if (params['error'] === 'social_auth_failed') {
+        this.error.set('La autenticación con Google ha fallado.');
+      }
     });
   }
 
@@ -46,5 +65,9 @@ export class LoginPageComponent {
         this.error.set('Usuario o contraseña incorrectos');
       }
     });
+  }
+
+  handleGoogleLogin() {
+    this.#authService.loginWithGoogle();
   }
 }

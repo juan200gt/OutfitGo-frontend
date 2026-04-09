@@ -42,4 +42,8 @@ export class RegisterPageComponent {
       }
     });
   }
+
+  handleGoogleLogin() {
+    this.#authService.loginWithGoogle();
+  }
 }

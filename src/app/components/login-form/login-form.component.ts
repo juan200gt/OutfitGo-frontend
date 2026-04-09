@@ -16,6 +16,7 @@ export class LoginFormComponent {
   prefilledEmail = input<string | null>(null);
 
   submitLogin = output<LoginCredentials>();
+  submitGoogle = output<void>();
 
   loginForm = new FormGroup({
     email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),

@@ -14,6 +14,7 @@ export class RegisterFormComponent {
   errorMessage = input<string | null>(null);
 
   submitRegister = output<RegisterCredentials>();
+  submitGoogle = output<void>();
 
   registerForm = new FormGroup({
     name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
