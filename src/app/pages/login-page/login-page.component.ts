@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { LoginFormComponent } from '../../components/login-form/login-form.component';
 import { LoginCredentials } from '../../interfaces/auth.interface';
@@ -13,13 +13,28 @@ import { LoginCredentials } from '../../interfaces/auth.interface';
 export class LoginPageComponent {
   #authService = inject(AuthService);
   #router = inject(Router);
+  #route = inject(ActivatedRoute);
 
   isLoggingIn = signal<boolean>(false);
   error = signal<string | null>(null);
+  success = signal<string | null>(null);
+  prefilledEmail = signal<string | null>(null);
+
+  constructor() {
+    this.#route.queryParams.subscribe(params => {
+      if (params['registered'] === 'true') {
+        this.success.set('¡Registro completado con éxito! Por favor, inicia sesión.');
+      }
+      if (params['email']) {
+        this.prefilledEmail.set(params['email']);
+      }
+    });
+  }
 
   handleLogin(credentials: LoginCredentials) {
     this.isLoggingIn.set(true);
     this.error.set(null);
+    this.success.set(null);
 
     this.#authService.login(credentials).subscribe({
       next: () => {

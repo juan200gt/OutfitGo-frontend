@@ -1,1 +1,7 @@
-<app-login-form [isLoading]="isLoggingIn()" [errorMessage]="error()" (submitLogin)="handleLogin($event)" />
+<app-login-form 
+    [isLoading]="isLoggingIn()" 
+    [errorMessage]="error()" 
+    [successMessage]="success()"
+    [prefilledEmail]="prefilledEmail()"
+    (submitLogin)="handleLogin($event)" 
+/>

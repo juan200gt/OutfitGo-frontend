@@ -10,6 +10,12 @@
           </div>
           }
 
+          @if (successMessage()) {
+          <div class="alert alert-success mb-4">
+            <span>{{ successMessage() }}</span>
+          </div>
+          }
+
           <label class="label">Email</label>
           <input type="email" formControlName="email" class="input input-bordered w-full" placeholder="Email" />
 
