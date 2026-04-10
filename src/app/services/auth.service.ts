@@ -79,4 +79,17 @@ export class AuthService {
             })
         );
     }
+
+    loginWithGoogle(): void {
+        if (isPlatformBrowser(this.#platformId)) {
+            window.location.href = `${this.#apiUrl}/auth/google/redirect`;
+        }
+    }
+
+    saveToken(token: string): Observable<User | null> {
+        if (isPlatformBrowser(this.#platformId)) {
+            localStorage.setItem('auth_token', token);
+        }
+        return this.loadCurrentUser();
+    }
 }

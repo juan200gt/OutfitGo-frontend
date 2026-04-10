@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, effect, input, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { LoginCredentials } from '../../interfaces/auth.interface';
@@ -12,13 +12,25 @@ import { LoginCredentials } from '../../interfaces/auth.interface';
 export class LoginFormComponent {
   isLoading = input<boolean>(false);
   errorMessage = input<string | null>(null);
+  successMessage = input<string | null>(null);
+  prefilledEmail = input<string | null>(null);
 
   submitLogin = output<LoginCredentials>();
+  submitGoogle = output<void>();
 
   loginForm = new FormGroup({
     email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),
     password: new FormControl('', { nonNullable: true, validators: [Validators.required] })
   });
+
+  constructor() {
+    effect(() => {
+      const email = this.prefilledEmail();
+      if (email) {
+        this.loginForm.controls.email.setValue(email);
+      }
+    });
+  }
 
   onSubmit() {
     if (this.loginForm.valid) {

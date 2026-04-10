@@ -1,1 +1,6 @@
-<app-register-form [isLoading]="isRegistering()" [errorMessage]="error()" (submitRegister)="handleRegister($event)" />
+<app-register-form 
+    [isLoading]="isRegistering()" 
+    [errorMessage]="error()" 
+    (submitRegister)="handleRegister($event)" 
+    (submitGoogle)="handleGoogleLogin()"
+/>

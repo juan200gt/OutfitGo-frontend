@@ -24,7 +24,7 @@ export class RegisterPageComponent {
     this.#authService.register(credentials).subscribe({
       next: () => {
         this.isRegistering.set(false);
-        this.#router.navigate(['/']);
+        this.#router.navigate(['/login'], { queryParams: { registered: 'true', email: credentials.email } });
       },
       error: (err) => {
         this.isRegistering.set(false);
@@ -41,5 +41,9 @@ export class RegisterPageComponent {
         console.error('Detalles del error:', err);
       }
     });
+  }
+
+  handleGoogleLogin() {
+    this.#authService.loginWithGoogle();
   }
 }
