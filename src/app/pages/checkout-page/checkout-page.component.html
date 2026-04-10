@@ -1,9 +1,22 @@
 <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-8">Finalizar Compra</h1>
+    <h1 class="text-3xl font-bold mb-8 italic">Finalizar Compra</h1>
 
     <div class="flex flex-col lg:flex-row gap-8">
-        <div class="flex-1">
-            <app-checkout-form [isProcessing]="isProcessing()" (submitPayment)="handlePayment($event)" />
+        
+        <div class="flex-1 space-y-6">
+            <div class="bg-base-100 rounded-xl shadow-lg p-6 border border-base-200">
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="bg-primary/10 p-2 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-xl font-bold">1. Datos de Envío</h2>
+                </div>
+
+                <app-address-selector (addressSelected)="setShippingAddress($event)" />
+            </div>
         </div>
 
         <div class="w-full lg:w-96 bg-base-100 rounded-xl shadow-lg p-6 border border-base-200 h-fit sticky top-24">
@@ -19,10 +32,28 @@
                 <span class="font-medium text-success">Gratis</span>
             </div>
 
-            <div class="flex justify-between font-bold text-2xl border-t border-base-200 pt-4 mt-4">
+            <div class="flex justify-between font-bold text-2xl border-t border-base-200 pt-4 mt-4 mb-6">
                 <span>Total a pagar:</span>
                 <span>{{ cartService.cartTotal() | currency:'EUR' }}</span>
             </div>
+
+            <button 
+                class="btn btn-primary w-full btn-lg flex items-center justify-center gap-2" 
+                (click)="procederAlPago()"
+                [disabled]="isProcessing() || !selectedAddress()">
+                @if (isProcessing()) {
+                    <span class="loading loading-spinner"></span> Redirigiendo a Stripe...
+                } @else {
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                    </svg>
+                    Pagar de Forma Segura
+                }
+            </button>
+
+            @if (!selectedAddress()) {
+                <p class="text-xs text-center text-error mt-3 font-semibold">Selecciona una dirección de envío para continuar</p>
+            }
         </div>
     </div>
 </div>

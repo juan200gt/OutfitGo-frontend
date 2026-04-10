@@ -1,0 +1,86 @@
+<div class="form-control w-full">
+    <label class="label">
+        <span class="label-text font-bold text-base">Enviar a...</span>
+    </label>
+
+    <select class="select select-bordered w-full" [(ngModel)]="selectedId" (change)="onAddressChange()"
+        [disabled]="loading()">
+        @if (loading()) {
+            <option disabled selected>Cargando tus direcciones...</option>
+        } @else {
+            <option [value]="0" disabled selected>Selecciona una dirección</option>
+            @for (addr of addresses(); track addr.id) {
+                <option [value]="addr.id">
+                    {{ addr.nombre_direccion }} ({{ addr.direccion }}, {{ addr.ciudad }})
+                    {{ addr.es_principal ? '⭐' : '' }}
+                </option>
+            }
+            @if (addresses().length === 0) {
+                <option disabled>No tienes direcciones guardadas</option>
+            }
+        }
+    </select>
+
+    <label class="label">
+        <span class="label-text-alt btn btn-dash text-primary cursor-pointer hover:underline" onclick="address_modal.showModal()">
+            + Añadir una dirección nueva
+        </span>
+    </label>
+</div>
+
+<dialog id="address_modal" class="modal">
+  <div class="modal-box max-w-md">
+    <h3 class="font-bold text-lg mb-4">Nueva Dirección de Envío</h3>
+    
+    <form [formGroup]="addressForm" (ngSubmit)="saveAddress()" class="space-y-3">
+      
+      <div class="form-control">
+        <input type="text" placeholder="Alias (Ej: Mi Casa)" formControlName="nombre_direccion" 
+               class="input input-bordered w-full"
+               [class.input-error]="addressForm.get('nombre_direccion')?.invalid && addressForm.get('nombre_direccion')?.touched" />
+      </div>
+      
+      <div class="form-control">
+        <input type="text" placeholder="Dirección completa" formControlName="direccion" 
+               class="input input-bordered w-full"
+               [class.input-error]="addressForm.get('direccion')?.invalid && addressForm.get('direccion')?.touched" />
+      </div>
+      
+      <div class="grid grid-cols-2 gap-2">
+        <input type="text" placeholder="Ciudad" formControlName="ciudad" 
+               class="input input-bordered"
+               [class.input-error]="addressForm.get('ciudad')?.invalid && addressForm.get('ciudad')?.touched" />
+               
+        <input type="text" placeholder="Provincia" formControlName="provincia" 
+               class="input input-bordered"
+               [class.input-error]="addressForm.get('provincia')?.invalid && addressForm.get('provincia')?.touched" />
+      </div>
+      
+      <div class="grid grid-cols-2 gap-2">
+        <input type="text" inputmode="numeric" placeholder="C. Postal" formControlName="codigo_postal" 
+               class="input input-bordered"
+               [class.input-error]="addressForm.get('codigo_postal')?.invalid && addressForm.get('codigo_postal')?.touched" />
+               
+        <input type="tel" placeholder="Teléfono" formControlName="telefono" 
+               class="input input-bordered"
+               [class.input-error]="addressForm.get('telefono')?.invalid && addressForm.get('telefono')?.touched" />
+      </div>
+      
+      <div class="form-control">
+        <label class="label cursor-pointer justify-start gap-3">
+          <input type="checkbox" formControlName="es_principal" class="checkbox checkbox-primary" />
+          <span class="label-text">Establecer como dirección principal</span>
+        </label>
+      </div>
+
+      <div class="modal-action">
+        <button type="button" class="btn" onclick="address_modal.close()">Cancelar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving()">
+          @if(isSaving()){ <span class="loading loading-spinner"></span> }
+          Guardar Dirección
+        </button>
+      </div>
+      
+    </form>
+  </div>
+</dialog>

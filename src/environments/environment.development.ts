@@ -1,3 +1,3 @@
 export const environment = {
-    apiUrl: 'https://outfitgo.duckdns.org/api'
+    apiUrl: 'http://localhost:8000/api'
 };
