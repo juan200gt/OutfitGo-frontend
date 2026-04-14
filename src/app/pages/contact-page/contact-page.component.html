@@ -1,0 +1,71 @@
+<div class="min-h-screen bg-base-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+        <!-- Título Principal -->
+        <header class="text-center mb-16">
+            <h1 class="text-4xl font-extralight tracking-widest uppercase mb-4">Atención al Cliente</h1>
+            <div class="h-px w-24 bg-primary mx-auto opacity-50"></div>
+        </header>
+
+        <!-- Sección de Preguntas Frecuentes (FAQs) -->
+        <section class="mb-20">
+            <h2 class="text-xs font-bold tracking-widest uppercase mb-8 opacity-60">Preguntas Frecuentes</h2>
+            <div class="join join-vertical w-full bg-base-200/30">
+                @for (item of faqs; track item.question) {
+                <div class="collapse collapse-plus join-item border-b border-base-content/10">
+                    <input type="radio" name="my-accordion-4" [checked]="$first" />
+                    <div class="collapse-title text-sm font-medium uppercase tracking-wider py-5">
+                        {{ item.question }}
+                    </div>
+                    <div class="collapse-content text-sm opacity-80 leading-relaxed">
+                        <p>{{ item.answer }}</p>
+                    </div>
+                </div>
+                }
+            </div>
+        </section>
+
+        <!-- Sección de Contacto Directo -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- WhatsApp -->
+            <a href="https://wa.me/yourphonenumber" target="_blank"
+                class="flex flex-col items-center p-8 bg-base-200/50 hover:bg-base-200 transition-all rounded-lg border border-transparent hover:border-primary/20 group">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="h-8 w-8 mb-4 opacity-70 group-hover:text-primary transition-colors" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                <span class="text-xs font-bold uppercase tracking-widest mb-1">WhatsApp</span>
+                <span class="text-[10px] opacity-50">Chat en vivo 24/7</span>
+            </a>
+
+            <!-- Instagram -->
+            <a href="https://instagram.com/tu_marca" target="_blank"
+                class="flex flex-col items-center p-8 bg-base-200/50 hover:bg-base-200 transition-all rounded-lg border border-transparent hover:border-primary/20 group">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="h-8 w-8 mb-4 opacity-70 group-hover:text-primary transition-colors" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M7 7h10a2 2 0 012 2v10a2 2 0 01-2 2H7a2 2 0 01-2-2V9a2 2 0 012-2z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01" />
+                </svg>
+                <span class="text-xs font-bold uppercase tracking-widest mb-1">Instagram</span>
+                <span class="text-[10px] opacity-50">@outfitgo</span>
+            </a>
+
+            <!-- Teléfono -->
+            <a href="tel:+34900000000"
+                class="flex flex-col items-center p-8 bg-base-200/50 hover:bg-base-200 transition-all rounded-lg border border-transparent hover:border-primary/20 group">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="h-8 w-8 mb-4 opacity-70 group-hover:text-primary transition-colors" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M3 5.25a.25.25 0 01.25-.25h5.312c.11 0 .202.071.23.178l.987 3.835a.25.25 0 01-.091.272l-2.229 1.672a.25.25 0 00-.076.324 11.086 11.086 0 005.158 5.158.25.25 0 00.324-.076l1.672-2.229a.25.25 0 01.272-.091l3.835.987a.25.25 0 01.178.23V17.75a.25.25 0 01-.25.25h-5.312a14.75 14.75 0 01-14.75-14.75z" />
+                </svg>
+                <span class="text-xs font-bold uppercase tracking-widest mb-1">Teléfono</span>
+                <span class="text-[10px] opacity-50">908 149 700</span>
+            </a>
+        </section>
+    </div>
+</div>
