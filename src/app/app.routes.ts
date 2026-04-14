@@ -6,6 +6,8 @@ import { ProductsPageComponent } from './pages/products-page/products-page.compo
 import { CartPageComponent } from './pages/cart-page/cart-page.component';
 import { CheckoutPageComponent } from './pages/checkout-page/checkout-page.component';
 import { CheckoutSuccessPageComponent } from './pages/checkout-success-page/checkout-success-page.component';
+import { ContactPageComponent } from './pages/contact-page/contact-page.component';
+
 
 export const routes: Routes = [
     {
@@ -27,6 +29,11 @@ export const routes: Routes = [
         path: 'profile',
         loadComponent: () => import('./pages/profile-page/profile-page.component').then(m => m.ProfilePageComponent),
         title: 'Mi Perfil'
+    },
+    {
+        path: 'contacto',
+        component: ContactPageComponent,
+        title: 'Atención al Cliente'
     },
     {
         path: 'products/all',
