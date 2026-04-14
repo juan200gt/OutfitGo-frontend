@@ -31,5 +31,5 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
           source: "dist/outfit-go-angular19/browser/*"
-          target: "/var/www/html/frontend"
+          target: "/home/ubuntu/frontend/"
           strip_components: 3
