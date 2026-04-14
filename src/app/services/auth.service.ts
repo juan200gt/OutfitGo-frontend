@@ -92,4 +92,12 @@ export class AuthService {
         }
         return this.loadCurrentUser();
     }
+
+    updateProfile(data: any): Observable<{ message: string, user: User }> {
+        return this.#http.put<{ message: string, user: User }>(`${this.#apiUrl}/user/profile`, data).pipe(
+            tap(response => {
+                this.currentUser.set(response.user);
+            })
+        );
+    }
 }

@@ -24,6 +24,11 @@ export const routes: Routes = [
         title: 'Registrarse'
     },
     {
+        path: 'profile',
+        loadComponent: () => import('./pages/profile-page/profile-page.component').then(m => m.ProfilePageComponent),
+        title: 'Mi Perfil'
+    },
+    {
         path: 'products/all',
         component: ProductsPageComponent,
         title: 'Todos los productos'
