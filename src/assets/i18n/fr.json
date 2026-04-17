@@ -1,0 +1,17 @@
+{
+  "NAV": {
+    "MEN": "HOMME",
+    "WOMEN": "FEMME",
+    "KIDS": "ENFANT",
+    "CONTACT": "Service Client"
+  },
+  "AUTH": {
+    "LOGIN": "Connexion",
+    "LOGOUT": "Déconnexion",
+    "ACCOUNT": "Compte",
+    "REGISTERED_SUCCESS": "Inscription réussie ! Veuillez vous connecter.",
+    "REGISTERED_UNVERIFIED": "Inscription réussie ! Veuillez vérifier vos e-mails pour valider votre compte avant de vous connecter.",
+    "VERIFIED_SUCCESS": "E-mail vérifié avec succès ! Vous pouvez ahora vous connecter.",
+    "VERIFIED_FAILED": "Le lien de vérification est invalide ou a expiré."
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "NAV": {
+    "MEN": "HOMBRE",
+    "WOMEN": "MUJER",
+    "KIDS": "INFANTIL",
+    "CONTACT": "Atención al Cliente"
+  },
+  "AUTH": {
+    "LOGIN": "Entrar",
+    "LOGOUT": "Cerrar sesión",
+    "ACCOUNT": "Cuenta",
+    "REGISTERED_SUCCESS": "¡Registro completado con éxito! Por favor, inicia sesión.",
+    "REGISTERED_UNVERIFIED": "¡Registro exitoso! Por favor, revisa tu correo para verificar tu cuenta antes de iniciar sesión.",
+    "VERIFIED_SUCCESS": "¡Correo verificado con éxito! Ya puedes iniciar sesión.",
+    "VERIFIED_FAILED": "El enlace de verificación no es válido o ha expirado."
+  }
+}

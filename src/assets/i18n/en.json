@@ -1,0 +1,17 @@
+{
+  "NAV": {
+    "MEN": "MEN",
+    "WOMEN": "WOMEN",
+    "KIDS": "KIDS",
+    "CONTACT": "Customer Support"
+  },
+  "AUTH": {
+    "LOGIN": "Login",
+    "LOGOUT": "Logout",
+    "ACCOUNT": "Account",
+    "REGISTERED_SUCCESS": "Registration completed successfully! Please log in.",
+    "REGISTERED_UNVERIFIED": "Registration successful! Please check your email to verify your account before logging in.",
+    "VERIFIED_SUCCESS": "Email verified successfully! You can now log in.",
+    "VERIFIED_FAILED": "The verification link is invalid or has expired."
+  }
+}
