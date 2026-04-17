@@ -77,7 +77,9 @@
     "OR": "OU",
     "LOADING": "Chargement...",
     "OPTIONAL": "Optionnel",
-    "EDIT": "Modifier"
+    "EDIT": "Modifier",
+    "DELETE": "Supprimer",
+    "BACK": "Retour"
   },
   "PROFILE": {
     "TITLE": "Mon Profil",
@@ -136,7 +138,12 @@
     "SUMMARY": "Résumé de l'Achat",
     "ITEMS": "Articles",
     "TOTAL": "Total",
-    "CHECKOUT": "Procéder au Paiement"
+    "CHECKOUT": "Procéder au Paiement",
+    "SIZE": "Taille",
+    "COLOR": "Couleur",
+    "UNIT_PRICE": "Prix Unit.",
+    "QUANTITY": "Quantité",
+    "REMOVE": "Supprimer"
   },
   "CHECKOUT": {
     "TITLE": "Finaliser la Commande",
