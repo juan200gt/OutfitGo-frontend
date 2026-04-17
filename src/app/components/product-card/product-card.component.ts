@@ -41,7 +41,7 @@ import { FavoriteService } from '../../services/favorite.service';
 
             <div class="card-actions mt-6 grid grid-cols-2 gap-2">
                 <button class="btn btn-primary btn-sm font-bold shadow-lg shadow-primary/20" (click)="addToCart.emit(product())">
-                    {{ 'PRODUCTS.DETAIL.ADD_TO_CART' | translate }}
+                    {{ 'PRODUCT_DETAIL.ADD_TO_CART' | translate }}
                 </button>
                 <a [routerLink]="['/producto', product().slug]" class="btn btn-ghost btn-outline btn-sm font-bold">
                     {{ 'COMMON.VIEW_DETAILS' | translate }}
