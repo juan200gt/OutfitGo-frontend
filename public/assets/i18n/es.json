@@ -75,7 +75,9 @@
     "YES_DELETE": "Sí, eliminar",
     "VIEW_DETAILS": "Ver detalles",
     "OR": "Ó",
-    "LOADING": "Cargando..."
+    "LOADING": "Cargando...",
+    "OPTIONAL": "Opcional",
+    "EDIT": "Editar"
   },
   "PROFILE": {
     "TITLE": "Mi Perfil",
@@ -83,6 +85,8 @@
     "ADDRESSES": "Direcciones de Envío",
     "ORDERS": "Mis Pedidos",
     "NO_ORDERS": "Aún no has realizado ningún pedido.",
+    "PASSWORD_PLACEHOLDER": "Déjalo en blanco para mantener la actual",
+    "NO_ADDRESSES": "No tienes ninguna dirección guardada.",
     "UPDATE_SUCCESS": "Perfil actualizado correctamente.",
     "UPDATE_ERROR": "Error al actualizar el perfil."
   },
@@ -94,6 +98,7 @@
     "SET_DEFAULT": "Establecer como predeterminada",
     "CONFIRM_DELETE": "¿Estás seguro de que quieres eliminar esta dirección?",
     "FORM": {
+      "NAME_HINT": "Nombre de la dirección (ej: Casa, Trabajo)",
       "STREET": "Calle",
       "NUMBER": "Número",
       "CITY": "Ciudad",

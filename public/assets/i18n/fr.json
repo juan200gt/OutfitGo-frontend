@@ -75,7 +75,9 @@
     "YES_DELETE": "Oui, supprimer",
     "VIEW_DETAILS": "Voir les détails",
     "OR": "OU",
-    "LOADING": "Chargement..."
+    "LOADING": "Chargement...",
+    "OPTIONAL": "Optionnel",
+    "EDIT": "Modifier"
   },
   "PROFILE": {
     "TITLE": "Mon Profil",
@@ -83,6 +85,8 @@
     "ADDRESSES": "Adresses de Livraison",
     "ORDERS": "Mes Commandes",
     "NO_ORDERS": "Vous n'avez pas encore passé de commande.",
+    "PASSWORD_PLACEHOLDER": "Laissez vide pour conserver l'actuel",
+    "NO_ADDRESSES": "Vous n'avez aucune adresse enregistrée.",
     "UPDATE_SUCCESS": "Profil mis à jour avec succès.",
     "UPDATE_ERROR": "Erreur lors de la mise à jour du profil."
   },
@@ -94,6 +98,7 @@
     "SET_DEFAULT": "Définir comme adresse par défaut",
     "CONFIRM_DELETE": "Êtes-vous sûr de vouloir supprimer cette adresse ?",
     "FORM": {
+      "NAME_HINT": "Nom de l'adresse (ex: Maison, Travail)",
       "STREET": "Rue",
       "NUMBER": "Numéro",
       "CITY": "Ville",
