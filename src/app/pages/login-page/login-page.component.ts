@@ -44,9 +44,13 @@ export class LoginPageComponent {
       if (params['token']) {
         this.isLoggingIn.set(true);
         this.#authService.saveToken(params['token']).subscribe({
-          next: () => {
+          next: (user) => {
             this.isLoggingIn.set(false);
-            this.#router.navigate(['/']);
+            if (user?.rol && user.rol.startsWith('admin')) {
+              window.location.href = '/admin/productos';
+            } else {
+              this.#router.navigate(['/']);
+            }
           },
           error: () => {
             this.isLoggingIn.set(false);
@@ -67,9 +71,13 @@ export class LoginPageComponent {
     this.success.set(null);
 
     this.#authService.login(credentials).subscribe({
-      next: () => {
+      next: (response) => {
         this.isLoggingIn.set(false);
-        this.#router.navigate(['/']);
+        if (response.user?.rol && response.user.rol.startsWith('admin')) {
+          window.location.href = '/admin/productos';
+        } else {
+          this.#router.navigate(['/']);
+        }
       },
       error: (err) => {
         this.isLoggingIn.set(false);
