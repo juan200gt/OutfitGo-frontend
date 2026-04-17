@@ -22,10 +22,10 @@ export class ProductsPageComponent {
 
   filters = signal({ publico: '', talla: '', color: '', marca_id: '', categoria_id: '' });
 
-  availableCategories = signal<{id: number, nombre: string}[]>([]);
-  availableBrands = signal<{id: number, nombre: string}[]>([]);
-  availableColors = signal<{id: number, nombre: string}[]>([]);
-  availableSizes = signal<{id: number, nombre: string}[]>([]);
+  availableCategories = signal<{ id: number, nombre: string, nombre_localizado?: string }[]>([]);
+  availableBrands = signal<{ id: number, nombre: string }[]>([]);
+  availableColors = signal<{ id: number, nombre: string }[]>([]);
+  availableSizes = signal<{ id: number, nombre: string }[]>([]);
 
   // Título de la página reactivo según la categoría elegida
   pageTitle = signal('PRODUCTS.TITLE_ALL');
@@ -46,7 +46,7 @@ export class ProductsPageComponent {
         publico = 'infantil';
         titleKey = 'PRODUCTS.TITLE_KIDS';
       }
-      
+
       this.filters.update(f => ({ ...f, publico }));
       this.pageTitle.set(titleKey);
     });
@@ -56,12 +56,12 @@ export class ProductsPageComponent {
     toObservable(this.filters).pipe(
       switchMap(currentFilters => this.#productService.getProducts(currentFilters)),
       tap(response => {
-          if (response.filtros) {
-              this.availableCategories.set(response.filtros.categorias);
-              this.availableBrands.set(response.filtros.marcas);
-              this.availableColors.set(response.filtros.colores);
-              this.availableSizes.set(response.filtros.tallas);
-          }
+        if (response.filtros) {
+          this.availableCategories.set(response.filtros.categorias);
+          this.availableBrands.set(response.filtros.marcas);
+          this.availableColors.set(response.filtros.colores);
+          this.availableSizes.set(response.filtros.tallas);
+        }
       }),
       map(response => response.productos)
     ),
@@ -76,7 +76,7 @@ export class ProductsPageComponent {
   handleAddToCart(product: Product) {
     const defaultSize = product.variants && product.variants.length > 0 ? product.variants[0].size : 'Única';
     const defaultColor = product.variants && product.variants.length > 0 ? product.variants[0].color : 'Único';
-    
+
     this.cartService.addToCart(product, 1, defaultSize, defaultColor).subscribe();
   }
 }

@@ -39,7 +39,7 @@ export class LoginPageComponent {
       if (params['email']) {
         this.prefilledEmail.set(params['email']);
       }
-      
+
       // Capturar token de Google OAuth
       if (params['token']) {
         this.isLoggingIn.set(true);
