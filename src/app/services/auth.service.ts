@@ -16,10 +16,16 @@ export class AuthService {
     currentUser = signal<User | null>(null);
 
     constructor() {
+        this.initializeAuth();
+    }
+
+    private initializeAuth() {
         if (isPlatformBrowser(this.#platformId)) {
             const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
             if (token) {
-                this.loadCurrentUser().subscribe();
+                this.loadCurrentUser().subscribe({
+                    error: () => console.log('No se pudo recuperar la sesión inicial')
+                });
             }
         }
     }

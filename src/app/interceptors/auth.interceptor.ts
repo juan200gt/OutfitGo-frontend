@@ -1,5 +1,5 @@
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
-import { inject, PLATFORM_ID } from '@angular/core';
+import { inject, PLATFORM_ID, Injector } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
@@ -8,7 +8,7 @@ import { AuthService } from '../services/auth.service';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
     const platformId = inject(PLATFORM_ID);
     const router = inject(Router);
-    const authService = inject(AuthService);
+    const injector = inject(Injector);
     
     let token: string | null = null;
 
@@ -30,6 +30,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
                 
                 localStorage.removeItem('auth_token');
                 sessionStorage.removeItem('auth_token');
+                
+                // Obtenemos AuthService de forma perezosa para evitar dependencias circulares
+                const authService = injector.get(AuthService);
                 authService.currentUser.set(null);
                 
                 router.navigate(['/login'], { queryParams: { expired: 'true' } });
