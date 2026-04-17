@@ -1,7 +1,7 @@
 import { Component, input, output } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { CartItem } from '../../interfaces/product.interface';
+import { CartItem } from '../../interfaces/cart.interface';
 
 @Component({
   selector: 'app-cart-item',
