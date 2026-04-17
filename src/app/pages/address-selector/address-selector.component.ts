@@ -3,10 +3,12 @@ import { AddressService } from '../../services/address.service';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserAddress } from '../../interfaces/address.interface';
 import { NgClass } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-address-selector',
-  imports: [FormsModule, ReactiveFormsModule, NgClass],
+  standalone: true,
+  imports: [FormsModule, ReactiveFormsModule, NgClass, TranslateModule],
   templateUrl: './address-selector.component.html'
 })
 export class AddressSelectorComponent implements OnInit {

@@ -11,18 +11,26 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     const injector = inject(Injector);
     
     let token: string | null = null;
+    let language: string | null = null;
 
     if (isPlatformBrowser(platformId)) {
         token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
+        language = localStorage.getItem('user_lang');
     }
 
-    let authReq = req;
+    let clonedHeaders = req.headers.set('Accept', 'application/json');
+    
     if (token) {
-        authReq = req.clone({
-            headers: req.headers.set('Authorization', `Bearer ${token}`)
-                                .set('Accept', 'application/json')
-        });
+        clonedHeaders = clonedHeaders.set('Authorization', `Bearer ${token}`);
     }
+    
+    if (language) {
+        clonedHeaders = clonedHeaders.set('X-Lang', language);
+    }
+
+    const authReq = req.clone({
+        headers: clonedHeaders
+    });
 
     return next(authReq).pipe(
         catchError((error: HttpErrorResponse) => {

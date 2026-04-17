@@ -6,15 +6,17 @@ import { CartService } from '../../services/cart.service';
 import { Product } from '../../interfaces/product.interface';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap, tap, map } from 'rxjs';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-products-page',
   standalone: true,
-  imports: [ProductCardComponent],
+  imports: [ProductCardComponent, TranslateModule],
   templateUrl: './products-page.component.html',
 })
 export class ProductsPageComponent {
   #productService = inject(ProductService);
+  #translate = inject(TranslateService);
   cartService = inject(CartService);
   route = inject(ActivatedRoute);
 
@@ -25,15 +27,28 @@ export class ProductsPageComponent {
   availableColors = signal<{id: number, nombre: string}[]>([]);
   availableSizes = signal<{id: number, nombre: string}[]>([]);
 
+  // Título de la página reactivo según la categoría elegida
+  pageTitle = signal('PRODUCTS.TITLE_ALL');
+
   constructor() {
     this.route.url.subscribe(segments => {
       const path = segments.map(segment => segment.path).join('/');
       let publico = '';
-      if (path.includes('women')) publico = 'mujer';
-      else if (path.includes('men')) publico = 'hombre';
-      else if (path.includes('kids')) publico = 'infantil';
+      let titleKey = 'PRODUCTS.TITLE_ALL';
+
+      if (path.includes('women')) {
+        publico = 'mujer';
+        titleKey = 'PRODUCTS.TITLE_WOMEN';
+      } else if (path.includes('men')) {
+        publico = 'hombre';
+        titleKey = 'PRODUCTS.TITLE_MEN';
+      } else if (path.includes('kids')) {
+        publico = 'infantil';
+        titleKey = 'PRODUCTS.TITLE_KIDS';
+      }
       
       this.filters.update(f => ({ ...f, publico }));
+      this.pageTitle.set(titleKey);
     });
   }
 

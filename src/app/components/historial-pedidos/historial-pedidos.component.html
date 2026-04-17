@@ -1,78 +1,99 @@
-<div class="contenedor-pedidos">
-  <h2>Mi Historial de Pedidos</h2>
+<div class="space-y-8">
+  <h2 class="text-2xl font-bold flex items-center gap-3">
+    <span class="w-2 h-8 bg-primary rounded-full"></span>
+    {{ 'ORDERS.TITLE' | translate }}
+  </h2>
 
   @if (cargando()) {
-  <p>Cargando tus pedidos...</p>
-  }
-
-  @else if (error()) {
-  <div class="alerta-error" style="color: red;">{{ error() }}</div>
-  }
-
-  @else {
-  <div class="lista-pedidos">
-
-    @for (pedido of pedidos(); track pedido.id) {
-    <div class="tarjeta-pedido" style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 8px;">
-
-      <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 10px;">
-        <h3>Pedido #{{ pedido.id }}</h3>
-        <span>{{ pedido.created_at | date:'dd/MM/yyyy HH:mm' }}</span>
-      </div>
-
-      <div style="margin-top: 10px;">
-        <p><strong>Estado:</strong> {{ pedido.estado }}</p>
-        <p><strong>Enviado a:</strong> {{ pedido.nombre }} {{ pedido.apellidos }} ({{ pedido.direccion }}, {{
-          pedido.ciudad }})</p>
-      </div>
-
-      <h4 style="margin-top: 15px;">Artículos:</h4>
-      <ul>
-        @for (articulo of pedido.order_items; track articulo.id) {
-        <li>
-          {{ articulo.cantidad }}x Artículo ID: {{ articulo.producto_id }}
-          - {{ articulo.precio | currency:'EUR' }}
-        </li>
-        }
-      </ul>
-
-      <div style="margin-top: 15px; text-align: right; font-size: 1.2em;">
-        <strong>Total pagado: {{ pedido.total | currency:'EUR' }}</strong>
-      </div>
-
+    <div class="flex justify-center py-12">
+      <span class="loading loading-spinner loading-lg text-primary"></span>
     </div>
+  } @else if (error()) {
+    <div class="alert alert-error">
+      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+      <span>{{ error() }}</span>
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 gap-6">
+      @for (pedido of pedidos(); track pedido.id) {
+        <div class="bg-base-100 rounded-2xl shadow-lg border border-base-200 overflow-hidden">
+          <!-- Header del Pedido -->
+          <div class="bg-base-200/50 px-6 py-4 flex flex-wrap justify-between items-center gap-4 border-b border-base-200">
+            <div class="flex items-center gap-4">
+              <span class="font-black text-lg">#{{ pedido.id }}</span>
+              <span class="text-sm opacity-60">{{ pedido.created_at | date:'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+            <div class="badge badge-lg font-bold uppercase tracking-wider" [ngClass]="{
+              'badge-warning': pedido.estado === 'pending',
+              'badge-success': pedido.estado === 'completed' || pedido.estado === 'delivered',
+              'badge-info': pedido.estado === 'shipped' || pedido.estado === 'return_requested',
+              'badge-error': pedido.estado === 'cancelled' || pedido.estado === 'refunded'
+            }">
+              {{ 'ORDERS.STATUS_LIST.' + pedido.estado | translate }}
+            </div>
+          </div>
 
-    <div style="margin-top: 10px;">
-      <p><strong>Estado:</strong> {{ pedido.estado }}</p>
+          <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Detalles de Envío -->
+            <div>
+              <h4 class="font-bold opacity-50 uppercase text-xs tracking-widest mb-3">{{ 'ORDERS.SHIPPING_TO' | translate }}</h4>
+              <p class="font-semibold text-lg">{{ pedido.nombre }} {{ pedido.apellidos }}</p>
+              <p class="opacity-70">{{ pedido.direccion }}</p>
+              <p class="opacity-70">{{ pedido.codigo_postal }} {{ pedido.ciudad }}</p>
+            </div>
 
-      @if (pedido.estado === 'pendiente') {
-      <button (click)="cancelar(pedido.id)"
-        style="background-color: #ff4d4f; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-top: 5px;">
-        ❌ Cancelar Pedido
-      </button>
-      }
-      @else if (pedido.estado === 'cancelado') {
-      <span style="color: #ff4d4f; font-weight: bold;">🚫 Pedido Cancelado</span>
-      }
-      @if (pedido.estado === 'entregado') {
-      <button (click)="devolver(pedido.id)"
-        style="background-color: #fa8c16; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-top: 5px;">
-        📦 Solicitar Devolución
-      </button>
-      }
-      @else if (pedido.estado === 'devolucion_solicitada') {
-      <span style="color: #fa8c16; font-weight: bold;">⏳ Devolución en trámite (Esperando paquete)</span>
-      }
-      @else if (pedido.estado === 'devuelto') {
-      <span style="color: #52c41a; font-weight: bold;">↩️ Devuelto y Reembolsado</span>
+            <!-- Resumen de Pago -->
+            <div class="md:text-right">
+              <h4 class="font-bold opacity-50 uppercase text-xs tracking-widest mb-3">{{ 'ORDERS.TOTAL' | translate }}</h4>
+              <p class="text-3xl font-black text-primary">{{ pedido.total | currency:'EUR' }}</p>
+            </div>
+          </div>
+
+          <!-- Artículos -->
+          <div class="px-6 pb-6 mt-4">
+            <div class="collapse collapse-arrow bg-base-200/30 rounded-xl">
+              <input type="checkbox" /> 
+              <div class="collapse-title font-bold">
+                {{ 'ORDERS.ITEMS' | translate }} ({{ pedido.order_items.length }})
+              </div>
+              <div class="collapse-content">
+                <div class="divide-y divide-base-200">
+                  @for (articulo of pedido.order_items; track articulo.id) {
+                    <div class="py-3 flex justify-between items-center text-sm">
+                      <div class="flex gap-4 items-center">
+                        <span class="bg-base-300 w-8 h-8 flex items-center justify-center rounded-full font-bold">
+                          {{ articulo.cantidad }}
+                        </span>
+                        <span class="font-medium text-primary">SKU: {{ articulo.producto_id }}</span>
+                      </div>
+                      <span class="font-bold">{{ articulo.precio | currency:'EUR' }}</span>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+
+            <!-- Acciones -->
+            <div class="mt-6 flex justify-end gap-3">
+              @if (pedido.estado === 'pending') {
+                <button (click)="cancelar(pedido.id)" class="btn btn-error btn-sm btn-outline">
+                  {{ 'ORDERS.CANCEL' | translate }}
+                </button>
+              }
+              @if (pedido.estado === 'delivered') {
+                <button (click)="devolver(pedido.id)" class="btn btn-warning btn-sm btn-outline">
+                  {{ 'ORDERS.RETURN' | translate }}
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+      } @empty {
+        <div class="text-center py-20 bg-base-200/50 rounded-3xl border-2 border-dashed border-base-300">
+          <p class="text-xl opacity-50 mb-6">{{ 'ORDERS.EMPTY' | translate }}</p>
+          <a href="/products" class="btn btn-primary rounded-full px-8">{{ 'NAV.CATALOG' | translate }}</a>
+        </div>
       }
     </div>
-    }
-
-    @empty {
-    <p>Aún no tienes pedidos en tu historial. ¡Descubre nuestra ropa!</p>
-    }
-
-  </div>
   }
-</div>
+</div>

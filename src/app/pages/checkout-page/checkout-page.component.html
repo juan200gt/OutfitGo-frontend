@@ -1,5 +1,5 @@
 <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-8 italic">Finalizar Compra</h1>
+    <h1 class="text-3xl font-bold mb-8 italic">{{ 'CHECKOUT.TITLE' | translate }}</h1>
 
     <div class="flex flex-col lg:flex-row gap-8">
         
@@ -12,7 +12,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
                     </div>
-                    <h2 class="text-xl font-bold">1. Datos de Envío</h2>
+                    <h2 class="text-xl font-bold">1. {{ 'CHECKOUT.SHIPPING_INFO' | translate }}</h2>
                 </div>
 
                 <app-address-selector (addressSelected)="setShippingAddress($event)" />
@@ -20,20 +20,20 @@
         </div>
 
         <div class="w-full lg:w-96 bg-base-100 rounded-xl shadow-lg p-6 border border-base-200 h-fit sticky top-24">
-            <h2 class="text-xl font-bold border-b border-base-200 pb-4 mb-4">Resumen del Pedido</h2>
+            <h2 class="text-xl font-bold border-b border-base-200 pb-4 mb-4">{{ 'CHECKOUT.ORDER_SUMMARY' | translate }}</h2>
 
             <div class="flex justify-between mb-2">
-                <span class="text-base-content/80">Artículos ({{ cartService.totalItemsCount() }}):</span>
+                <span class="text-base-content/80">{{ 'CART.ITEMS' | translate }} ({{ cartService.totalItemsCount() }}):</span>
                 <span class="font-medium">{{ cartService.cartTotal() | currency:'EUR' }}</span>
             </div>
 
             <div class="flex justify-between mb-4">
-                <span class="text-base-content/80">Envío:</span>
-                <span class="font-medium text-success">Gratis</span>
+                <span class="text-base-content/80">{{ 'CHECKOUT.SHIPPING' | translate }}:</span>
+                <span class="font-medium text-success">{{ 'CHECKOUT.FREE' | translate }}</span>
             </div>
 
             <div class="flex justify-between font-bold text-2xl border-t border-base-200 pt-4 mt-4 mb-6">
-                <span>Total a pagar:</span>
+                <span>{{ 'CHECKOUT.TOTAL' | translate }}:</span>
                 <span>{{ cartService.cartTotal() | currency:'EUR' }}</span>
             </div>
 
@@ -42,18 +42,18 @@
                 (click)="procederAlPago()"
                 [disabled]="isProcessing() || !selectedAddress()">
                 @if (isProcessing()) {
-                    <span class="loading loading-spinner"></span> Redirigiendo a Stripe...
+                    <span class="loading loading-spinner"></span> {{ 'CHECKOUT.PROCESSING' | translate }}
                 } @else {
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
                     </svg>
-                    Pagar de Forma Segura
+                    {{ 'CHECKOUT.PAY_SECURELY' | translate }}
                 }
             </button>
 
             @if (!selectedAddress()) {
-                <p class="text-xs text-center text-error mt-3 font-semibold">Selecciona una dirección de envío para continuar</p>
+                <p class="text-xs text-center text-error mt-3 font-semibold">{{ 'CHECKOUT.SELECT_ADDRESS_TO_CONTINUE' | translate }}</p>
             }
         </div>
     </div>
-</div>
+</div>

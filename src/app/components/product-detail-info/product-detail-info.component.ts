@@ -2,11 +2,12 @@ import { Component, input, output, signal, effect, computed } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Product } from '../../interfaces/product.interface';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-product-detail-info',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, TranslateModule],
   templateUrl: './product-detail-info.component.html'
 })
 export class ProductDetailInfoComponent {

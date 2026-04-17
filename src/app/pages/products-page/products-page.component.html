@@ -1,19 +1,21 @@
 <div class="container mx-auto p-4 py-8">
-    <h2 class="text-3xl font-bold mb-6 text-center">Catálogo de Productos</h2>
+    <h2 class="text-3xl font-bold mb-6 text-center">{{ pageTitle() | translate }}</h2>
 
     <div class="bg-base-200 p-4 rounded-xl mb-8 flex flex-col md:flex-row gap-4 justify-center items-center shadow-sm">
         <div class="form-control w-full max-w-xs">
+            <label class="label"><span class="label-text font-semibold">{{ 'PRODUCTS.FILTERS.CATEGORY' | translate }}</span></label>
             <select class="select select-bordered w-full" (change)="updateFilter('categoria_id', $event)">
-                <option value="">Todas las Categorías</option>
+                <option value="">{{ 'PRODUCTS.FILTERS.ALL_CATEGORIES' | translate }}</option>
                 @for(cat of availableCategories(); track cat.id) {
-                    <option [value]="cat.id">{{ cat.nombre }}</option>
+                    <option [value]="cat.id">{{ cat.nombre_localizado || cat.nombre }}</option>
                 }
             </select>
         </div>
         
         <div class="form-control w-full max-w-xs">
+            <label class="label"><span class="label-text font-semibold">{{ 'PRODUCTS.FILTERS.SIZE' | translate }}</span></label>
             <select class="select select-bordered w-full" (change)="updateFilter('talla', $event)">
-                <option value="">Todas las Tallas</option>
+                <option value="">{{ 'PRODUCTS.FILTERS.ALL_SIZES' | translate }}</option>
                 @for(talla of availableSizes(); track talla.id) {
                     <option [value]="talla.nombre">{{ talla.nombre }}</option>
                 }
@@ -21,8 +23,9 @@
         </div>
 
         <div class="form-control w-full max-w-xs">
+            <label class="label"><span class="label-text font-semibold">{{ 'PRODUCTS.FILTERS.COLOR' | translate }}</span></label>
             <select class="select select-bordered w-full" (change)="updateFilter('color', $event)">
-                <option value="">Todos los Colores</option>
+                <option value="">{{ 'PRODUCTS.FILTERS.ALL_COLORS' | translate }}</option>
                 @for(color of availableColors(); track color.id) {
                     <option [value]="color.nombre">{{ color.nombre }}</option>
                 }
@@ -30,8 +33,9 @@
         </div>
 
         <div class="form-control w-full max-w-xs">
+            <label class="label"><span class="label-text font-semibold">{{ 'PRODUCTS.FILTERS.BRAND' | translate }}</span></label>
             <select class="select select-bordered w-full" (change)="updateFilter('marca_id', $event)">
-                <option value="">Todas las Marcas</option>
+                <option value="">{{ 'PRODUCTS.FILTERS.ALL_BRANDS' | translate }}</option>
                 @for(marca of availableBrands(); track marca.id) {
                     <option [value]="marca.id">{{ marca.nombre }}</option>
                 }
@@ -44,8 +48,8 @@
             <app-product-card [product]="item" (addToCart)="handleAddToCart($event)" />
         } @empty {
             <div class="col-span-full text-center py-10">
-                <p class="text-xl opacity-70">No se encontraron productos con estos filtros.</p>
-                <button class="btn btn-outline mt-4" onclick="location.reload()">Limpiar Filtros</button>
+                <p class="text-xl opacity-70">{{ 'PRODUCTS.NO_PRODUCTS' | translate }}</p>
+                <button class="btn btn-outline mt-4" onclick="location.reload()">{{ 'COMMON.RELOAD' | translate }}</button>
             </div>
         }
     </div>
