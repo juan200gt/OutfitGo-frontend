@@ -17,7 +17,7 @@ export class AuthService {
 
     constructor() {
         if (isPlatformBrowser(this.#platformId)) {
-            const token = localStorage.getItem('auth_token');
+            const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
             if (token) {
                 this.loadCurrentUser().subscribe();
             }
@@ -33,6 +33,7 @@ export class AuthService {
                 console.error('Sesión caducada o token inválido', error);
                 if (isPlatformBrowser(this.#platformId)) {
                     localStorage.removeItem('auth_token');
+                    sessionStorage.removeItem('auth_token');
                 }
                 this.currentUser.set(null);
                 return of(null);
@@ -44,7 +45,8 @@ export class AuthService {
         return this.#http.post<AuthResponse>(`${this.#apiUrl}/login`, credentials).pipe(
             tap(response => {
                 if (response.access_token && isPlatformBrowser(this.#platformId)) {
-                    localStorage.setItem('auth_token', response.access_token);
+                    const storage = credentials.remember ? localStorage : sessionStorage;
+                    storage.setItem('auth_token', response.access_token);
                     this.currentUser.set(response.user);
                 }
             })
@@ -54,8 +56,10 @@ export class AuthService {
     register(credentials: RegisterCredentials): Observable<AuthResponse> {
         return this.#http.post<AuthResponse>(`${this.#apiUrl}/register`, credentials).pipe(
             tap(response => {
+                // Solo iniciamos sesión si el servidor nos devuelve un token (por ejemplo, si la verificación de email está desactivada)
                 if (response.access_token && isPlatformBrowser(this.#platformId)) {
-                    localStorage.setItem('auth_token', response.access_token);
+                    const storage = credentials.remember ? localStorage : sessionStorage;
+                    storage.setItem('auth_token', response.access_token);
                     this.currentUser.set(response.user);
                 }
             })
@@ -67,12 +71,14 @@ export class AuthService {
             tap(() => {
                 if (isPlatformBrowser(this.#platformId)) {
                     localStorage.removeItem('auth_token');
+                    sessionStorage.removeItem('auth_token');
                 }
                 this.currentUser.set(null);
             }),
             catchError(() => {
                 if (isPlatformBrowser(this.#platformId)) {
                     localStorage.removeItem('auth_token');
+                    sessionStorage.removeItem('auth_token');
                 }
                 this.currentUser.set(null);
                 return of(null);
@@ -86,9 +92,10 @@ export class AuthService {
         }
     }
 
-    saveToken(token: string): Observable<User | null> {
+    saveToken(token: string, remember: boolean = true): Observable<User | null> {
         if (isPlatformBrowser(this.#platformId)) {
-            localStorage.setItem('auth_token', token);
+            const storage = remember ? localStorage : sessionStorage;
+            storage.setItem('auth_token', token);
         }
         return this.loadCurrentUser();
     }

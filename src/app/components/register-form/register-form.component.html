@@ -26,6 +26,13 @@
                     <input type="password" formControlName="password_confirmation" class="input input-bordered w-full"
                         placeholder="Confirmar Contraseña" />
 
+                    <div class="form-control mt-2">
+                        <label class="label cursor-pointer justify-start gap-2">
+                            <input type="checkbox" formControlName="remember" class="checkbox checkbox-sm checkbox-primary" />
+                            <span class="label-text">Recuérdame</span>
+                        </label>
+                    </div>
+
                     <button type="submit" class="btn btn-neutral mt-4 w-full"
                         [disabled]="registerForm.invalid || isLoading()">
                         @if (isLoading()) {

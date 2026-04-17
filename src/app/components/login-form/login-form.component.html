@@ -27,6 +27,13 @@
             <a class="link link-hover text-sm">¿Olvidaste la contraseña?</a>
           </div>
 
+          <div class="form-control">
+            <label class="label cursor-pointer justify-start gap-2">
+              <input type="checkbox" formControlName="remember" class="checkbox checkbox-sm checkbox-primary" />
+              <span class="label-text">Recuérdame</span>
+            </label>
+          </div>
+
           <button type="submit" class="btn btn-neutral mt-4 w-full" [disabled]="loginForm.invalid || isLoading()">
             @if (isLoading()) {
             <span class="loading loading-spinner"></span>

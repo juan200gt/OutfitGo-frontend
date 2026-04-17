@@ -20,7 +20,8 @@ export class LoginFormComponent {
 
   loginForm = new FormGroup({
     email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),
-    password: new FormControl('', { nonNullable: true, validators: [Validators.required] })
+    password: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    remember: new FormControl(false, { nonNullable: true })
   });
 
   constructor() {
@@ -36,7 +37,8 @@ export class LoginFormComponent {
     if (this.loginForm.valid) {
       this.submitLogin.emit({
         email: this.loginForm.controls.email.value,
-        password: this.loginForm.controls.password.value
+        password: this.loginForm.controls.password.value,
+        remember: this.loginForm.controls.remember.value
       });
     }
   }

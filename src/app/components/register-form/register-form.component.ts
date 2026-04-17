@@ -20,7 +20,8 @@ export class RegisterFormComponent {
     name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),
     password: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    password_confirmation: new FormControl('', { nonNullable: true, validators: [Validators.required] })
+    password_confirmation: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    remember: new FormControl(false, { nonNullable: true })
   });
 
   onSubmit() {
@@ -29,7 +30,8 @@ export class RegisterFormComponent {
         name: this.registerForm.controls.name.value,
         email: this.registerForm.controls.email.value,
         password: this.registerForm.controls.password.value,
-        password_confirmation: this.registerForm.controls.password_confirmation.value
+        password_confirmation: this.registerForm.controls.password_confirmation.value,
+        remember: this.registerForm.controls.remember.value
       });
     }
   }

@@ -13,7 +13,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     let token: string | null = null;
 
     if (isPlatformBrowser(platformId)) {
-        token = localStorage.getItem('auth_token');
+        token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
     }
 
     let authReq = req;
@@ -29,6 +29,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
             if (error.status === 401 && isPlatformBrowser(platformId)) {
                 
                 localStorage.removeItem('auth_token');
+                sessionStorage.removeItem('auth_token');
                 authService.currentUser.set(null);
                 
                 router.navigate(['/login'], { queryParams: { expired: 'true' } });
