@@ -13,5 +13,12 @@
     "REGISTERED_UNVERIFIED": "¡Registro exitoso! Por favor, revisa tu correo para verificar tu cuenta antes de iniciar sesión.",
     "VERIFIED_SUCCESS": "¡Correo verificado con éxito! Ya puedes iniciar sesión.",
     "VERIFIED_FAILED": "El enlace de verificación no es válido o ha expirado."
+  },
+  "PAGES": {
+    "HOME": {
+      "HERO_TITLE": "OutfitGo",
+      "HERO_DESC": "Tu tienda de ropa donde encontrarás lo que necesitas para vestir tu estilo.",
+      "VIEW_COLLECTION": "Ver Colección"
+    }
   }
 }
