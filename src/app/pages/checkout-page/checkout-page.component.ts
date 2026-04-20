@@ -45,7 +45,8 @@ export class CheckoutPageComponent implements OnInit {
         this.isProcessing.set(true);
 
         const payload = {
-            address_id: this.selectedAddress()?.id
+            address_id: this.selectedAddress()?.id,
+            productos: this.cartService.cartItems()
         };
 
         this.cartService.checkout(payload).subscribe({
