@@ -29,7 +29,7 @@ export class ProductService {
     }
 
     getHistorialPrecios(id: number): Observable<{labels: string[], precios: number[]}> {
-    return this.http.get<{labels: string[], precios: number[]}>(`${this.apiUrl}/productos/${id}/historial`);
+        return this.#http.get<{labels: string[], precios: number[]}>(`${this.#apiUrl}/${id}/historial`);
     }
 
     getProductBySlug(slug: string): Observable<Product> {

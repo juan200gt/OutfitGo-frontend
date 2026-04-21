@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { signal } from '@angular/core';
-import { Component, OnInit, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { PageReview } from '../../interfaces/page-review.interface';
 import { PageReviewsService } from '../../services/page-reviews.service';
 
 @Component({
     selector: 'app-home-reviews',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, FormsModule],
     templateUrl: './home-reviews.component.html'
 })
 export class HomeReviewsComponent implements OnInit {
