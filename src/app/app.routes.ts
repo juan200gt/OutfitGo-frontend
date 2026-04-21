@@ -81,10 +81,12 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/product-detail-page/product-detail-page.component').then(m => m.ProductDetailPageComponent)
     },
     {
-        path: '**',
-        redirectTo: ''
+        path: 'outfit-wizard', 
+        component: OutfitWizardComponent,
+        title: 'Asistente de Outfits (IA)'
     },
     {
-        path: 'outfit-wizard', component: OutfitWizardComponent
+        path: '**',
+        redirectTo: ''
     }
 ];

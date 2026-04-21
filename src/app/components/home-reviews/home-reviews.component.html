@@ -36,7 +36,7 @@
 
   <div *ngIf="!successMessage()">
     <div class="mb-5">
-      <label class="block text-sm font-semibold text-gray-700 mb-2">Rating</label>
+      <label class="block text-sm font-semibold text-gray-700 mb-2">Valoración</label>
       <select [(ngModel)]="newRating" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-black focus:border-black p-2.5 bg-gray-50">
         <option [value]="5">⭐⭐⭐⭐⭐ (5/5) Experiencia perfecta!</option>
         <option [value]="4">⭐⭐⭐⭐ (4/5) Muy bien</option>
@@ -48,7 +48,7 @@
 
     <div class="mb-6">
       <label class="block text-sm font-semibold text-gray-700 mb-2">Tu reseña</label>
-      <textarea [(ngModel)]="newComment" rows="4" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-black focus:border-black p-3 bg-gray-50 resize-none" placeholder="How was your shopping experience with us?"></textarea>
+      <textarea [(ngModel)]="newComment" rows="4" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-black focus:border-black p-3 bg-gray-50 resize-none" placeholder="¿Cómo fue tu experiencia? "></textarea>
     </div>
 
     <button 
