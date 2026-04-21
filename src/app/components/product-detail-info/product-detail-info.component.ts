@@ -20,7 +20,7 @@ export class ProductDetailInfoComponent {
   
   activeImage = signal<string>('');
   
-  addToCart = output<{ product: Product, quantity: number, size: string, color: string }>();
+  addToCart = output<{ product: Product, quantity: number, size: string, color: string, variante: any }>();
 
   currentStock = computed(() => {
     const p = this.product();
@@ -57,13 +57,22 @@ export class ProductDetailInfoComponent {
     }
   }
 
-  submit() {
+submit() {
     if (this.selectedSize() && this.selectedColor()) {
+      const p = this.product();
+      const size = this.selectedSize()!;
+      const color = this.selectedColor()!;
+
+      // 🔍 Buscamos la variante exacta que coincide con esa talla y color
+      const varianteExacta = p.variants?.find(v => v.size === size && v.color === color);
+
       this.addToCart.emit({
-        product: this.product(),
+        product: p,
         quantity: this.quantity(),
-        size: this.selectedSize()!,
-        color: this.selectedColor()!
+        size: size,
+        color: color,
+        // 🔥 ¡AQUÍ LE PASAMOS LA VARIANTE REAL CON SU ID! 🔥
+        variante: varianteExacta 
       });
     }
   }
