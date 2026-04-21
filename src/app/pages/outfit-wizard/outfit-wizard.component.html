@@ -1,0 +1,46 @@
+<div class="max-w-4xl mx-auto p-6 mt-10">
+  <h2 class="text-3xl font-bold mb-4">Pregúntale a nuestra IA 🤖</h2>
+  
+  <textarea 
+    [ngModel]="userPrompt()"
+    (ngModelChange)="userPrompt.set($event)"
+    aria-label="Escribe tu petición de ropa o estilo para el bot"
+    class="w-full border p-4 rounded-lg mb-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-shadow" 
+    rows="3" 
+    placeholder="Ej: Busco ropa para una boda de día, talla M..."></textarea>
+  
+  <button 
+    (click)="pedirRecomendacion()" 
+    [disabled]="isSubmitDisabled()"
+    class="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors">
+    @if(isProcessing()) {
+      Pensando...
+    } @else {
+      Crear Outfit
+    }
+  </button>
+
+  @if(errorMsg()) {
+    <div class="bg-red-50 text-red-600 p-4 rounded-lg mt-4" role="alert">
+      {{ errorMsg() }}
+    </div>
+  }
+
+  @if(resultado() && !isProcessing()) {
+    <div class="mt-10" aria-live="polite">
+      <div class="bg-blue-50 p-6 rounded-lg mb-8">
+        <h3 class="font-bold mb-2 text-blue-900">Respuesta del Personal Shopper:</h3>
+        <p class="text-blue-800">{{ resultado()?.explicacion }}</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        @for(producto of resultado()?.productos; track producto.nombre) {
+          <div class="border p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <h4 class="font-bold">{{ producto.nombre }}</h4>
+            <p class="text-green-600 font-semibold mt-2">{{ producto.precio }}€</p>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>
