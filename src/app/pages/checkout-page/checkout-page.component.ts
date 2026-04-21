@@ -46,6 +46,8 @@ export class CheckoutPageComponent implements OnInit {
 
         const itemsAngular = this.cartService.cartItems();
 
+        console.log('MI CARRITO CRUDO ES:', itemsAngular);
+        
         const productosParaLaravel = itemsAngular.map(item => {
             return {
                 producto_variante_id: item.variante.id,
