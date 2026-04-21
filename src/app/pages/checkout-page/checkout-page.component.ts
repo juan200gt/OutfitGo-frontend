@@ -19,6 +19,10 @@ export class CheckoutPageComponent implements OnInit {
 
     isProcessing = signal(false);
     selectedAddress = signal<UserAddress | null>(null);
+    
+    couponCode = signal('');
+    couponError = signal('');
+    isApplyingCoupon = signal(false);
 
     ngOnInit(): void {
         if (!this.authService.currentUser()) {
@@ -28,6 +32,28 @@ export class CheckoutPageComponent implements OnInit {
         if (this.cartService.cartItems().length === 0) {
             this.router.navigate(['/cart']);
         }
+    }
+
+    applyCoupon() {
+        if (!this.couponCode()) return;
+        
+        this.isApplyingCoupon.set(true);
+        this.couponError.set('');
+
+        this.cartService.validateCoupon(this.couponCode()).subscribe({
+            next: () => {
+                this.isApplyingCoupon.set(false);
+                this.couponCode.set(''); // Limpiamos el input
+            },
+            error: (err) => {
+                this.isApplyingCoupon.set(false);
+                this.couponError.set(err.error?.message || 'Error al aplicar el cupón'); 
+            }
+        });
+    }
+    
+    removeCoupon() {
+        this.cartService.appliedCoupon.set(null);
     }
 
     setShippingAddress(address: UserAddress): void {

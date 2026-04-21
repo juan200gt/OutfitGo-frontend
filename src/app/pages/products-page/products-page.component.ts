@@ -5,7 +5,7 @@ import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
 import { Product } from '../../interfaces/product.interface';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap, tap, map } from 'rxjs';
+import { switchMap, tap, map, catchError, delay, of } from 'rxjs';
 
 @Component({
   selector: 'app-products-page',
@@ -25,6 +25,8 @@ export class ProductsPageComponent {
   availableColors = signal<{id: number, nombre: string}[]>([]);
   availableSizes = signal<{id: number, nombre: string}[]>([]);
 
+  isLoading = signal<boolean>(true);
+
   constructor() {
     this.route.url.subscribe(segments => {
       const path = segments.map(segment => segment.path).join('/');
@@ -39,7 +41,19 @@ export class ProductsPageComponent {
 
   products = toSignal(
     toObservable(this.filters).pipe(
-      switchMap(currentFilters => this.#productService.getProducts(currentFilters)),
+      // A. Nada más cambiar un filtro, encendemos el loader
+      tap(() => this.isLoading.set(true)), 
+      
+      switchMap(currentFilters => this.#productService.getProducts(currentFilters).pipe(
+        // B. Retardo artificial de medio segundo para que la UX sea fluida
+        delay(500), 
+        // C. Evitamos que la app explote si Laravel da error (devuelve un array vacío)
+        catchError((err) => {
+            console.error('Error del backend:', err);
+            return of({ productos: [], filtros: null }); 
+        })
+      )),
+      
       tap(response => {
           if (response.filtros) {
               this.availableCategories.set(response.filtros.categorias);
@@ -47,6 +61,8 @@ export class ProductsPageComponent {
               this.availableColors.set(response.filtros.colores);
               this.availableSizes.set(response.filtros.tallas);
           }
+          // D. Apagamos el loader al recibir los datos
+          this.isLoading.set(false); 
       }),
       map(response => response.productos)
     ),
