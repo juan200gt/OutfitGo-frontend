@@ -1,0 +1,54 @@
+<div class="min-h-screen bg-base-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+        <!-- Título Principal -->
+        <header class="text-center mb-16">
+            <h1 class="text-4xl font-extralight tracking-widest uppercase mb-4">{{ 'CONTACT.TITLE' | translate }}</h1>
+            <div class="h-px w-24 bg-primary mx-auto opacity-50"></div>
+        </header>
+
+        <!-- Sección de Preguntas Frecuentes (FAQs) -->
+        <section class="mb-20">
+            <h2 class="text-xs font-bold tracking-widest uppercase mb-8 opacity-60">{{ 'CONTACT.FAQS_TITLE' | translate }}</h2>
+            <div class="join join-vertical w-full bg-base-200/30">
+                @for (item of faqs; track item.questionKey) {
+                <div class="collapse collapse-plus join-item border-b border-base-content/10">
+                    <input type="radio" name="my-accordion-4" [checked]="$first" />
+                    <div class="collapse-title text-sm font-medium uppercase tracking-wider py-5">
+                        {{ item.questionKey | translate }}
+                    </div>
+                    <div class="collapse-content text-sm opacity-80 leading-relaxed">
+                        <p>{{ item.answerKey | translate }}</p>
+                    </div>
+                </div>
+                }
+            </div>
+        </section>
+
+        <!-- Sección de Contacto Directo -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- WhatsApp -->
+            <a href="https://wa.me/yourphonenumber" target="_blank"
+                class="flex flex-col items-center p-8 bg-base-200/50 hover:bg-base-200 transition-all rounded-lg border border-transparent hover:border-primary/20 group">
+                <i class="fi fi-brands-whatsapp text-3xl mb-4 opacity-70 group-hover:text-primary transition-colors"></i>
+                <span class="text-xs font-bold uppercase tracking-widest mb-1">WhatsApp</span>
+                <span class="text-[10px] opacity-50">{{ 'CONTACT.WHATSAPP_DESC' | translate }}</span>
+            </a>
+
+            <!-- Instagram -->
+            <a href="https://instagram.com/tu_marca" target="_blank"
+                class="flex flex-col items-center p-8 bg-base-200/50 hover:bg-base-200 transition-all rounded-lg border border-transparent hover:border-primary/20 group">
+                <i class="fi fi-brands-instagram text-3xl mb-4 opacity-70 group-hover:text-primary transition-colors"></i>
+                <span class="text-xs font-bold uppercase tracking-widest mb-1">Instagram</span>
+                <span class="text-[10px] opacity-50">{{ 'CONTACT.INSTAGRAM_DESC' | translate }}</span>
+            </a>
+
+            <!-- Teléfono -->
+            <a href="tel:+34908149700"
+                class="flex flex-col items-center p-8 bg-base-200/50 hover:bg-base-200 transition-all rounded-lg border border-transparent hover:border-primary/20 group">
+                <i class="fi fi-rr-phone-call text-3xl mb-4 opacity-70 group-hover:text-primary transition-colors"></i>
+                <span class="text-xs font-bold uppercase tracking-widest mb-1">{{ 'CONTACT.PHONE' | translate }}</span>
+                <span class="text-[10px] opacity-50">908 149 700</span>
+            </a>
+        </section>
+    </div>
+</div>

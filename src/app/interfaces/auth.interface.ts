@@ -1,6 +1,7 @@
 export interface LoginCredentials {
     email: string;
     password: string;
+    remember?: boolean;
 }
 
 export interface RegisterCredentials {
@@ -8,12 +9,14 @@ export interface RegisterCredentials {
     email: string;
     password: string;
     password_confirmation: string;
+    remember?: boolean;
 }
 
 export interface User {
     id: number;
     name: string;
     email: string;
+    rol?: string;
 }
 
 export interface AuthResponse {

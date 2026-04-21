@@ -6,24 +6,29 @@ import { CartService } from '../../services/cart.service';
 import { Product } from '../../interfaces/product.interface';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap, tap, map, catchError, delay, of } from 'rxjs';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-products-page',
   standalone: true,
-  imports: [ProductCardComponent],
+  imports: [ProductCardComponent, TranslateModule],
   templateUrl: './products-page.component.html',
 })
 export class ProductsPageComponent {
   #productService = inject(ProductService);
+  #translate = inject(TranslateService);
   cartService = inject(CartService);
   route = inject(ActivatedRoute);
 
   filters = signal({ publico: '', talla: '', color: '', marca_id: '', categoria_id: '' });
 
-  availableCategories = signal<{id: number, nombre: string}[]>([]);
-  availableBrands = signal<{id: number, nombre: string}[]>([]);
-  availableColors = signal<{id: number, nombre: string}[]>([]);
-  availableSizes = signal<{id: number, nombre: string}[]>([]);
+  availableCategories = signal<{ id: number, nombre: string, nombre_localizado?: string }[]>([]);
+  availableBrands = signal<{ id: number, nombre: string }[]>([]);
+  availableColors = signal<{ id: number, nombre: string }[]>([]);
+  availableSizes = signal<{ id: number, nombre: string }[]>([]);
+
+  // Título de la página reactivo según la categoría elegida
+  pageTitle = signal('PRODUCTS.TITLE_ALL');
 
   isLoading = signal<boolean>(true);
 
@@ -31,11 +36,21 @@ export class ProductsPageComponent {
     this.route.url.subscribe(segments => {
       const path = segments.map(segment => segment.path).join('/');
       let publico = '';
-      if (path.includes('women')) publico = 'mujer';
-      else if (path.includes('men')) publico = 'hombre';
-      else if (path.includes('kids')) publico = 'infantil';
-      
+      let titleKey = 'PRODUCTS.TITLE_ALL';
+
+      if (path.includes('women')) {
+        publico = 'mujer';
+        titleKey = 'PRODUCTS.TITLE_WOMEN';
+      } else if (path.includes('men')) {
+        publico = 'hombre';
+        titleKey = 'PRODUCTS.TITLE_MEN';
+      } else if (path.includes('kids')) {
+        publico = 'infantil';
+        titleKey = 'PRODUCTS.TITLE_KIDS';
+      }
+
       this.filters.update(f => ({ ...f, publico }));
+      this.pageTitle.set(titleKey);
     });
   }
 
@@ -55,12 +70,12 @@ export class ProductsPageComponent {
       )),
       
       tap(response => {
-          if (response.filtros) {
-              this.availableCategories.set(response.filtros.categorias);
-              this.availableBrands.set(response.filtros.marcas);
-              this.availableColors.set(response.filtros.colores);
-              this.availableSizes.set(response.filtros.tallas);
-          }
+        if (response.filtros) {
+          this.availableCategories.set(response.filtros.categorias);
+          this.availableBrands.set(response.filtros.marcas);
+          this.availableColors.set(response.filtros.colores);
+          this.availableSizes.set(response.filtros.tallas);
+        }
           // D. Apagamos el loader al recibir los datos
           this.isLoading.set(false); 
       }),
@@ -77,7 +92,7 @@ export class ProductsPageComponent {
   handleAddToCart(product: Product) {
     const defaultSize = product.variants && product.variants.length > 0 ? product.variants[0].size : 'Única';
     const defaultColor = product.variants && product.variants.length > 0 ? product.variants[0].color : 'Único';
-    
+
     this.cartService.addToCart(product, 1, defaultSize, defaultColor).subscribe();
   }
 }

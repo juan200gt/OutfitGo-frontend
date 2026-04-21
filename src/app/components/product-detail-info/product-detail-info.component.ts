@@ -1,12 +1,14 @@
 import { Component, input, output, signal, effect, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { Product } from '../../interfaces/product.interface';
+import { TranslateModule } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
+import { PriceChartComponent } from '../price-chart/price-chart.component';
 
 @Component({
   selector: 'app-product-detail-info',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, TranslateModule, FormsModule, PriceChartComponent],
   templateUrl: './product-detail-info.component.html'
 })
 export class ProductDetailInfoComponent {
@@ -25,7 +27,7 @@ export class ProductDetailInfoComponent {
     const size = this.selectedSize();
     const color = this.selectedColor();
 
-    if (!p || !size || !color || !p.variants) return p?.stock || 0; // Fallback
+    if (!p || !size || !color || !p.variants) return p?.stock || 0; 
 
     const variante = p.variants.find(v => v.size === size && v.color === color);
     return variante ? variante.stock : 0;

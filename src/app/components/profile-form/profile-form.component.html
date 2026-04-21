@@ -1,52 +1,40 @@
-<div class="container mx-auto px-4 py-8 max-w-2xl">
-  <h1 class="text-3xl font-bold mb-6">Mi Perfil</h1>
-
-  @if (successMessage()) {
-    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-      {{ successMessage() }}
-    </div>
-  }
-  @if (errorMessage()) {
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-      {{ errorMessage() }}
-    </div>
-  }
-
-  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="space-y-6">
+<div class="space-y-6">
+  
+  <div class="bg-base-100 p-6 rounded-lg shadow border border-base-200">
+    <h2 class="text-xl font-semibold mb-4 border-b pb-2">{{ 'PROFILE.PERSONAL_DATA' | translate }}</h2>
     
-    <div class="bg-white p-6 rounded-lg shadow">
-      <h2 class="text-xl font-semibold mb-4 border-b pb-2">Datos de la Cuenta</h2>
-      
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="space-y-4">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+          <label class="block text-sm font-medium mb-1">{{ 'AUTH.NAME' | translate }}</label>
           <input type="text" formControlName="name" 
-                 class="w-full border rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
+                 class="w-full input input-bordered">
         </div>
         
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+          <label class="block text-sm font-medium mb-1">{{ 'AUTH.EMAIL' | translate }}</label>
           <input type="email" formControlName="email" 
-                 class="w-full border rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
+                 class="w-full input input-bordered">
         </div>
 
         <div class="md:col-span-2">
-          <label class="block text-sm font-medium text-gray-700 mb-1">Nueva Contraseña (Opcional)</label>
-          <input type="password" formControlName="password" placeholder="Déjalo en blanco para no cambiarla"
-                 class="w-full border rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
+          <label class="block text-sm font-medium mb-1">{{ 'AUTH.PASSWORD' | translate }} ({{ 'COMMON.OPTIONAL' | translate }})</label>
+          <input type="password" formControlName="password" [placeholder]="'PROFILE.PASSWORD_PLACEHOLDER' | translate"
+                 class="w-full input input-bordered">
         </div>
       </div>
-    </div>
 
-    <div class="flex justify-end">
-      <button type="submit" [disabled]="isLoading() || profileForm.invalid"
-              class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md disabled:opacity-50 transition-colors">
-        @if (isLoading()) {
-          Guardando...
-        } @else {
-          Guardar Cambios
-        }
-      </button>
-    </div>
-  </form>
-</div>
+      <div class="flex justify-end pt-4">
+        <button type="submit" [disabled]="isLoading() || profileForm.invalid"
+                class="btn btn-primary">
+          @if (isLoading()) {
+            <span class="loading loading-spinner"></span>
+            {{ 'COMMON.LOADING' | translate }}
+          } @else {
+            {{ 'COMMON.SAVE' | translate }}
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

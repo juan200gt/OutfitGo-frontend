@@ -1,9 +1,11 @@
 export interface Product {
     id: number;
     name: string;
+    nombre_localizado?: string;
     slug: string;
     price: number;
     description: string;
+    descripcion_localizada?: string;
     colors: { id: number; nombre: string; hex_code: string }[]; 
     stock: number;
     image: string;
@@ -37,9 +39,11 @@ export interface BackendTalla {
 export interface BackendProduct {
     id: number;
     nombre: string;
+    nombre_localizado?: string;
     slug: string;
     precio: string;
     descripcion: string;
+    descripcion_localizada?: string;
     url_imagen_principal: string;
     imagenes?: { url_imagen: string }[];
     publico: string;
@@ -55,7 +59,7 @@ export interface PaginatedResponse {
     data: BackendProduct[];
     total: number;
     filtros_disponibles?: {
-        categorias: { id: number, nombre: string }[];
+        categorias: { id: number, nombre: string, nombre_localizado?: string }[];
         marcas: { id: number, nombre: string }[];
         colores: { id: number, nombre: string }[];
         tallas: { id: number, nombre: string }[];

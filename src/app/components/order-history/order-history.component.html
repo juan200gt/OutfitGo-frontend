@@ -1,0 +1,78 @@
+<div class="contenedor-pedidos">
+  <h2>My Order History</h2>
+
+  @if (isLoading()) {
+  <p>Loading your orders...</p>
+  }
+
+  @else if (errorMsg()) {
+  <div class="alerta-error" style="color: red;">{{ errorMsg() }}</div>
+  }
+
+  @else {
+  <div class="lista-pedidos">
+
+    @for (order of orders(); track order.id) {
+    <div class="tarjeta-pedido" style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 8px;">
+
+      <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+        <h3>Order #{{ order.id }}</h3>
+        <span>{{ order.created_at | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+
+      <div style="margin-top: 10px;">
+        <p><strong>Status:</strong> {{ order.estado }}</p>
+        <p><strong>Shipped to:</strong> {{ order.nombre }} {{ order.apellidos }} ({{ order.direccion }}, {{
+          order.ciudad }})</p>
+      </div>
+
+      <h4 style="margin-top: 15px;">Items:</h4>
+      <ul>
+        @for (item of order.order_items; track item.id) {
+        <li>
+          {{ item.cantidad }}x Item ID: {{ item.producto_id }}
+          - {{ (item.precio || item.precio_unitario) | currency:'EUR' }}
+        </li>
+        }
+      </ul>
+
+      <div style="margin-top: 15px; text-align: right; font-size: 1.2em;">
+        <strong>Total paid: {{ order.total | currency:'EUR' }}</strong>
+      </div>
+
+    </div>
+
+    <div style="margin-top: 10px;">
+      <p><strong>Status:</strong> {{ order.estado }}</p>
+
+      @if (order.estado === 'pendiente') {
+      <button (click)="cancelOrder(order.id)"
+        style="background-color: #ff4d4f; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-top: 5px;">
+        ❌ Cancel Order
+      </button>
+      }
+      @else if (order.estado === 'cancelado') {
+      <span style="color: #ff4d4f; font-weight: bold;">🚫 Order Canceled</span>
+      }
+      @if (order.estado === 'entregado') {
+      <button (click)="returnOrder(order.id)"
+        style="background-color: #fa8c16; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-top: 5px;">
+        📦 Request Return
+      </button>
+      }
+      @else if (order.estado === 'devolucion_solicitada') {
+      <span style="color: #fa8c16; font-weight: bold;">⏳ Return in progress (Waiting for package)</span>
+      }
+      @else if (order.estado === 'devuelto') {
+      <span style="color: #52c41a; font-weight: bold;">↩️ Returned and Refunded</span>
+      }
+    </div>
+    }
+
+    @empty {
+    <p>You have no orders in your history yet. Discover our clothes!</p>
+    }
+
+  </div>
+  }
+</div>

@@ -5,17 +5,19 @@ import { AuthService } from '../../services/auth.service';
 import { CurrencyPipe } from '@angular/common';
 import { UserAddress } from '../../interfaces/address.interface';
 import { AddressSelectorComponent } from '../address-selector/address-selector.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-checkout-page',
     standalone: true,
-    imports: [AddressSelectorComponent, CurrencyPipe], 
+    imports: [AddressSelectorComponent, CurrencyPipe, TranslateModule], 
     templateUrl: './checkout-page.component.html'
 })
 export class CheckoutPageComponent implements OnInit {
     cartService = inject(CartService);
     authService = inject(AuthService);
     router = inject(Router);
+    #translate = inject(TranslateService);
 
     isProcessing = signal(false);
     selectedAddress = signal<UserAddress | null>(null);
@@ -62,27 +64,38 @@ export class CheckoutPageComponent implements OnInit {
 
     procederAlPago(): void {
         if (!this.selectedAddress()) {
-            alert('Por favor, selecciona una dirección de envío');
+            this.#translate.get('CHECKOUT.SELECT_ADDRESS_ERROR').subscribe(msg => alert(msg));
             return;
         }
 
         this.isProcessing.set(true);
 
+        const itemsAngular = this.cartService.cartItems();
+
+        console.log('MI CARRITO CRUDO ES:', itemsAngular);
+        
+        const productosParaLaravel = itemsAngular.map(item => {
+            return {
+                producto_variante_id: item.variante.id,
+                cantidad: item.cantidad 
+            };
+        });
+
         const payload = {
-            address_id: this.selectedAddress()?.id
+            address_id: this.selectedAddress()?.id,
+            productos: productosParaLaravel
         };
 
         this.cartService.checkout(payload).subscribe({
-            next: (response) => {
-                // REDIRECCIÓN DIRECTA A STRIPE
+            next: (response: any) => {
                 if (response.url) {
                     window.location.href = response.url;
                 }
             },
             error: (err) => {
                 this.isProcessing.set(false);
-                console.error('Error al conectar con Stripe:', err);
-                alert('Hubo un error al iniciar el pago seguro.');
+                console.error('Stripe error:', err);
+                this.#translate.get('CHECKOUT.STRIPE_ERROR').subscribe(msg => alert(msg));
             }
         });
     }

@@ -1,12 +1,60 @@
 import { Component, input, output } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { CartItem } from '../../interfaces/cart.interface';
 
 @Component({
   selector: 'app-cart-item',
   standalone: true,
-  imports: [CurrencyPipe],
-  templateUrl: './cart-item.component.html'
+  imports: [CurrencyPipe, TranslateModule],
+  template: `
+<div class="flex flex-col sm:flex-row items-center gap-4 border-b border-base-200 py-4 last:border-b-0">
+    <img [src]="item().variante.producto.url_imagen_principal" [alt]="item().variante.producto.nombre"
+        class="w-24 h-24 object-cover rounded-lg shadow-sm" />
+
+    <div class="flex-1 flex flex-col sm:flex-row justify-between w-full">
+        <div class="flex flex-col">
+            <h3 class="font-semibold text-lg">{{ item().variante.producto.nombre }}</h3>
+            <p class="text-sm text-base-content/70 font-medium">
+                {{ 'CART.SIZE' | translate }}: {{ item().variante.talla.nombre }} | 
+                {{ 'CART.COLOR' | translate }}: {{ item().variante.color.nombre }}
+            </p>
+            
+            <p class="text-sm text-base-content/70 mt-1">{{ 'CART.UNIT_PRICE' | translate }}: {{ item().variante.producto.precio | currency:'EUR' }}</p>
+            
+            <div class="flex items-center gap-2 mt-2">
+                <span class="text-sm text-base-content/70">{{ 'CART.QUANTITY' | translate }}:</span>
+                <div class="flex items-center gap-2">
+                    <button class="btn btn-outline btn-xs btn-square" 
+                        (click)="updateQuantity.emit({ id: item().id, cantidad: item().cantidad - 1 })"
+                        [disabled]="item().cantidad <= 1">
+                        -
+                    </button>
+                    <span class="text-center font-medium w-6">
+                        {{ item().cantidad }}
+                    </span>
+                    <button class="btn btn-outline btn-xs btn-square" 
+                        (click)="updateQuantity.emit({ id: item().id, cantidad: item().cantidad + 1 })">
+                        +
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col sm:items-end justify-center mt-4 sm:mt-0 gap-2">
+            <span class="font-bold text-xl">{{ item().subtotal | currency:'EUR' }}</span>
+            <button class="btn btn-error btn-sm w-fit" (click)="remove.emit(item().id)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                {{ 'CART.REMOVE' | translate }}
+            </button>
+        </div>
+    </div>
+</div>
+`
 })
 export class CartItemComponent {
   item = input.required<CartItem>();
