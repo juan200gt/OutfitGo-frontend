@@ -28,6 +28,10 @@ export class ProductService {
         );
     }
 
+    getHistorialPrecios(id: number): Observable<{labels: string[], precios: number[]}> {
+    return this.http.get<{labels: string[], precios: number[]}>(`${this.apiUrl}/productos/${id}/historial`);
+    }
+
     getProductBySlug(slug: string): Observable<Product> {
         return this.#http.get<BackendProduct>(`${this.#apiUrl}/${slug}`).pipe(
             map(apiProduct => this.mapToProduct(apiProduct))

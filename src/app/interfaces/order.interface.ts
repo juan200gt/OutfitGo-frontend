@@ -4,9 +4,11 @@ export interface OrderItem {
   producto_id: number;
   cantidad: number;
   precio: number;
+  precio_unitario?: number;
+  producto?: any;
 }
 
-export interface Pedido {
+export interface Order {
   id: number;
   user_id: number;
   total: number;
@@ -20,7 +22,7 @@ export interface Pedido {
   order_items: OrderItem[];
 }
 
-export interface HistorialResponse {
+export interface OrderHistoryResponse {
   message: string;
-  pedidos: Pedido[];
+  pedidos: Order[];
 }

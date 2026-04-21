@@ -25,7 +25,7 @@ export class ProductDetailInfoComponent {
     const size = this.selectedSize();
     const color = this.selectedColor();
 
-    if (!p || !size || !color || !p.variants) return p?.stock || 0; // Fallback
+    if (!p || !size || !color || !p.variants) return p?.stock || 0; 
 
     const variante = p.variants.find(v => v.size === size && v.color === color);
     return variante ? variante.stock : 0;
