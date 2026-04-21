@@ -2,11 +2,13 @@ import { Component, input, output, signal, effect, computed } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { Product } from '../../interfaces/product.interface';
 import { TranslateModule } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
+import { PriceChartComponent } from '../price-chart/price-chart.component';
 
 @Component({
   selector: 'app-product-detail-info',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, FormsModule, PriceChartComponent],
   templateUrl: './product-detail-info.component.html'
 })
 export class ProductDetailInfoComponent {
@@ -18,14 +20,14 @@ export class ProductDetailInfoComponent {
   
   activeImage = signal<string>('');
   
-  addToCart = output<{ product: Product, quantity: number, size: string, color: string }>();
+  addToCart = output<{ product: Product, quantity: number, size: string, color: string, variante: any }>();
 
   currentStock = computed(() => {
     const p = this.product();
     const size = this.selectedSize();
     const color = this.selectedColor();
 
-    if (!p || !size || !color || !p.variants) return p?.stock || 0; // Fallback
+    if (!p || !size || !color || !p.variants) return p?.stock || 0; 
 
     const variante = p.variants.find(v => v.size === size && v.color === color);
     return variante ? variante.stock : 0;
@@ -55,13 +57,22 @@ export class ProductDetailInfoComponent {
     }
   }
 
-  submit() {
+submit() {
     if (this.selectedSize() && this.selectedColor()) {
+      const p = this.product();
+      const size = this.selectedSize()!;
+      const color = this.selectedColor()!;
+
+      // 🔍 Buscamos la variante exacta que coincide con esa talla y color
+      const varianteExacta = p.variants?.find(v => v.size === size && v.color === color);
+
       this.addToCart.emit({
-        product: this.product(),
+        product: p,
         quantity: this.quantity(),
-        size: this.selectedSize()!,
-        color: this.selectedColor()!
+        size: size,
+        color: color,
+        // 🔥 ¡AQUÍ LE PASAMOS LA VARIANTE REAL CON SU ID! 🔥
+        variante: varianteExacta 
       });
     }
   }

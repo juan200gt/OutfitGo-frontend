@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { OutfitWizardComponent } from './pages/outfit-wizard/outfit-wizard.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
@@ -78,6 +79,11 @@ export const routes: Routes = [
     {
         path: 'producto/:slug',
         loadComponent: () => import('./pages/product-detail-page/product-detail-page.component').then(m => m.ProductDetailPageComponent)
+    },
+    {
+        path: 'outfit-wizard', 
+        component: OutfitWizardComponent,
+        title: 'Asistente de Outfits (IA)'
     },
     {
         path: '**',

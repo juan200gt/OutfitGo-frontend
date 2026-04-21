@@ -44,8 +44,20 @@ export class CheckoutPageComponent implements OnInit {
 
         this.isProcessing.set(true);
 
+        const itemsAngular = this.cartService.cartItems();
+
+        console.log('MI CARRITO CRUDO ES:', itemsAngular);
+        
+        const productosParaLaravel = itemsAngular.map(item => {
+            return {
+                producto_variante_id: item.variante.id,
+                cantidad: item.cantidad 
+            };
+        });
+
         const payload = {
-            address_id: this.selectedAddress()?.id
+            address_id: this.selectedAddress()?.id,
+            productos: productosParaLaravel
         };
 
         this.cartService.checkout(payload).subscribe({
