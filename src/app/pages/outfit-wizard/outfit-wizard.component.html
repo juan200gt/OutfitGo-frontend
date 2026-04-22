@@ -34,10 +34,13 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        @for(producto of resultado()?.productos; track producto.nombre) {
-          <div class="border p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-            <h4 class="font-bold">{{ producto.nombre }}</h4>
-            <p class="text-green-600 font-semibold mt-2">{{ producto.precio }}€</p>
+        @for(producto of resultado()?.productos; track producto.id) {
+          <div class="border p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow flex flex-col">
+            <h4 class="font-bold">{{ producto.name }}</h4>
+            <p class="text-green-600 font-semibold mt-2">{{ producto.price }}€</p>
+            <a [routerLink]="['/producto', producto.slug]" class="mt-4 bg-black text-white px-4 py-2 rounded text-center hover:bg-gray-800 transition-colors mt-auto">
+              Ver Producto
+            </a>
           </div>
         }
       </div>
