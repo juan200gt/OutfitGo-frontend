@@ -1,13 +1,14 @@
 import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'; 
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { OutfitService } from '../../services/outfit.service';
 import { OutfitResponse } from '../../interfaces/outfit.interface';
 
 @Component({
   selector: 'app-outfit-wizard',
   standalone: true,
-  imports: [FormsModule], 
+  imports: [FormsModule, RouterLink], 
   templateUrl: './outfit-wizard.component.html'
 })
 export class OutfitWizardComponent {
