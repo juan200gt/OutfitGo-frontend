@@ -37,4 +37,14 @@
 
     </div>
   </div>
+    @if (isLoading()) {
+    <div class="flex flex-col items-center justify-center min-h-[50vh]">
+      <span class="loading loading-spinner loading-lg text-primary"></span>
+      <p class="mt-4 font-bold text-gray-600">Verificando tu pago y preparando el pedido...</p>
+    </div>
+  } @else {
+    <div>
+      <h2>{{ successMessage() }}</h2>
+      </div>
+  }
 </div>
