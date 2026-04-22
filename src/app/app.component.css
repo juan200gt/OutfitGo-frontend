@@ -1,0 +1,33 @@
+.floating-contact {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.floating-contact:hover {
+  transform: scale(1.15) translateY(-5px);
+  box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.4);
+  filter: brightness(1.1);
+}
+
+.floating-contact i {
+  transition: transform 0.3s ease;
+}
+
+.floating-contact:hover i {
+  transform: rotate(15deg);
+}
+
+/* Glassmorphism effect for a more premium look */
+.floating-contact {
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
