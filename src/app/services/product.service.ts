@@ -62,6 +62,7 @@ export class ProductService {
             brand: apiItem.marca?.nombre || 'OutfitGo',
             stock: apiItem.stock || 0,
             variants: apiItem.variantes ? apiItem.variantes.map(v => ({
+                id: v.id,
                 size: v.talla.nombre,
                 color: v.color.nombre,
                 stock: v.stock

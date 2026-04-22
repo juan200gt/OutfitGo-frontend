@@ -14,7 +14,7 @@ export interface Product {
     size: string[];
     color: string;
     brand: string;
-    variants: { size: string; color: string; stock: number }[];
+    variants: { id: number; size: string; color: string; stock: number }[];
 }
 
 export interface CartItem extends Product {
@@ -51,7 +51,7 @@ export interface BackendProduct {
     stock: number;
     tallas: BackendTalla[];
     colores: BackendColor[];
-    variantes?: { stock: number; talla: { nombre: string }; color: { nombre: string } }[];
+    variantes?: { id: number; stock: number; talla: { nombre: string }; color: { nombre: string } }[];
 }
 
 export interface PaginatedResponse {

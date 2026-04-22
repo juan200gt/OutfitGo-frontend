@@ -45,7 +45,7 @@ export class CartService {
         }
     }
 
-    addToCart(product: Product, quantity: number, size: string, color: string): Observable<any> {
+    addToCart(product: Product, quantity: number, size: string, color: string, variante?: any): Observable<any> {
         if (this.isLoggedIn()) {
             return this.#http.post(this.#apiUrl, { 
                 producto_id: product.id, 
@@ -69,13 +69,13 @@ export class CartService {
                 currentItems[existingItemIndex].subtotal = currentItems[existingItemIndex].cantidad * product.price;
             } else {
                 const newItem: CartItem = {
-                    id: Date.now(), // ID temporal para el modo invitado
+                    id: Date.now(),
                     cantidad: quantity,
                     subtotal: quantity * product.price,
                     creado_en: new Date().toISOString(),
                     actualizado_en: new Date().toISOString(),
                     variante: {
-                        id: 0, 
+                        id: variante ? variante.id : 0, 
                         stock: product.stock,
                         talla: { nombre: size },
                         color: { nombre: color },

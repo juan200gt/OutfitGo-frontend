@@ -74,9 +74,10 @@ export class ProductsPageComponent {
   }
 
   handleAddToCart(product: Product) {
-    const defaultSize = product.variants && product.variants.length > 0 ? product.variants[0].size : 'Única';
-    const defaultColor = product.variants && product.variants.length > 0 ? product.variants[0].color : 'Único';
+    const defaultVariant = product.variants && product.variants.length > 0 ? product.variants[0] : undefined;
+    const defaultSize = defaultVariant ? defaultVariant.size : 'Única';
+    const defaultColor = defaultVariant ? defaultVariant.color : 'Único';
 
-    this.cartService.addToCart(product, 1, defaultSize, defaultColor).subscribe();
+    this.cartService.addToCart(product, 1, defaultSize, defaultColor, defaultVariant).subscribe();
   }
 }
