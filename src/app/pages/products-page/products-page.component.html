@@ -43,14 +43,26 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        @for (item of products(); track item.id) {
-            <app-product-card [product]="item" (addToCart)="handleAddToCart($event)" />
-        } @empty {
-            <div class="col-span-full text-center py-10">
-                <p class="text-xl opacity-70">{{ 'PRODUCTS.NO_PRODUCTS' | translate }}</p>
-                <button class="btn btn-outline mt-4" onclick="location.reload()">{{ 'COMMON.RELOAD' | translate }}</button>
-            </div>
-        }
-    </div>
+    
+
+    @if (isLoading()) {
+        <div class="flex flex-col items-center justify-center py-20">
+            <span class="loading loading-spinner loading-lg text-primary"></span>
+            <p class="mt-4 font-medium opacity-70">Buscando productos...</p>
+        </div>
+    } @else {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            @for (item of products(); track item.id) {
+                <app-product-card [product]="item" (addToCart)="handleAddToCart($event)" />
+            } @empty {
+                <div class="col-span-full text-center py-10 bg-base-200 rounded-xl border border-base-300">
+                    <div class="text-6xl mb-4">🔍</div>
+                    <p class="text-xl opacity-70">{{ 'PRODUCTS.NO_PRODUCTS' | translate }}</p>
+                    <button class="btn btn-primary mt-4" (click)="filters.set({ publico: '', talla: '', color: '', marca_id: '', categoria_id: '' })">
+                        {{ 'COMMON.RELOAD' | translate }}
+                    </button>
+                </div>
+            }
+        </div>
+    }
 </div>

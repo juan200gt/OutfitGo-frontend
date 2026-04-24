@@ -17,16 +17,36 @@ export class CartService {
 
     cartItems = signal<CartItem[]>([]);
 
-    cartTotal = computed(() => {
-        return this.cartItems().reduce((total, item) => total + Number(item.subtotal), 0);
-    });
+    appliedCoupon = signal<any | null>(null);
 
+    cartTotal = computed(() => {
+        let total = this.cartItems().reduce((t, item) => t + Number(item.subtotal), 0);
+        const coupon = this.appliedCoupon();
+        
+        if (coupon) {
+            if (coupon.tipo === 'porcentaje') {
+                total = total - (total * (coupon.valor / 100));
+            } else if (coupon.tipo === 'fijo') {
+                total = total - coupon.valor;
+            }
+        }
+        return total > 0 ? total : 0; 
+    });
+    
     totalItemsCount = computed(() => {
         return this.cartItems().reduce((count, item) => count + item.cantidad, 0);
     });
 
     private isLoggedIn(): boolean {
         return !!localStorage.getItem('access_token');
+    }
+
+    validateCoupon(code: string): Observable<any> {
+        return this.#http.post(`${environment.apiUrl}/cupon/validar`, { codigo: code }).pipe(
+            tap((res: any) => {
+                this.appliedCoupon.set(res.cupon);
+            })
+        );
     }
 
     loadCart(): void {
