@@ -66,7 +66,9 @@
       "ALL_SIZES": "Todas las tallas"
     },
     "ADD_TO_CART": "Añadir al carrito",
-    "NO_PRODUCTS": "No se encontraron productos con estos filtros."
+    "NO_PRODUCTS": "No se encontraron productos con estos filtros.",
+    "REVIEWS_TITLE": "Opiniones de los clientes",
+    "NO_REVIEWS": "Aún no hay opiniones sobre este producto."
   },
   "PRODUCT_DETAIL": {
     "BACK": "Volver al catálogo",

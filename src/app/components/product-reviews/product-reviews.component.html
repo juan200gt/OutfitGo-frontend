@@ -1,0 +1,34 @@
+<div class="mt-12 border-t border-base-300 pt-8">
+    <h3 class="text-2xl font-bold mb-6">{{ 'PRODUCTS.REVIEWS_TITLE' | translate }}</h3>
+
+    @if (reviews().length > 0) {
+    <div class="grid gap-6">
+        @for (review of reviews(); track review.id) {
+        <div class="card bg-base-100 shadow-sm border border-base-200">
+            <div class="card-body p-6">
+                <div class="flex justify-between items-start mb-2">
+                    <div>
+                        <span class="font-bold">{{ review.user.name }}</span>
+                        <div class="rating rating-sm block mt-1">
+                            @for (star of getRatingStars(review.puntuacion); track $index) {
+                            <input type="radio" class="mask mask-star-2 bg-orange-400" disabled />
+                            }
+                            @for (star of getEmptyStars(review.puntuacion); track $index) {
+                            <input type="radio" class="mask mask-star-2 bg-base-300" disabled />
+                            }
+                        </div>
+                    </div>
+                    <span class="text-sm opacity-60">{{ review.created_at | date:'dd/MM/yyyy' }}</span>
+                </div>
+                <p class="mt-2">{{ review.comentario }}</p>
+            </div>
+        </div>
+        }
+    </div>
+    } @else {
+    <div class="bg-base-200 rounded-xl p-10 text-center">
+        <div class="text-5xl mb-4 opacity-20">💬</div>
+        <p class="text-xl opacity-60">{{ 'PRODUCTS.NO_REVIEWS' | translate }}</p>
+    </div>
+    }
+</div>

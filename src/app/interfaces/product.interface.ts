@@ -52,6 +52,7 @@ export interface BackendProduct {
     tallas: BackendTalla[];
     colores: BackendColor[];
     variantes?: { id: number; stock: number; talla: { nombre: string }; color: { nombre: string } }[];
+    resenas?: { id: number; puntuacion: number; comentario: string; created_at: string; user: { id: number; name: string } }[];
 }
 
 export interface PaginatedResponse {

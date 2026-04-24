@@ -5,11 +5,12 @@ import { switchMap } from 'rxjs';
 import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
 import { ProductDetailInfoComponent } from '../../components/product-detail-info/product-detail-info.component';
+import { ProductReviewsComponent } from '../../components/product-reviews/product-reviews.component';
 
 @Component({
   selector: 'app-product-detail-page',
   standalone: true,
-  imports: [ProductDetailInfoComponent],
+  imports: [ProductDetailInfoComponent, ProductReviewsComponent],
   templateUrl: './product-detail-page.component.html'
 })
 export class ProductDetailPageComponent {
