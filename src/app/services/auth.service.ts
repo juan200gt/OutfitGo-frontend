@@ -2,7 +2,7 @@ import { Injectable, inject, signal, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, of, catchError } from 'rxjs';
-import { LoginCredentials, RegisterCredentials, AuthResponse, User } from '../interfaces/auth.interface';
+import { LoginCredentials, RegisterCredentials, AuthResponse, User, ResetPasswordData, MessageResponse } from '../interfaces/auth.interface';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -112,5 +112,13 @@ export class AuthService {
                 this.currentUser.set(response.user);
             })
         );
+    }
+
+    sendForgotPasswordLink(email: string): Observable<MessageResponse> {
+        return this.#http.post<MessageResponse>(`${this.#apiUrl}/forgot-password`, { email });
+    }
+
+    resetPassword(data: ResetPasswordData): Observable<MessageResponse> {
+        return this.#http.post<MessageResponse>(`${this.#apiUrl}/reset-password`, data);
     }
 }

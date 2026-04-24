@@ -25,3 +25,14 @@ export interface AuthResponse {
     access_token: string;
     token_type?: string;
 }
+
+export interface ResetPasswordData {
+    token: string;
+    email: string;
+    password: string;
+    password_confirmation: string;
+}
+
+export interface MessageResponse {
+    message: string;
+}

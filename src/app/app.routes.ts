@@ -8,6 +8,8 @@ import { CartPageComponent } from './pages/cart-page/cart-page.component';
 import { CheckoutPageComponent } from './pages/checkout-page/checkout-page.component';
 import { CheckoutSuccessPageComponent } from './pages/checkout-success-page/checkout-success-page.component';
 import { ContactPageComponent } from './pages/contact-page/contact-page.component';
+import { ForgotPasswordPageComponent } from './pages/forgot-password-page/forgot-password-page.component';
+import { ResetPasswordPageComponent } from './pages/reset-password-page/reset-password-page.component';
 
 
 export const routes: Routes = [
@@ -25,6 +27,16 @@ export const routes: Routes = [
         path: 'register',
         component: RegisterPageComponent,
         title: 'Registrarse'
+    },
+    {
+        path: 'forgot-password',
+        component: ForgotPasswordPageComponent,
+        title: 'Recuperar Contraseña'
+    },
+    {
+        path: 'reset-password',
+        component: ResetPasswordPageComponent,
+        title: 'Restablecer Contraseña'
     },
     {
         path: 'profile',
