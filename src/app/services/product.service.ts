@@ -66,7 +66,8 @@ export class ProductService {
                 size: v.talla.nombre,
                 color: v.color.nombre,
                 stock: v.stock
-            })) : []
+            })) : [],
+            resenas: apiItem.resenas
         };
     }
 }
