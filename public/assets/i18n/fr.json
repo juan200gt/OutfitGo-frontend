@@ -53,7 +53,19 @@
       "ALL_SIZES": "Toutes les tailles"
     },
     "ADD_TO_CART": "Ajouter au panier",
-    "NO_PRODUCTS": "Aucun produit trouvé avec ces filtres."
+    "NO_PRODUCTS": "Aucun producto trouvé avec ces filtres.",
+    "REVIEWS": {
+      "TITLE": "Avis des clients",
+      "NO_REVIEWS": "Il n'y a pas encore d'avis sur ce produit.",
+      "ADD_TITLE": "Ajoutez votre avis",
+      "RATING_LABEL": "Votre note",
+      "COMMENT_PLACEHOLDER": "Qu'avez-vous pensé du produit ? Partagez votre expérience...",
+      "SUCCESS": "Merci pour votre avis !",
+      "SUBMIT": "Publier l'avis",
+      "SUBMITTING": "Envoi en cours...",
+      "AUTH_PROMPT": "Vous souhaitez laisser un avis ?",
+      "AUTH_SUBTEXT": "Connectez-vous pour noter ce produit."
+    }
   },
   "PRODUCT_DETAIL": {
     "BACK": "Retour au catalogue",
