@@ -38,6 +38,13 @@ export class ProductService {
         );
     }
 
+    submitReview(productId: number, rating: number, comment: string): Observable<any> {
+        return this.#http.post(`${this.#apiUrl}/${productId}/resenas`, {
+            puntuacion: rating,
+            comentario: comment
+        });
+    }
+
     public mapToProduct(apiItem: BackendProduct): Product {
         let mappedCategory: 'man' | 'woman' | 'kids' = 'man';
         if (apiItem.publico === 'infantil') mappedCategory = 'kids';

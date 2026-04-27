@@ -1,5 +1,69 @@
 <div class="mt-12 border-t border-base-300 pt-8">
     <h3 class="text-2xl font-bold mb-6">{{ 'PRODUCTS.REVIEWS_TITLE' | translate }}</h3>
+    
+    <!-- Formulario para añadir reseña -->
+    @if (isLoggedIn()) {
+        <div class="card bg-base-100 shadow-xl border border-primary/20 mb-10 overflow-hidden">
+            <div class="card-body p-6">
+                <h4 class="font-bold text-lg mb-4 flex items-center gap-2">
+                    <span class="text-primary">✨</span> {{ 'Añade tu opinión' }}
+                </h4>
+                
+                <div class="flex flex-col gap-4">
+                    <!-- Selector de estrellas (DaisyUI) -->
+                    <div class="form-control">
+                        <label class="label pt-0"><span class="label-text font-medium">Tu puntuación</span></label>
+                        <div class="rating rating-md">
+                            @for (num of [1,2,3,4,5]; track num) {
+                                <input type="radio" name="rating-product" class="mask mask-star-2 bg-orange-400" 
+                                    [value]="num" 
+                                    [checked]="newRating() === num" 
+                                    (change)="newRating.set(num)" />
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Comentario -->
+                    <div class="form-control">
+                        <textarea 
+                            class="textarea textarea-bordered h-24 focus:textarea-primary transition-all" 
+                            placeholder="¿Qué te ha parecido el producto? Cuéntanos tu experiencia..."
+                            [(ngModel)]="newComment"
+                            [disabled]="isSubmitting()"></textarea>
+                    </div>
+
+                    <div class="card-actions justify-end">
+                        @if (successMessage()) {
+                            <div class="badge badge-success gap-2 py-3 px-4 h-auto text-white animate-bounce">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-4 h-4 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                ¡Gracias por tu opinión!
+                            </div>
+                        }
+                        <button 
+                            class="btn btn-primary px-8 shadow-lg shadow-primary/30" 
+                            (click)="submitReview()"
+                            [disabled]="newComment().trim().length < 5 || isSubmitting()">
+                            @if (isSubmitting()) {
+                                <span class="loading loading-spinner"></span>
+                                Enviando...
+                            } @else {
+                                Publicar reseña
+                            }
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    } @else {
+        <div class="alert shadow-lg mb-10 border-primary/20 bg-base-100">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-primary shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <div>
+              <h3 class="font-bold">¿Quieres dejar tu opinión?</h3>
+              <div class="text-xs opacity-70">Inicia sesión para poder puntuar este producto.</div>
+            </div>
+            <button class="btn btn-sm btn-primary" [routerLink]="['/login']">Iniciar Sesión</button>
+        </div>
+    }
 
     @if (reviews().length > 0) {
     <div class="grid gap-6">
