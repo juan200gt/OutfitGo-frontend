@@ -15,6 +15,7 @@ export interface Product {
     color: string;
     brand: string;
     variants: { id: number; size: string; color: string; stock: number }[];
+    resenas?: { id: number; puntuacion: number; comentario: string; created_at: string; user: { id: number; name: string } }[];
 }
 
 export interface CartItem extends Product {
