@@ -1,4 +1,4 @@
-import { Component, input, inject, signal, computed } from '@angular/core';
+import { Component, input, inject, signal, computed, effect } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -22,11 +22,9 @@ export class ProductReviewsComponent {
 
   // Sincronizar la señal interna con el input inicial
   constructor() {
-    import('@angular/core').then(m => {
-        m.effect(() => {
-            this.reviews.set(this.reviewsInput());
-        }, { allowSignalWrites: true });
-    });
+    effect(() => {
+        this.reviews.set(this.reviewsInput());
+    }, { allowSignalWrites: true });
   }
 
   isLoggedIn = computed(() => this.#authService.currentUser() !== null);

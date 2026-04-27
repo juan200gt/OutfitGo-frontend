@@ -67,8 +67,18 @@
     },
     "ADD_TO_CART": "Añadir al carrito",
     "NO_PRODUCTS": "No se encontraron productos con estos filtros.",
-    "REVIEWS_TITLE": "Opiniones de los clientes",
-    "NO_REVIEWS": "Aún no hay opiniones sobre este producto."
+    "REVIEWS": {
+      "TITLE": "Opiniones de los clientes",
+      "NO_REVIEWS": "Aún no hay opiniones sobre este producto.",
+      "ADD_TITLE": "Añade tu opinión",
+      "RATING_LABEL": "Tu puntuación",
+      "COMMENT_PLACEHOLDER": "¿Qué te ha parecido el producto? Cuéntanos tu experiencia...",
+      "SUCCESS": "¡Gracias por tu opinión!",
+      "SUBMIT": "Publicar reseña",
+      "SUBMITTING": "Enviando...",
+      "AUTH_PROMPT": "¿Quieres dejar tu opinión?",
+      "AUTH_SUBTEXT": "Inicia sesión para poder puntuar este producto."
+    }
   },
   "PRODUCT_DETAIL": {
     "BACK": "Volver al catálogo",

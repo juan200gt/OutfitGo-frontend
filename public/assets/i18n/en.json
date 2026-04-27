@@ -53,7 +53,19 @@
       "ALL_SIZES": "All sizes"
     },
     "ADD_TO_CART": "Add to cart",
-    "NO_PRODUCTS": "No products found with these filters."
+    "NO_PRODUCTS": "No products found with these filters.",
+    "REVIEWS": {
+      "TITLE": "Customer Reviews",
+      "NO_REVIEWS": "There are no reviews for this product yet.",
+      "ADD_TITLE": "Add your review",
+      "RATING_LABEL": "Your rating",
+      "COMMENT_PLACEHOLDER": "What did you think of the product? Tell us about your experience...",
+      "SUCCESS": "Thanks for your review!",
+      "SUBMIT": "Post review",
+      "SUBMITTING": "Sending...",
+      "AUTH_PROMPT": "Want to leave a review?",
+      "AUTH_SUBTEXT": "Log in to rate this product."
+    }
   },
   "PRODUCT_DETAIL": {
     "BACK": "Back to catalog",
