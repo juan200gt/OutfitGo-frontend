@@ -38,7 +38,7 @@ export class CartService {
     });
 
     private isLoggedIn(): boolean {
-        return !!localStorage.getItem('access_token');
+        return !!localStorage.getItem('auth_token') || !!sessionStorage.getItem('auth_token');
     }
 
     validateCoupon(code: string): Observable<any> {
