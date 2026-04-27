@@ -1,4 +1,5 @@
 import { Component, input, inject, signal, computed } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
@@ -8,7 +9,7 @@ import { ProductService } from '../../services/product.service';
 @Component({
   selector: 'app-product-reviews',
   standalone: true,
-  imports: [CommonModule, TranslateModule, FormsModule],
+  imports: [CommonModule, TranslateModule, FormsModule, RouterLink],
   templateUrl: './product-reviews.component.html'
 })
 export class ProductReviewsComponent {
