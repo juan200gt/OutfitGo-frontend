@@ -1,49 +1,82 @@
 <div class="container mx-auto p-4 py-8">
     <h2 class="text-3xl font-bold mb-6 text-center">{{ pageTitle() | translate }}</h2>
 
-    <div class="bg-base-200 p-4 rounded-xl mb-8 flex flex-col md:flex-row gap-4 justify-center items-center shadow-sm">
-        <div class="form-control w-full max-w-xs">
-            <label class="label"><span class="label-text font-semibold">{{ 'PRODUCTS.FILTERS.CATEGORY' | translate }}</span></label>
-            <select class="select select-bordered w-full" (change)="updateFilter('categoria_id', $event)">
-                <option value="">{{ 'PRODUCTS.FILTERS.ALL_CATEGORIES' | translate }}</option>
-                @for(cat of availableCategories(); track cat.id) {
-                    <option [value]="cat.id">{{ cat.nombre_localizado || cat.nombre }}</option>
-                }
-            </select>
-        </div>
-        
-        <div class="form-control w-full max-w-xs">
-            <label class="label"><span class="label-text font-semibold">{{ 'PRODUCTS.FILTERS.SIZE' | translate }}</span></label>
-            <select class="select select-bordered w-full" (change)="updateFilter('talla', $event)">
-                <option value="">{{ 'PRODUCTS.FILTERS.ALL_SIZES' | translate }}</option>
-                @for(talla of availableSizes(); track talla.id) {
-                    <option [value]="talla.nombre">{{ talla.nombre }}</option>
-                }
-            </select>
-        </div>
-
-        <div class="form-control w-full max-w-xs">
-            <label class="label"><span class="label-text font-semibold">{{ 'PRODUCTS.FILTERS.COLOR' | translate }}</span></label>
-            <select class="select select-bordered w-full" (change)="updateFilter('color', $event)">
-                <option value="">{{ 'PRODUCTS.FILTERS.ALL_COLORS' | translate }}</option>
-                @for(color of availableColors(); track color.id) {
-                    <option [value]="color.nombre">{{ color.nombre }}</option>
-                }
-            </select>
-        </div>
-
-        <div class="form-control w-full max-w-xs">
-            <label class="label"><span class="label-text font-semibold">{{ 'PRODUCTS.FILTERS.BRAND' | translate }}</span></label>
-            <select class="select select-bordered w-full" (change)="updateFilter('marca_id', $event)">
-                <option value="">{{ 'PRODUCTS.FILTERS.ALL_BRANDS' | translate }}</option>
-                @for(marca of availableBrands(); track marca.id) {
-                    <option [value]="marca.id">{{ marca.nombre }}</option>
-                }
-            </select>
-        </div>
+    <div class="flex justify-start mb-6">
+        <button class="btn btn-outline rounded-full px-8 shadow-sm" 
+                onclick="filtros_modal.showModal()"
+                [disabled]="isLoading()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+            </svg>
+            Filtros
+        </button>
     </div>
 
-    
+    <dialog id="filtros_modal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box relative overflow-hidden">
+            
+            @if (isLoading()) {
+                <div class="absolute inset-0 z-50 bg-base-100/70 backdrop-blur-sm flex flex-col items-center justify-center">
+                    <span class="loading loading-spinner loading-md text-primary"></span>
+                    <span class="mt-2 font-semibold text-sm opacity-70">Actualizando opciones...</span>
+                </div>
+            }
+
+            <h3 class="font-bold text-xl mb-6 border-b pb-2">Filtros</h3>
+            
+            <div class="flex flex-col gap-4">
+                <div class="form-control w-full">
+                    <label class="label"><span class="label-text font-semibold">{{ 'PRODUCTS.FILTERS.CATEGORY' | translate }}</span></label>
+                    <select class="select select-bordered w-full" (change)="updateFilter('categoria_id', $event)" [disabled]="isLoading()">
+                        <option value="">{{ 'PRODUCTS.FILTERS.ALL_CATEGORIES' | translate }}</option>
+                        @for(cat of availableCategories(); track cat.id) {
+                            <option [value]="cat.id">{{ cat.nombre_localizado || cat.nombre }}</option>
+                        }
+                    </select>
+                </div>
+                
+                <div class="form-control w-full">
+                    <label class="label"><span class="label-text font-semibold">{{ 'PRODUCTS.FILTERS.SIZE' | translate }}</span></label>
+                    <select class="select select-bordered w-full" (change)="updateFilter('talla', $event)" [disabled]="isLoading()">
+                        <option value="">{{ 'PRODUCTS.FILTERS.ALL_SIZES' | translate }}</option>
+                        @for(talla of availableSizes(); track talla.id) {
+                            <option [value]="talla.nombre">{{ talla.nombre }}</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-control w-full">
+                    <label class="label"><span class="label-text font-semibold">{{ 'PRODUCTS.FILTERS.COLOR' | translate }}</span></label>
+                    <select class="select select-bordered w-full" (change)="updateFilter('color', $event)" [disabled]="isLoading()">
+                        <option value="">{{ 'PRODUCTS.FILTERS.ALL_COLORS' | translate }}</option>
+                        @for(color of availableColors(); track color.id) {
+                            <option [value]="color.nombre">{{ color.nombre }}</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-control w-full">
+                    <label class="label"><span class="label-text font-semibold">{{ 'PRODUCTS.FILTERS.BRAND' | translate }}</span></label>
+                    <select class="select select-bordered w-full" (change)="updateFilter('marca_id', $event)" [disabled]="isLoading()">
+                        <option value="">{{ 'PRODUCTS.FILTERS.ALL_BRANDS' | translate }}</option>
+                        @for(marca of availableBrands(); track marca.id) {
+                            <option [value]="marca.id">{{ marca.nombre }}</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="modal-action mt-8">
+                <form method="dialog" class="w-full">
+                    <button class="btn btn-primary w-full text-lg" [disabled]="isLoading()">Aplicar y Ver Resultados</button>
+                </form>
+            </div>
+        </div>
+        
+        <form method="dialog" class="modal-backdrop">
+            <button [disabled]="isLoading()">Cerrar</button>
+        </form>
+    </dialog>
 
     @if (isLoading()) {
         <div class="flex flex-col items-center justify-center py-20">
@@ -58,11 +91,43 @@
                 <div class="col-span-full text-center py-10 bg-base-200 rounded-xl border border-base-300">
                     <div class="text-6xl mb-4">🔍</div>
                     <p class="text-xl opacity-70">{{ 'PRODUCTS.NO_PRODUCTS' | translate }}</p>
-                    <button class="btn btn-primary mt-4" (click)="filters.set({ publico: '', talla: '', color: '', marca_id: '', categoria_id: '' })">
+                    <button class="btn btn-primary mt-4" (click)="filters.set({ publico: '', talla: '', color: '', marca_id: '', categoria_id: '', page: 1 })">
                         {{ 'COMMON.RELOAD' | translate }}
                     </button>
                 </div>
             }
         </div>
+        
+        @if (products().length > 0 && lastPage() > 1) {
+            <div class="flex justify-center mt-12 mb-4">
+                <div class="join shadow-sm border border-base-200">
+                    
+                    <button 
+                        class="join-item btn bg-base-100 hover:bg-base-200" 
+                        [disabled]="currentPage() === 1" 
+                        (click)="changePage(currentPage() - 1)"
+                        aria-label="Página anterior">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                        </svg>
+                    </button>
+                    
+                    <button class="join-item btn btn-disabled bg-base-100 text-base-content font-bold px-6">
+                        {{ currentPage() }} / {{ lastPage() }}
+                    </button>
+                    
+                    <button 
+                        class="join-item btn bg-base-100 hover:bg-base-200" 
+                        [disabled]="currentPage() === lastPage()" 
+                        (click)="changePage(currentPage() + 1)"
+                        aria-label="Página siguiente">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </button>
+
+                </div>
+            </div>
+        }
     }
 </div>
