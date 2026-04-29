@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { toSignal, toObservable } from '@angular/core/rxjs-interop';
-import { switchMap, filter } from 'rxjs';
+import { switchMap, filter, map } from 'rxjs';
 import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
 import { ProductDetailInfoComponent } from '../../components/product-detail-info/product-detail-info.component';
@@ -33,9 +33,10 @@ export class ProductDetailPageComponent {
   recommendedProducts = toSignal(
     toObservable(this.product).pipe(
       filter(p => !!p), 
-      switchMap(p => this.#productService.getRecommendedProducts(p.id)) 
+      switchMap(p => this.#productService.getRecommendedProducts(p.id)),
+      map(productos => productos as any[])
     ),
-    { initialValue: [] as Product[] }
+    { initialValue: [] as any[] }
   );
 
   handleAddToCart(event: { product: any, quantity: number, size: string, color: string, variante?: any }) {
