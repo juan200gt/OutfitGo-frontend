@@ -4,12 +4,12 @@ import {
   OnDestroy, 
   inject, 
   input, 
-  viewChild 
+  viewChild,
+  effect,
+  untracked
 } from '@angular/core';
-import { toObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Chart, registerables } from 'chart.js';
 import { Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 import { ProductService } from '../../services/product.service';
 
 Chart.register(...registerables);
@@ -23,31 +23,41 @@ Chart.register(...registerables);
 export class PriceChartComponent implements OnDestroy {
   productoId = input.required<number>();
   
-  canvas = viewChild.required<ElementRef<HTMLCanvasElement>>('priceCanvas');
+  canvas = viewChild<ElementRef<HTMLCanvasElement>>('priceCanvas');
   
   #productoService = inject(ProductService);
   
   private chartInstance: Chart | null = null;
-  private dataSub: Subscription;
+  private dataSub: Subscription | null = null;
 
   constructor() {
-    this.dataSub = toObservable(this.productoId).pipe(
-      takeUntilDestroyed(), 
-      switchMap(id => this.#productoService.getHistorialPrecios(id))
-    ).subscribe({
-      next: (data) => {
-        this.renderChart(data.labels, data.precios);
-      },
-      error: (err) => console.error('Error cargando la gráfica', err)
+    effect(() => {
+      const id = this.productoId();
+      const canvasEl = this.canvas();
+      
+      if (id && canvasEl) {
+        untracked(() => {
+          if (this.dataSub) {
+            this.dataSub.unsubscribe();
+          }
+          
+          this.dataSub = this.#productoService.getHistorialPrecios(id).subscribe({
+            next: (data) => {
+              this.renderChart(data.labels, data.precios, canvasEl);
+            },
+            error: (err) => console.error('Error cargando la gráfica', err)
+          });
+        });
+      }
     });
   }
 
-  private renderChart(labels: string[], precios: number[]) {
+  private renderChart(labels: string[], precios: number[], canvasEl: ElementRef<HTMLCanvasElement>) {
     if (this.chartInstance) {
       this.chartInstance.destroy();
     }
 
-    this.chartInstance = new Chart(this.canvas().nativeElement, {
+    this.chartInstance = new Chart(canvasEl.nativeElement, {
       type: 'line',
       data: {
         labels: labels,
