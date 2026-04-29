@@ -6,11 +6,14 @@ import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
 import { ProductDetailInfoComponent } from '../../components/product-detail-info/product-detail-info.component';
 import { ProductReviewsComponent } from '../../components/product-reviews/product-reviews.component';
+import { CommonModule } from '@angular/common'; 
+import { RouterModule } from '@angular/router';
+import { Product } from '../../interfaces/product.interface';
 
 @Component({
   selector: 'app-product-detail-page',
   standalone: true,
-  imports: [ProductDetailInfoComponent, ProductReviewsComponent],
+  imports: [ProductDetailInfoComponent, ProductReviewsComponent, CommonModule, RouterModule],
   templateUrl: './product-detail-page.component.html'
 })
 export class ProductDetailPageComponent {
@@ -32,7 +35,7 @@ export class ProductDetailPageComponent {
       filter(p => !!p), 
       switchMap(p => this.#productService.getRecommendedProducts(p.id)) 
     ),
-    { initialValue: [] }
+    { initialValue: [] as Product[] }
   );
 
   handleAddToCart(event: { product: any, quantity: number, size: string, color: string, variante?: any }) {
