@@ -8,6 +8,9 @@ import { environment } from '../../environments/environment';
     providedIn: 'root'
 })
 export class ProductService {
+    getRecommendedProducts(id: number): any {
+      throw new Error('Method not implemented.');
+    }
     #http = inject(HttpClient);
     #apiUrl = `${environment.apiUrl}/productos`; 
 
@@ -46,6 +49,12 @@ export class ProductService {
             puntuacion: rating,
             comentario: comment
         });
+    }
+
+    getProductosRecomendados(id: number): Observable<Product[]> {
+        return this.#http.get<BackendProduct[]>(`${this.#apiUrl}/${id}/recomendados`).pipe(
+            map(apiProducts => apiProducts.map(p => this.mapToProduct(p)))
+        );
     }
 
     public mapToProduct(apiItem: BackendProduct): Product {
