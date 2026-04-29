@@ -41,12 +41,19 @@ export class HomeReviewsComponent implements OnInit {
         this.isSubmitting.set(true);
 
         this.#pageReviewsService.submitReview(this.newRating(), this.newComment()).subscribe({
-        next: () => {
+        next: (response: any) => {
+            if (response && response.resena) {
+                this.reviews.unshift(response.resena);
+                
+                if (this.reviews.length > 3) {
+                    this.reviews.pop();
+                }
+            }
             this.newComment.set('');
             this.newRating.set(5);
             this.isSubmitting.set(false);
             this.successMessage.set(true); 
-            
+
             setTimeout(() => this.successMessage.set(false), 5000);
         },
         error: (err) => {

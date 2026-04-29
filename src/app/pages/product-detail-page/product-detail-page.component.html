@@ -9,3 +9,31 @@
         <p class="mt-4 text-xl">Cargando detalles del producto...</p>
     </div>
 }
+
+@if (recommendedProducts().length > 0) {
+    <div class="container mx-auto p-4 py-8 mb-12">
+        <div class="divider text-2xl font-bold mb-8">{{ 'Comprados juntos habitualmente' | uppercase }}</div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            @for (prod of recommendedProducts(); track prod.id) {
+                <a [routerLink]="['/products/detail', prod.slug]" class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer group">
+                    
+                    <div class="relative aspect-[4/5] overflow-hidden rounded-t-2xl">
+                        <img 
+                            [src]="prod.url_imagen_principal" 
+                            [alt]="prod.nombre_localizado || prod.name" 
+                            class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
+                        />
+                    </div>
+                    
+                    <div class="card-body p-4 items-center text-center">
+                        <h3 class="card-title text-sm md:text-base line-clamp-1" [title]="prod.nombre_localizado || prod.name">
+                            {{ prod.nombre_localizado || prod.name }}
+                        </h3>
+                        <p class="text-lg font-bold text-primary">{{ prod.precio }} €</p>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+}
