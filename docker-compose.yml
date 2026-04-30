@@ -1,13 +1,7 @@
 services:
   frontend:
     build: .
-    working_dir: /app
-    volumes:
-      - .:/app
+    container_name: angular_nginx
+    restart: always
     ports:
-      - "4200:4200"
-    environment:
-      - NG_CLI_ANALYTICS=ci
-    command: ng serve --host 0.0.0.0 --poll 2000
-    stdin_open: true
-    tty: true
+      - "80:80"
