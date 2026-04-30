@@ -1,0 +1,38 @@
+name: Deploy Frontend to AWS EC2
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.FRONTEND_HOST }}
+          username: ubuntu
+          key: ${{ secrets.SSH_KEY }}
+          proxy_host: ${{ secrets.BASTION_HOST }}
+          proxy_username: ubuntu
+          proxy_key: ${{ secrets.SSH_KEY }}
+          command_timeout: 30m
+          script: |
+            mkdir -p /home/ubuntu/frontend
+            cd /home/ubuntu/frontend
+            if [ ! -d ".git" ]; then
+              git clone -b main https://github.com/${{ github.repository }}.git .
+            else
+              git pull origin main
+            fi
+
+            # 1. Bajamos contenedores anteriores
+            sudo docker compose down --remove-orphans
+
+            # 2. Levantamos el sistema completo y compilamos la nueva imagen
+            sudo docker compose up -d --build
