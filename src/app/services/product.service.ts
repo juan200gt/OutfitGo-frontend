@@ -57,8 +57,10 @@ export class ProductService {
         return {
             id: apiItem.id,
             name: apiItem.nombre,
+            nombre_localizado: apiItem.nombre_localizado,
             slug: apiItem.slug,
             description: apiItem.descripcion,
+            descripcion_localizada: apiItem.descripcion_localizada,
             price: parseFloat(apiItem.precio),
             image: apiItem.url_imagen_principal,
             gallery: fullGallery,
