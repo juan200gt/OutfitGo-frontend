@@ -9,7 +9,7 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
   template: `
     <div class="dropdown dropdown-end">
       <div tabindex="0" role="button" class="btn btn-ghost btn-circle shadow-sm hover:bg-base-200 transition-all duration-300">
-        <div class="flex items-center justify-center text-xl">
+        <div class="flex items-center justify-center w-full h-full text-2xl leading-none">
           {{ currentFlag }}
         </div>
       </div>
@@ -40,14 +40,20 @@ export class LanguageSelectorComponent {
 
   constructor() {
     // Inicializar el idioma desde localStorage o el navegador
-    const savedLang = localStorage.getItem('app_lang') || 'es';
+    const savedLang = localStorage.getItem('user_lang') || 'es';
     this.translate.use(savedLang);
   }
 
   changeLanguage(code: string) {
+    if (this.translate.currentLang === code) return;
+    
     this.translate.use(code);
-    localStorage.setItem('app_lang', code);
-    // Forzar el cierre del dropdown quitando el foco
+    localStorage.setItem('user_lang', code);
+    
+    // Forzar el cierre del dropdown
     (document.activeElement as HTMLElement)?.blur();
+
+    // Recargar la página para que el Interceptor envíe el nuevo X-Lang y se refresquen los productos
+    window.location.reload();
   }
 }
