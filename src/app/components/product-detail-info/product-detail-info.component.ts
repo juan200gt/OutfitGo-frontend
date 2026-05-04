@@ -1,6 +1,7 @@
 import { Component, input, output, signal, effect, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
+import { inject } from '@angular/core';
 import { Product } from '../../interfaces/product.interface';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
@@ -13,6 +14,7 @@ import { PriceChartComponent } from '../price-chart/price-chart.component';
   templateUrl: './product-detail-info.component.html'
 })
 export class ProductDetailInfoComponent {
+  #router = inject(Router);
   product = input.required<Product>();
   
   selectedSize = signal<string | null>(null);
@@ -56,6 +58,10 @@ export class ProductDetailInfoComponent {
     if (this.quantity() > 1) {
       this.quantity.update(q => q - 1);
     }
+  }
+
+  goBack() {
+    this.#router.navigate(['/products/all']);
   }
 
 submit() {
