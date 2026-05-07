@@ -2,6 +2,7 @@ import { Component, input, output, signal, effect, computed } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { inject } from '@angular/core';
+import { Location } from '@angular/common';
 import { Product } from '../../interfaces/product.interface';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
@@ -15,6 +16,7 @@ import { PriceChartComponent } from '../price-chart/price-chart.component';
 })
 export class ProductDetailInfoComponent {
   #router = inject(Router);
+  #location = inject(Location);
   product = input.required<Product>();
   
   selectedSize = signal<string | null>(null);
@@ -61,7 +63,7 @@ export class ProductDetailInfoComponent {
   }
 
   goBack() {
-    this.#router.navigate(['/products/all']);
+    this.#location.back();
   }
 
 submit() {
@@ -70,7 +72,7 @@ submit() {
       const size = this.selectedSize()!;
       const color = this.selectedColor()!;
 
-      // 🔍 Buscamos la variante exacta que coincide con esa talla y color
+      // Buscamos la variante exacta que coincide con esa talla y color
       const varianteExacta = p.variants?.find(v => v.size === size && v.color === color);
 
       this.addToCart.emit({
@@ -78,7 +80,7 @@ submit() {
         quantity: this.quantity(),
         size: size,
         color: color,
-        // 🔥 ¡AQUÍ LE PASAMOS LA VARIANTE REAL CON SU ID! 🔥
+        // Pasamos la variante real con el ID
         variante: varianteExacta 
       });
     }
