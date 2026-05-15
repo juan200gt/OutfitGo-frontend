@@ -1,9 +1,12 @@
 <div class="container mx-auto px-4 py-12 flex justify-center items-center">
   <div class="card bg-base-100 shadow-xl border border-base-200 w-full max-w-2xl">
     <div class="card-body">
-      
+
       <div class="alert alert-success shadow-sm mb-6 flex justify-center text-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
         <span class="text-xl font-semibold">{{ successMessage() }}</span>
       </div>
 
@@ -13,37 +16,34 @@
 
       <div class="flex flex-col gap-4 mt-4">
         @for (item of order().order_items; track item.id) {
-          <div class="flex items-center gap-4 bg-base-200 p-4 rounded-xl shadow-sm border border-base-300">
-            
-            <img 
-              [src]="item.variante?.producto?.url_imagen_principal" 
-              [alt]="item.variante?.producto?.nombre" 
-              class="w-20 h-20 object-cover rounded-lg shadow-sm bg-white" 
-            />
-            
-            <div class="flex-1">
-              <h3 class="font-bold text-lg leading-tight text-base-content">
-                {{ item.variante?.producto?.nombre }}
-              </h3>
-              
-              <p class="text-sm text-base-content/70 mt-1">
-                <span class="font-semibold">Cant:</span> {{ item.cantidad }} 
-                @if(item.variante?.talla?.nombre) {
-                  <span class="mx-1">•</span> 
-                  <span class="font-semibold">Talla:</span> {{ item.variante.talla.nombre }} 
-                }
-                @if(item.variante?.color?.nombre) {
-                  <span class="mx-1">•</span> 
-                  <span class="font-semibold">Color:</span> {{ item.variante.color.nombre }}
-                }
-              </p>
-            </div>
-            
-            <div class="font-bold text-xl text-primary">
-              {{ (item.precio || item.precio_unitario) | currency:'EUR' }}
-            </div>
+        <div class="flex items-center gap-4 bg-base-200 p-4 rounded-xl shadow-sm border border-base-300">
 
+          <img [src]="item.variante?.producto?.url_imagen_principal" [alt]="item.variante?.producto?.nombre"
+            class="w-20 h-20 object-cover rounded-lg shadow-sm bg-white" />
+
+          <div class="flex-1">
+            <h3 class="font-bold text-lg leading-tight text-base-content">
+              {{ item.variante?.producto?.nombre }}
+            </h3>
+
+            <p class="text-sm text-base-content/70 mt-1">
+              <span class="font-semibold">Cant:</span> {{ item.cantidad }}
+              @if(item.variante?.talla?.nombre) {
+              <span class="mx-1">•</span>
+              <span class="font-semibold">Talla:</span> {{ item.variante.talla.nombre }}
+              }
+              @if(item.variante?.color?.nombre) {
+              <span class="mx-1">•</span>
+              <span class="font-semibold">Color:</span> {{ item.variante.color.nombre }}
+              }
+            </p>
           </div>
+
+          <div class="font-bold text-xl text-primary">
+            {{ (item.precio || item.precio_unitario) | currency:'EUR' }}
+          </div>
+
+        </div>
         }
       </div>
 

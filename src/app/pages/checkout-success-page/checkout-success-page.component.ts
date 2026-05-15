@@ -28,8 +28,8 @@ export class CheckoutSuccessPageComponent implements OnInit {
       }
 
 
-      this.http.post<{message: string, order: any}>('https://outfitgo.duckdns.org/api/checkout/confirmar', { 
-        session_id: sessionId 
+      this.http.post<{ message: string, order: any }>('https://outfitgo.duckdns.org/api/checkout/confirmar', {
+        session_id: sessionId
       }).subscribe({
         next: (response) => {
           this.successMessage.set(response.message);

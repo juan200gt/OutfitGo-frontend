@@ -12,7 +12,7 @@ import { Order } from '../../interfaces/order.interface';
 export class OrderHistoryComponent implements OnInit {
   private orderService = inject(OrderService);
 
-  orders = signal<Order[]>([]); 
+  orders = signal<Order[]>([]);
   isLoading = signal<boolean>(true);
   errorMsg = signal<string | null>(null);
 
@@ -23,8 +23,8 @@ export class OrderHistoryComponent implements OnInit {
   loadHistory() {
     this.orderService.getMyOrders().subscribe({
       next: (data: any) => {
-        this.orders.set(data); 
-        this.isLoading.set(false); 
+        this.orders.set(data);
+        this.isLoading.set(false);
       },
       error: (err: any) => {
         console.error('Error loading history:', err);
@@ -39,8 +39,8 @@ export class OrderHistoryComponent implements OnInit {
       this.orderService.cancelOrder(orderId).subscribe({
         next: (response: any) => {
           alert('Order canceled successfully.');
-          this.orders.update((currentList: Order[]) => 
-            currentList.map((o: Order) => 
+          this.orders.update((currentList: Order[]) =>
+            currentList.map((o: Order) =>
               o.id === orderId ? { ...o, estado: 'cancelado' } : o
             )
           );
@@ -57,8 +57,8 @@ export class OrderHistoryComponent implements OnInit {
       this.orderService.requestReturn(orderId).subscribe({
         next: (response: any) => {
           alert('Return requested successfully.');
-          this.orders.update((currentList: Order[]) => 
-            currentList.map((o: Order) => 
+          this.orders.update((currentList: Order[]) =>
+            currentList.map((o: Order) =>
               o.id === orderId ? { ...o, estado: 'devolucion_solicitada' } : o
             )
           );
