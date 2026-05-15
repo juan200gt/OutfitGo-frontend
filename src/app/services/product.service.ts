@@ -8,10 +8,11 @@ import { environment } from '../../environments/environment';
     providedIn: 'root'
 })
 export class ProductService {
+
     #http = inject(HttpClient);
     #apiUrl = `${environment.apiUrl}/productos`; 
 
-    getProducts(filters: any = {}): Observable<{ productos: Product[], filtros: any }> {
+    getProducts(filters: any = {}): Observable<{ productos: Product[], filtros: any, current_page: number, total: number }> {
         let params = new HttpParams();
         
         if (filters.publico) params = params.set('publico', filters.publico);
@@ -19,11 +20,14 @@ export class ProductService {
         if (filters.categoria_id) params = params.set('categoria_id', filters.categoria_id);
         if (filters.color) params = params.set('color', filters.color);
         if (filters.marca_id) params = params.set('marca_id', filters.marca_id);
+        if (filters.page) params = params.set('page', filters.page);
 
         return this.#http.get<PaginatedResponse>(this.#apiUrl, { params }).pipe(
             map(response => ({
                 productos: response.data.map(apiProduct => this.mapToProduct(apiProduct)),
-                filtros: response.filtros_disponibles
+                filtros: response.filtros_disponibles,
+                current_page: response.current_page,
+                total: response.total
             }))
         );
     }
@@ -43,6 +47,12 @@ export class ProductService {
             puntuacion: rating,
             comentario: comment
         });
+    }
+
+    getRecommendedProducts(id: number): Observable<Product[]> {
+        return this.#http.get<BackendProduct[]>(`${this.#apiUrl}/${id}/recomendados`).pipe(
+            map(apiProducts => apiProducts.map(p => this.mapToProduct(p)))
+        );
     }
 
     public mapToProduct(apiItem: BackendProduct): Product {

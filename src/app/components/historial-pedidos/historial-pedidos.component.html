@@ -6,7 +6,7 @@
 
   @if (cargando()) {
     <div class="flex justify-center py-12">
-      <span class="loading loading-spinner loading-lg text-primary"></span>
+      <span class="loading loading-spinner loading-lg text-white"></span>
     </div>
   } @else if (error()) {
     <div class="alert alert-error">
@@ -25,8 +25,8 @@
             </div>
             <div class="badge badge-lg font-bold uppercase tracking-wider" [ngClass]="{
               'badge-warning': pedido.estado === 'pending',
-              'badge-success': pedido.estado === 'completed' || pedido.estado === 'delivered',
-              'badge-info': pedido.estado === 'shipped' || pedido.estado === 'return_requested',
+              'badge-success': pedido.estado === 'completed' || pedido.estado === 'delivered' || pedido.estado === 'entregado',
+              'badge-info': pedido.estado === 'shipped' || pedido.estado === 'return_requested' || pedido.estado === 'entregando',
               'badge-error': pedido.estado === 'cancelled' || pedido.estado === 'refunded'
             }">
               {{ 'ORDERS.STATUS_LIST.' + pedido.estado | translate }}
@@ -80,7 +80,7 @@
                   {{ 'ORDERS.CANCEL' | translate }}
                 </button>
               }
-              @if (pedido.estado === 'delivered') {
+              @if (pedido.estado === 'delivered' || pedido.estado === 'entregado') {
                 <button (click)="devolver(pedido.id)" class="btn btn-warning btn-sm btn-outline">
                   {{ 'ORDERS.RETURN' | translate }}
                 </button>
@@ -96,4 +96,4 @@
       }
     </div>
   }
-</div>
+</div>

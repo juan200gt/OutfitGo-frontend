@@ -20,15 +20,17 @@ export class ProductsPageComponent {
   cartService = inject(CartService);
   route = inject(ActivatedRoute);
 
-  filters = signal({ publico: '', talla: '', color: '', marca_id: '', categoria_id: '' });
+  filters = signal({ publico: '', talla: '', color: '', marca_id: '', categoria_id: '' , page: 1});
 
   availableCategories = signal<{ id: number, nombre: string, nombre_localizado?: string }[]>([]);
   availableBrands = signal<{ id: number, nombre: string }[]>([]);
   availableColors = signal<{ id: number, nombre: string }[]>([]);
   availableSizes = signal<{ id: number, nombre: string }[]>([]);
 
-  // Título de la página reactivo según la categoría elegida
   pageTitle = signal('PRODUCTS.TITLE_ALL');
+
+  currentPage = signal<number>(1);
+  lastPage = signal<number>(1);
 
   isLoading = signal<boolean>(true);
 
@@ -49,23 +51,20 @@ export class ProductsPageComponent {
         titleKey = 'PRODUCTS.TITLE_KIDS';
       }
 
-      this.filters.update(f => ({ ...f, publico }));
+      this.filters.update(f => ({ ...f, publico , page: 1}));
       this.pageTitle.set(titleKey);
     });
   }
 
   products = toSignal(
     toObservable(this.filters).pipe(
-      // A. Nada más cambiar un filtro, encendemos el loader
       tap(() => this.isLoading.set(true)), 
       
       switchMap(currentFilters => this.#productService.getProducts(currentFilters).pipe(
-        // B. Retardo artificial de medio segundo para que la UX sea fluida
         delay(500), 
-        // C. Evitamos que la app explote si Laravel da error (devuelve un array vacío)
         catchError((err) => {
             console.error('Error del backend:', err);
-            return of({ productos: [], filtros: null }); 
+            return of({ productos: [], filtros: null, current_page: 1, total: 0 }); 
         })
       )),
       
@@ -76,8 +75,12 @@ export class ProductsPageComponent {
           this.availableColors.set(response.filtros.colores);
           this.availableSizes.set(response.filtros.tallas);
         }
-          // D. Apagamos el loader al recibir los datos
-          this.isLoading.set(false); 
+        
+        this.currentPage.set(response.current_page || 1);
+        const totalItems = response.total || 0;
+        this.lastPage.set(Math.ceil(totalItems / 12) || 1);
+
+        this.isLoading.set(false); 
       }),
       map(response => response.productos)
     ),
@@ -86,7 +89,14 @@ export class ProductsPageComponent {
 
   updateFilter(key: 'talla' | 'color' | 'marca_id' | 'categoria_id', event: Event) {
     const value = (event.target as HTMLSelectElement).value;
-    this.filters.update(f => ({ ...f, [key]: value }));
+    this.filters.update(f => ({ ...f, [key]: value, page: 1 }));
+  }
+
+  changePage(newPage: number) {
+    if (newPage >= 1 && newPage <= this.lastPage()) {
+      this.filters.update(f => ({ ...f, page: newPage }));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   handleAddToCart(product: Product) {

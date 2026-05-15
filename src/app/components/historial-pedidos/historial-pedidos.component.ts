@@ -1,7 +1,7 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, OnDestroy } from '@angular/core';
 import { CommonModule, DatePipe, CurrencyPipe } from '@angular/common';
-import { PedidoService } from '../../services/pedido.service';
-import { Pedido } from '../../interfaces/pedido.interface';
+import { OrderService } from '../../services/order.service';
+import { Order } from '../../interfaces/order.interface';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -11,23 +11,30 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   templateUrl: './historial-pedidos.component.html',
   styleUrls: ['./historial-pedidos.component.css']
 })
-export class HistorialPedidosComponent implements OnInit {
-  private pedidoService = inject(PedidoService);
+export class HistorialPedidosComponent implements OnInit, OnDestroy {
+  private orderService = inject(OrderService);
   private translate = inject(TranslateService);
 
-  pedidos = signal<Pedido[]>([]); 
+  pedidos = signal<Order[]>([]); 
   cargando = signal<boolean>(true);
   error = signal<string | null>(null);
+  
+  private deliveryTimers: any[] = [];
 
   ngOnInit() {
     this.cargarHistorial();
   }
 
+  ngOnDestroy() {
+    this.deliveryTimers.forEach(timer => clearTimeout(timer));
+  }
+
   cargarHistorial() {
-    this.pedidoService.obtenerMisPedidos().subscribe({
+    this.orderService.getMyOrders().subscribe({
       next: (datos: any) => {
         this.pedidos.set(datos); 
         this.cargando.set(false); 
+        this.iniciarSimulacionEntrega();
       },
       error: (err: any) => {
         console.error('Error al cargar historial:', err);
@@ -37,14 +44,36 @@ export class HistorialPedidosComponent implements OnInit {
     });
   }
 
+  iniciarSimulacionEntrega() {
+    this.pedidos().forEach(pedido => {
+      if (pedido.estado !== 'cancelled' && pedido.estado !== 'cancelado' && pedido.estado !== 'delivered' && pedido.estado !== 'entregado') {
+        const timer1 = setTimeout(() => {
+          this.pedidos.update(pedidos => pedidos.map(p => 
+            p.id === pedido.id && p.estado !== 'cancelled' && p.estado !== 'cancelado' 
+              ? { ...p, estado: 'entregando' } : p
+          ));
+        }, 10000);
+        
+        const timer2 = setTimeout(() => {
+          this.pedidos.update(pedidos => pedidos.map(p => 
+            p.id === pedido.id && p.estado !== 'cancelled' && p.estado !== 'cancelado' 
+              ? { ...p, estado: 'entregado' } : p
+          ));
+        }, 15000);
+        
+        this.deliveryTimers.push(timer1, timer2);
+      }
+    });
+  }
+
   cancelar(pedidoId: number) {
     if (confirm(this.translate.instant('ORDERS.CONFIRM_CANCEL'))) {
-      this.pedidoService.cancelarPedido(pedidoId).subscribe({
+      this.orderService.cancelOrder(pedidoId).subscribe({
         next: () => {
           alert(this.translate.instant('ORDERS.CANCEL_SUCCESS'));
-          this.pedidos.update((listaActual: Pedido[]) => 
-            listaActual.map((p: Pedido) => 
-              p.id === pedidoId ? { ...p, estado: 'cancelled' } : p
+          this.pedidos.update((listaActual: Order[]) => 
+            listaActual.map((p: Order) => 
+              p.id === pedidoId ? { ...p, estado: 'cancelado' } : p
             )
           );
         },
@@ -57,12 +86,12 @@ export class HistorialPedidosComponent implements OnInit {
 
   devolver(pedidoId: number) {
     if (confirm(this.translate.instant('ORDERS.CONFIRM_RETURN'))) {
-      this.pedidoService.solicitarDevolucion(pedidoId).subscribe({
+      this.orderService.requestReturn(pedidoId).subscribe({
         next: () => {
           alert(this.translate.instant('ORDERS.RETURN_SUCCESS'));
-          this.pedidos.update((listaActual: Pedido[]) => 
-            listaActual.map((p: Pedido) => 
-              p.id === pedidoId ? { ...p, estado: 'return_requested' } : p
+          this.pedidos.update((listaActual: Order[]) => 
+            listaActual.map((p: Order) => 
+              p.id === pedidoId ? { ...p, estado: 'devolucion_solicitada' } : p
             )
           );
         },

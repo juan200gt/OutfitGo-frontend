@@ -1,4 +1,4 @@
-import { Component, input, output, signal, effect, computed } from '@angular/core';
+import { Component, input, output, signal, effect, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { inject } from '@angular/core';
@@ -25,6 +25,12 @@ export class ProductDetailInfoComponent {
   activeImage = signal<string>('');
 
   addToCart = output<{ product: Product, quantity: number, size: string, color: string, variante: any }>();
+  altura: number | null = null;
+  peso: number | null = null;
+  tallaRecomendada = signal<string | null>(null);
+  calculandoTalla = signal<boolean>(false);
+  #http = inject(HttpClient);
+
   currentStock = computed(() => {
     const p = this.product();
     const size = this.selectedSize();
@@ -69,9 +75,28 @@ export class ProductDetailInfoComponent {
         quantity: this.quantity(),
         size: size,
         color: color,
-        // Pasamos la variante real con el ID
-        variante: varianteExacta
+        variante: varianteExacta 
       });
     }
+  }
+
+  calcularTalla() {
+    if (!this.altura || !this.peso) return;
+
+    this.calculandoTalla.set(true);
+    
+    this.#http.post<any>(`${environment.apiUrl}/calcular-talla`, {
+      altura: this.altura,
+      peso: this.peso,
+      preferencia: 'normal'
+    }).subscribe({
+      next: (res) => {
+        this.tallaRecomendada.set(res.talla || res);
+        this.calculandoTalla.set(false);
+      },
+      error: () => {
+        this.calculandoTalla.set(false);
+      }
+    });
   }
 }

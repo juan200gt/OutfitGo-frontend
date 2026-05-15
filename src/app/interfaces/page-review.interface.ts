@@ -2,7 +2,7 @@ export interface PageReview {
     id: number;
     puntuacion: number;
     comentario: string;
-    user: {
+    user?: {
         id: number;
         name: string;
     };
