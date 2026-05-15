@@ -204,7 +204,9 @@
       "delivered": "Delivered",
       "cancelled": "Cancelled",
       "refunded": "Refunded",
-      "return_requested": "Return in progress"
+      "return_requested": "Return in progress",
+      "entregando": "Out for delivery",
+      "entregado": "Delivered"
     }
   }
 }

@@ -1,9 +1,11 @@
-import { Component, input, output, signal, effect, computed } from '@angular/core';
+import { Component, input, output, signal, effect, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../interfaces/product.interface';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { PriceChartComponent } from '../price-chart/price-chart.component';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-product-detail-info',
@@ -21,6 +23,12 @@ export class ProductDetailInfoComponent {
   activeImage = signal<string>('');
   
   addToCart = output<{ product: Product, quantity: number, size: string, color: string, variante: any }>();
+
+  altura: number | null = null;
+  peso: number | null = null;
+  tallaRecomendada = signal<string | null>(null);
+  calculandoTalla = signal<boolean>(false);
+  #http = inject(HttpClient);
 
   currentStock = computed(() => {
     const p = this.product();
@@ -57,13 +65,11 @@ export class ProductDetailInfoComponent {
     }
   }
 
-submit() {
+  submit() {
     if (this.selectedSize() && this.selectedColor()) {
       const p = this.product();
       const size = this.selectedSize()!;
       const color = this.selectedColor()!;
-
-      // 🔍 Buscamos la variante exacta que coincide con esa talla y color
       const varianteExacta = p.variants?.find(v => v.size === size && v.color === color);
 
       this.addToCart.emit({
@@ -71,9 +77,28 @@ submit() {
         quantity: this.quantity(),
         size: size,
         color: color,
-        // 🔥 ¡AQUÍ LE PASAMOS LA VARIANTE REAL CON SU ID! 🔥
         variante: varianteExacta 
       });
     }
+  }
+
+  calcularTalla() {
+    if (!this.altura || !this.peso) return;
+
+    this.calculandoTalla.set(true);
+    
+    this.#http.post<any>(`${environment.apiUrl}/calcular-talla`, {
+      altura: this.altura,
+      peso: this.peso,
+      preferencia: 'normal'
+    }).subscribe({
+      next: (res) => {
+        this.tallaRecomendada.set(res.talla || res);
+        this.calculandoTalla.set(false);
+      },
+      error: () => {
+        this.calculandoTalla.set(false);
+      }
+    });
   }
 }

@@ -217,7 +217,9 @@
       "delivered": "Entregado",
       "cancelled": "Cancelado",
       "refunded": "Reembolsado",
-      "return_requested": "Devolución en trámite"
+      "return_requested": "Devolución en trámite",
+      "entregando": "Entregando",
+      "entregado": "Entregado"
     }
   }
 }

@@ -44,6 +44,11 @@ export const routes: Routes = [
         title: 'Mi Perfil'
     },
     {
+        path: 'mis-pedidos',
+        loadComponent: () => import('./components/historial-pedidos/historial-pedidos.component').then(m => m.HistorialPedidosComponent),
+        title: 'Mis Pedidos'
+    },
+    {
         path: 'contacto',
         component: ContactPageComponent,
         title: 'Atención al Cliente'
