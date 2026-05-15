@@ -7,7 +7,6 @@ import { Product } from '../../interfaces/product.interface';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { PriceChartComponent } from '../price-chart/price-chart.component';
-
 @Component({
   selector: 'app-product-detail-info',
   standalone: true,
@@ -18,26 +17,22 @@ export class ProductDetailInfoComponent {
   #router = inject(Router);
   #location = inject(Location);
   product = input.required<Product>();
-  
+
   selectedSize = signal<string | null>(null);
   selectedColor = signal<string | null>(null);
   quantity = signal<number>(1);
-  
-  activeImage = signal<string>('');
-  
-  addToCart = output<{ product: Product, quantity: number, size: string, color: string, variante: any }>();
 
+  activeImage = signal<string>('');
+
+  addToCart = output<{ product: Product, quantity: number, size: string, color: string, variante: any }>();
   currentStock = computed(() => {
     const p = this.product();
     const size = this.selectedSize();
     const color = this.selectedColor();
-
-    if (!p || !size || !color || !p.variants) return p?.stock || 0; 
-
+    if (!p || !size || !color || !p.variants) return p?.stock || 0;
     const variante = p.variants.find(v => v.size === size && v.color === color);
     return variante ? variante.stock : 0;
   });
-
   constructor() {
     effect(() => {
       const p = this.product();
@@ -49,39 +44,33 @@ export class ProductDetailInfoComponent {
       }
     }, { allowSignalWrites: true });
   }
-
   increase() {
     if (this.quantity() < this.currentStock()) {
       this.quantity.update(q => q + 1);
     }
   }
-
   decrease() {
     if (this.quantity() > 1) {
       this.quantity.update(q => q - 1);
     }
   }
-
   goBack() {
     this.#location.back();
   }
-
-submit() {
+  submit() {
     if (this.selectedSize() && this.selectedColor()) {
       const p = this.product();
       const size = this.selectedSize()!;
       const color = this.selectedColor()!;
-
       // Buscamos la variante exacta que coincide con esa talla y color
       const varianteExacta = p.variants?.find(v => v.size === size && v.color === color);
-
       this.addToCart.emit({
         product: p,
         quantity: this.quantity(),
         size: size,
         color: color,
         // Pasamos la variante real con el ID
-        variante: varianteExacta 
+        variante: varianteExacta
       });
     }
   }
