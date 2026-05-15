@@ -74,6 +74,28 @@
                 </div>
             </div>
 
+            <!-- Recomendador de Tallas -->
+            <div class="mb-8 p-4 bg-gray-50 border border-gray-100 rounded-xl">
+                <h4 class="font-bold text-sm mb-3 text-gray-700">¿No sabes tu talla? Te ayudamos</h4>
+                @if (tallaRecomendada()) {
+                    <p class="text-sm text-green-700 font-medium">
+                        Según tus medidas, te recomendamos la talla <strong>{{ tallaRecomendada() }}</strong>
+                    </p>
+                } @else {
+                    <div class="flex flex-wrap items-center gap-3">
+                        <input type="number" placeholder="Altura (cm)" class="input input-bordered input-sm w-32 bg-white" [(ngModel)]="altura" />
+                        <input type="number" placeholder="Peso (kg)" class="input input-bordered input-sm w-32 bg-white" [(ngModel)]="peso" />
+                        <button class="btn btn-primary btn-sm" (click)="calcularTalla()" [disabled]="!altura || !peso || calculandoTalla()">
+                            @if (calculandoTalla()) {
+                                <span class="loading loading-spinner loading-xs"></span>
+                            } @else {
+                                Calcular mi talla
+                            }
+                        </button>
+                    </div>
+                }
+            </div>
+
             <div class="mt-8 bg-base-200 p-6 rounded-2xl">
                 <div class="flex justify-between items-center mb-4">
                     <span class="text-sm font-semibold text-base-content/70">
