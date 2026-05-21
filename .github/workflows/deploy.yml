@@ -50,8 +50,9 @@ jobs:
               git pull origin main
             fi
 
-            # Bajamos contenedores anteriores (liberamos puerto 80)
+            # Bajamos contenedores anteriores (liberamos puerto 80) y limpiamos espacio
             sudo docker compose -f docker-compose.prod.yml down --remove-orphans
+            sudo docker system prune -af
 
             # Instalar Certbot y generar certificado si no existe
             if ! command -v certbot &> /dev/null; then
