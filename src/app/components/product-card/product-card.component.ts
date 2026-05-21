@@ -1,4 +1,4 @@
-import { Component, input, inject } from '@angular/core';
+import { Component, input, inject, output } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -13,13 +13,14 @@ import { FavoriteService } from '../../services/favorite.service';
 })
 export class ProductCardComponent {
   product = input.required<Product>();
+  addToCart = output<Product>();
 
   favoriteService = inject(FavoriteService);
 
   toggleFavorite(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    
+
     this.favoriteService.toggleFavorite(this.product().id).subscribe();
   }
 }
