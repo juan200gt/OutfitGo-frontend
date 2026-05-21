@@ -3,7 +3,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.local
-    container_name: angular_nginx_local
+    container_name: angular_dev_local
     restart: always
     ports:
-      - "8081:80"
+      - "4200:4200"
+    volumes:
+      - .:/app
+      - /app/node_modules
