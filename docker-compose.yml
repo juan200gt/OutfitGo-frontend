@@ -1,12 +1,12 @@
 services:
   frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile.local
-    container_name: angular_dev_local
-    restart: always
-    ports:
-      - "4200:4200"
+    build: .
+    working_dir: /app
     volumes:
       - .:/app
-      - /app/node_modules
+    ports:
+      - "4200:4200"
+    environment:
+      - NG_CLI_ANALYTICS=ci
+    stdin_open: true
+    tty: true
