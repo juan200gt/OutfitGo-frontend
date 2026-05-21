@@ -1,10 +1,9 @@
 services:
   frontend:
-    build: .
-    container_name: angular_nginx
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    container_name: angular_nginx_local
     restart: always
     ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - "8081:80"
