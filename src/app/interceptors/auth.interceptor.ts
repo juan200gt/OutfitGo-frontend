@@ -43,7 +43,13 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
                 const authService = injector.get(AuthService);
                 authService.currentUser.set(null);
                 
-                router.navigate(['/login'], { queryParams: { expired: 'true' } });
+                // Solo redirigimos a login si el usuario está en una ruta protegida
+                const protectedRoutes = ['/profile', '/mis-pedidos', '/checkout', '/favoritos'];
+                const isProtectedRoute = protectedRoutes.some(route => router.url.startsWith(route));
+                
+                if (isProtectedRoute) {
+                    router.navigate(['/login'], { queryParams: { expired: 'true' } });
+                }
             }
             
             return throwError(() => error);
