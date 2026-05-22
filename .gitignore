@@ -44,3 +44,5 @@ Thumbs.db
 # Local Docker overrides
 docker-compose.override.yml
 certs/
+DockerFile
+docker-compose.prod.yml
