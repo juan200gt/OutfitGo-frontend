@@ -205,6 +205,11 @@
       "cancelled": "Cancelled",
       "refunded": "Refunded",
       "return_requested": "Return in progress",
+      "pendiente": "Pending",
+      "pagado": "Paid",
+      "cancelado": "Cancelled",
+      "devolucion_solicitada": "Return requested",
+      "devuelto": "Returned",
       "entregando": "Out for delivery",
       "entregado": "Delivered"
     }

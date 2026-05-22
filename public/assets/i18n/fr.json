@@ -204,7 +204,14 @@
       "delivered": "Livré",
       "cancelled": "Annulé",
       "refunded": "Remboursé",
-      "return_requested": "Retour en cours"
+      "return_requested": "Retour en cours",
+      "pendiente": "En attente",
+      "pagado": "Payé",
+      "cancelado": "Annulé",
+      "devolucion_solicitada": "Retour demandé",
+      "devuelto": "Retourné",
+      "entregando": "En cours de livraison",
+      "entregado": "Livré"
     }
   }
 }

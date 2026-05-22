@@ -14,7 +14,15 @@ export class OrderService {
 
   getMyOrders(): Observable<Order[]> {
     return this.http.get<OrderHistoryResponse>(`${this.#apiUrl}/pedidos`).pipe(
-      map(respuesta => respuesta.pedidos)
+      map(respuesta => {
+        if (!respuesta || !respuesta.pedidos) {
+          return [];
+        }
+        if (Array.isArray(respuesta.pedidos)) {
+          return respuesta.pedidos;
+        }
+        return respuesta.pedidos.data || [];
+      })
     );
   }
   cancelOrder(id: number): Observable<any> {

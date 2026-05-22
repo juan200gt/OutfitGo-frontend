@@ -8,8 +8,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   selector: 'app-historial-pedidos',
   standalone: true,
   imports: [CommonModule, DatePipe, CurrencyPipe, TranslateModule],
-  templateUrl: './historial-pedidos.component.html',
-  styleUrls: ['./historial-pedidos.component.css']
+  templateUrl: './historial-pedidos.component.html'
 })
 export class HistorialPedidosComponent implements OnInit, OnDestroy {
   private orderService = inject(OrderService);
@@ -46,22 +45,31 @@ export class HistorialPedidosComponent implements OnInit, OnDestroy {
 
   iniciarSimulacionEntrega() {
     this.pedidos().forEach(pedido => {
-      if (pedido.estado !== 'cancelled' && pedido.estado !== 'cancelado' && pedido.estado !== 'delivered' && pedido.estado !== 'entregado') {
-        const timer1 = setTimeout(() => {
-          this.pedidos.update(pedidos => pedidos.map(p => 
-            p.id === pedido.id && p.estado !== 'cancelled' && p.estado !== 'cancelado' 
-              ? { ...p, estado: 'entregando' } : p
-          ));
-        }, 10000);
-        
+      if (pedido.estado === 'pagado' || pedido.estado === 'entregando') {
+        const now = new Date();
+        const updatedTime = new Date(pedido.updated_at || pedido.created_at);
+        const secondsElapsed = Math.floor((now.getTime() - updatedTime.getTime()) / 1000);
+
+        if (pedido.estado === 'pagado') {
+          const delay1 = Math.max(0, 10000 - secondsElapsed * 1000);
+          const timer1 = setTimeout(() => {
+            this.pedidos.update(pedidos => pedidos.map(p => 
+              p.id === pedido.id && p.estado === 'pagado' 
+                ? { ...p, estado: 'entregando' } : p
+            ));
+          }, delay1);
+          this.deliveryTimers.push(timer1);
+        }
+
+        const delay2 = Math.max(0, 15000 - secondsElapsed * 1000);
         const timer2 = setTimeout(() => {
           this.pedidos.update(pedidos => pedidos.map(p => 
-            p.id === pedido.id && p.estado !== 'cancelled' && p.estado !== 'cancelado' 
+            p.id === pedido.id && (p.estado === 'pagado' || p.estado === 'entregando') 
               ? { ...p, estado: 'entregado' } : p
           ));
-        }, 15000);
+        }, delay2);
         
-        this.deliveryTimers.push(timer1, timer2);
+        this.deliveryTimers.push(timer2);
       }
     });
   }
