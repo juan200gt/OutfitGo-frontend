@@ -1,9 +1,0 @@
-:root {
-  --color-primary: #ff416c;
-  --color-secondary: #ff4b2b;
-  --color-text-light: #ffffff;
-  --color-text-muted: #f1f1f1;
-  --overlay-gradient-start: rgba(0, 0, 0, 0.4);
-  --overlay-gradient-end: rgba(0, 0, 0, 0.8);
-  --font-primary: 'Inter', 'Roboto', sans-serif;
-}
