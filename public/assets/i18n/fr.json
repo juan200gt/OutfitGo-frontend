@@ -5,6 +5,11 @@
     "KIDS": "ENFANT",
     "CONTACT": "Service Client"
   },
+  "CATEGORIES": {
+    "MAN": "Homme",
+    "WOMAN": "Femme",
+    "KIDS": "Enfant"
+  },
   "AUTH": {
     "LOGIN": "Connexion",
     "LOGOUT": "Déconnexion",
@@ -29,7 +34,8 @@
     "REGISTERED_SUCCESS": "Inscription réussie ! Veuillez vous connecter.",
     "REGISTERED_UNVERIFIED": "Inscription réussie ! Veuillez vérifier vos e-mails pour valider votre compte avant de vous connecter.",
     "VERIFIED_SUCCESS": "E-mail vérifié avec succès ! Vous pouvez ahora vous connecter.",
-    "VERIFIED_FAILED": "Le lien de vérification est invalide ou a expiré."
+    "VERIFIED_FAILED": "Le lien de vérification est invalide ou a expiré.",
+    "SUBSCRIBE_NEWSLETTER": "S'abonner à la newsletter"
   },
   "HOME": {
     "HERO_TITLE": "OutfitGo",

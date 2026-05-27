@@ -33,6 +33,13 @@
                         </label>
                     </div>
 
+                    <div class="form-control mt-1">
+                        <label class="label cursor-pointer justify-start gap-2">
+                            <input type="checkbox" formControlName="newsletter" class="checkbox checkbox-sm checkbox-primary" />
+                            <span class="label-text">{{ 'AUTH.SUBSCRIBE_NEWSLETTER' | translate }}</span>
+                        </label>
+                    </div>
+
                     <button type="submit" class="btn btn-neutral mt-4 w-full"
                         [disabled]="registerForm.invalid || isLoading()">
                         @if (isLoading()) {

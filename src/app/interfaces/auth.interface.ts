@@ -10,6 +10,7 @@ export interface RegisterCredentials {
     password: string;
     password_confirmation: string;
     remember?: boolean;
+    newsletter?: boolean;
 }
 
 export interface User {
