@@ -15,26 +15,27 @@
         <img [src]="product().image" [alt]="product().name"
             class="object-cover h-64 w-full transition-transform duration-300 group-hover:scale-105" />
     </figure>
-    <div class="card-body">
-        <h2 class="card-title">
+    
+    <div class="card-body p-5">
+        <h2 class="card-title text-base font-bold line-clamp-2 group-hover:text-primary transition-colors">
             {{ product().name }}
             @if (product().category) {
 
             <div class="badge badge-secondary badge-sm">{{ 'CATEGORIES.' + product().category.toUpperCase() | translate }}</div>
             }
         </h2>
-        <p class="text-lg font-semibold">{{ product().price | currency:'EUR' }}</p>
-        <div class="card-actions justify-end mt-2">
+        
+        <div class="flex items-end justify-between mt-2">
+            <span class="text-2xl font-black text-primary">{{ product().price | currency:'EUR' }}</span>
+        </div>
+
+        <div class="card-actions justify-start mt-3 opacity-70">
             @if (product().brand) {
             <div class="badge badge-outline">{{ product().brand }}</div>
             }
             @if (product().color) {
             <div class="badge badge-outline">{{ product().color }}</div>
             }
-            <a [routerLink]="['/producto', product().slug]" class="w-full btn btn-sm btn-ghost mt-2">Ver detalles</a>
-        </div>
-        <div class="card-actions mt-4">
-            <button class="btn btn-primary w-full" (click)="addToCart.emit(product())">Añadir al carrito</button>
         </div>
     </div>
 </div>

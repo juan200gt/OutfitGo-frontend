@@ -224,6 +224,11 @@
       "cancelled": "Cancelado",
       "refunded": "Reembolsado",
       "return_requested": "Devolución en trámite",
+      "pendiente": "Pendiente",
+      "pagado": "Pagado",
+      "cancelado": "Cancelado",
+      "devolucion_solicitada": "Devolución en trámite",
+      "devuelto": "Devuelto",
       "entregando": "Entregando",
       "entregado": "Entregado"
     }

@@ -1,10 +1,12 @@
 services:
   frontend:
     build: .
-    container_name: angular_nginx
-    restart: always
-    ports:
-      - "80:80"
-      - "443:443"
+    working_dir: /app
     volumes:
-      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - .:/app
+    ports:
+      - "4200:4200"
+    environment:
+      - NG_CLI_ANALYTICS=ci
+    stdin_open: true
+    tty: true

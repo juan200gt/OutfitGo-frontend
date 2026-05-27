@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { HomeReviewsComponent } from '../../components/home-reviews/home-reviews.component';
@@ -10,5 +10,12 @@ import { HomeReviewsComponent } from '../../components/home-reviews/home-reviews
     templateUrl: './home-page.component.html'
 })
 export class HomePageComponent {
+    mouseX = 0;
+    mouseY = 0;
 
+    @HostListener('document:mousemove', ['$event'])
+    onMouseMove(event: MouseEvent) {
+        this.mouseX = (window.innerWidth / 2 - event.clientX) / 30;
+        this.mouseY = (window.innerHeight / 2 - event.clientY) / 30;
+    }
 }

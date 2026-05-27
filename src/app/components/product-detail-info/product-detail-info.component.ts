@@ -8,6 +8,7 @@ import { Product } from '../../interfaces/product.interface';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { PriceChartComponent } from '../price-chart/price-chart.component';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-product-detail-info',
   standalone: true,
@@ -76,7 +77,7 @@ export class ProductDetailInfoComponent {
         quantity: this.quantity(),
         size: size,
         color: color,
-        variante: varianteExacta 
+        variante: varianteExacta
       });
     }
   }
@@ -85,13 +86,13 @@ export class ProductDetailInfoComponent {
     if (!this.altura || !this.peso) return;
 
     this.calculandoTalla.set(true);
-    
+
     this.#http.post<any>(`${environment.apiUrl}/calcular-talla`, {
       altura: this.altura,
       peso: this.peso,
       preferencia: 'normal'
     }).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         this.tallaRecomendada.set(res.talla || res);
         this.calculandoTalla.set(false);
       },
