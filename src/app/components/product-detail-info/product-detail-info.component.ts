@@ -8,7 +8,6 @@ import { Product } from '../../interfaces/product.interface';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { PriceChartComponent } from '../price-chart/price-chart.component';
-import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-product-detail-info',
   standalone: true,

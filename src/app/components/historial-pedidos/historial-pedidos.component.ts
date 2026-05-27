@@ -8,8 +8,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   selector: 'app-historial-pedidos',
   standalone: true,
   imports: [CommonModule, DatePipe, CurrencyPipe, TranslateModule],
-  templateUrl: './historial-pedidos.component.html',
-  styleUrls: ['./historial-pedidos.component.css']
+  templateUrl: './historial-pedidos.component.html'
 })
 export class HistorialPedidosComponent implements OnInit, OnDestroy {
   private orderService = inject(OrderService);
