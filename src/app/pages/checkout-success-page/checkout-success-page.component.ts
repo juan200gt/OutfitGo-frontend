@@ -2,6 +2,7 @@ import { Component, inject, signal, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CurrencyPipe, CommonModule } from '@angular/common';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-checkout-success-page',
@@ -28,7 +29,8 @@ export class CheckoutSuccessPageComponent implements OnInit {
       }
 
 
-      this.http.post<{ message: string, order: any }>('https://outfitgo.duckdns.org/api/checkout/confirmar', {
+      // Confirmacion de pago utilizando la URl base
+      this.http.post<{ message: string, order: any }>(`${environment.apiUrl}/checkout/confirmar`, {
         session_id: sessionId
       }).subscribe({
         next: (response) => {

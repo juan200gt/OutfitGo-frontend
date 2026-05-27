@@ -5,6 +5,11 @@
     "KIDS": "INFANTIL",
     "CONTACT": "Atención al Cliente"
   },
+  "CATEGORIES": {
+    "MAN": "Hombre",
+    "WOMAN": "Mujer",
+    "KIDS": "Infantil"
+  },
   "AUTH": {
     "LOGIN": "Entrar",
     "LOGOUT": "Cerrar sesión",
@@ -42,7 +47,8 @@
     "CONFIRM_PASSWORD": "Confirmar nueva contraseña",
     "CONFIRM_PASSWORD_PLACEHOLDER": "Repite tu contraseña",
     "RESET_PASSWORD_BTN": "Actualizar contraseña",
-    "GO_TO_LOGIN": "Ir al inicio de sesión"
+    "GO_TO_LOGIN": "Ir al inicio de sesión",
+    "SUBSCRIBE_NEWSLETTER": "Suscribirse a la newsletter"
   },
   "HOME": {
     "HERO_TITLE": "OutfitGo",

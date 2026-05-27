@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 import { Product } from '../../interfaces/product.interface';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
