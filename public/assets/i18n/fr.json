@@ -3,7 +3,8 @@
     "MEN": "HOMME",
     "WOMEN": "FEMME",
     "KIDS": "ENFANT",
-    "CONTACT": "Service Client"
+    "CONTACT": "Service Client",
+    "CATALOG": "CATALOGUE"
   },
   "CATEGORIES": {
     "MAN": "Homme",

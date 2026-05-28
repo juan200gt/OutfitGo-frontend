@@ -6,6 +6,7 @@ export interface OrderItem {
   precio: number;
   precio_unitario?: number;
   producto?: any;
+  variante?: any;
 }
 
 export interface Order {

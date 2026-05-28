@@ -1,5 +1,6 @@
 import { Component, inject, OnInit, signal, OnDestroy } from '@angular/core';
 import { CommonModule, DatePipe, CurrencyPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { OrderService } from '../../services/order.service';
 import { Order } from '../../interfaces/order.interface';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -7,7 +8,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-historial-pedidos',
   standalone: true,
-  imports: [CommonModule, DatePipe, CurrencyPipe, TranslateModule],
+  imports: [CommonModule, DatePipe, CurrencyPipe, TranslateModule, RouterLink],
   templateUrl: './historial-pedidos.component.html'
 })
 export class HistorialPedidosComponent implements OnInit, OnDestroy {
@@ -43,29 +44,53 @@ export class HistorialPedidosComponent implements OnInit, OnDestroy {
     });
   }
 
+  parseDateUtc(dateStr: string | undefined): Date {
+    if (!dateStr) return new Date();
+    let formatted = dateStr;
+    // Si la cadena no contiene Z ni un offset de zona horaria (ej: +02:00), asumimos que está en UTC
+    if (!dateStr.includes('Z') && !dateStr.match(/[\+\-]\d{2}:\d{2}$/)) {
+      // Reemplazamos el espacio por T si es necesario para formatearlo como ISO-8601
+      formatted = dateStr.replace(' ', 'T') + 'Z';
+    }
+    return new Date(formatted);
+  }
+
   iniciarSimulacionEntrega() {
     this.pedidos().forEach(pedido => {
-      if (pedido.estado === 'pagado' || pedido.estado === 'entregando') {
+      const estadoNormalizado = pedido.estado.toLowerCase();
+      if (
+        estadoNormalizado === 'pagado' || 
+        estadoNormalizado === 'completed' || 
+        estadoNormalizado === 'entregando' || 
+        estadoNormalizado === 'shipped'
+      ) {
         const now = new Date();
-        const updatedTime = new Date(pedido.updated_at || pedido.created_at);
+        const updatedTime = this.parseDateUtc(pedido.updated_at || pedido.created_at);
         const secondsElapsed = Math.floor((now.getTime() - updatedTime.getTime()) / 1000);
 
-        if (pedido.estado === 'pagado') {
-          const delay1 = Math.max(0, 10000 - secondsElapsed * 1000);
+        // 1. Transición a Entregando (15s reales + 1s margen de seguridad = 16s)
+        if (estadoNormalizado === 'pagado' || estadoNormalizado === 'completed') {
+          const delay1 = Math.max(0, 16000 - secondsElapsed * 1000);
           const timer1 = setTimeout(() => {
             this.pedidos.update(pedidos => pedidos.map(p => 
-              p.id === pedido.id && p.estado === 'pagado' 
-                ? { ...p, estado: 'entregando' } : p
+              p.id === pedido.id && (p.estado === 'pagado' || p.estado === 'completed') 
+                ? { ...p, estado: p.estado === 'completed' ? 'shipped' : 'entregando' } : p
             ));
           }, delay1);
           this.deliveryTimers.push(timer1);
         }
 
-        const delay2 = Math.max(0, 15000 - secondsElapsed * 1000);
+        // 2. Transición a Entregado (30s reales + 2s margen de seguridad = 32s)
+        const delay2 = Math.max(0, 32000 - secondsElapsed * 1000);
         const timer2 = setTimeout(() => {
           this.pedidos.update(pedidos => pedidos.map(p => 
-            p.id === pedido.id && (p.estado === 'pagado' || p.estado === 'entregando') 
-              ? { ...p, estado: 'entregado' } : p
+            p.id === pedido.id && (
+              p.estado === 'pagado' || 
+              p.estado === 'completed' || 
+              p.estado === 'entregando' || 
+              p.estado === 'shipped'
+            ) 
+              ? { ...p, estado: p.estado === 'completed' || p.estado === 'shipped' ? 'delivered' : 'entregado' } : p
           ));
         }, delay2);
         

@@ -1,87 +1,274 @@
-<div class="space-y-8">
-  <h2 class="text-2xl font-bold flex items-center gap-3">
-    <span class="w-2 h-8 bg-primary rounded-full"></span>
-    {{ 'ORDERS.TITLE' | translate }}
-  </h2>
+<div class="space-y-8 max-w-5xl mx-auto px-2">
+  <!-- Título principal con diseño premium -->
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-base-200 pb-6">
+    <div>
+      <h2 class="text-3xl font-extrabold tracking-tight flex items-center gap-3 text-white">
+        <span class="w-2.5 h-9 bg-primary rounded-full shadow-[0_0_12px_var(--color-primary)]"></span>
+        {{ 'ORDERS.TITLE' | translate }}
+      </h2>
+      <p class="text-sm opacity-60 mt-1">Gestiona y realiza el seguimiento de tus pedidos y devoluciones</p>
+    </div>
+  </div>
 
   @if (cargando()) {
-    <div class="flex justify-center py-12">
-      <span class="loading loading-spinner loading-lg text-white"></span>
+    <div class="flex flex-col items-center justify-center py-20 gap-4">
+      <span class="loading loading-ring loading-lg text-primary"></span>
+      <span class="text-sm font-medium opacity-70 animate-pulse">{{ 'COMMON.LOADING' | translate }}</span>
     </div>
   } @else if (error()) {
-    <div class="alert alert-error">
+    <div class="alert alert-error shadow-lg rounded-2xl border border-error/20 flex gap-4 max-w-2xl mx-auto">
       <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-      <span>{{ error() }}</span>
+      <div>
+        <h3 class="font-bold">Error</h3>
+        <p class="text-sm">{{ error() }}</p>
+      </div>
     </div>
   } @else {
-    <div class="grid grid-cols-1 gap-6">
+    <div class="grid grid-cols-1 gap-8">
       @for (pedido of pedidos(); track pedido.id) {
-        <div class="bg-base-100 rounded-2xl shadow-lg border border-base-200 overflow-hidden">
-          <!-- Header del Pedido -->
-          <div class="bg-base-200/50 px-6 py-4 flex flex-wrap justify-between items-center gap-4 border-b border-base-200">
+        <div class="bg-base-100 rounded-3xl shadow-xl border border-base-200/40 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:border-base-300">
+          
+          <!-- Cabecera del Pedido (Diseño Glassmorphism) -->
+          <div class="bg-base-200/30 px-6 py-5 flex flex-wrap justify-between items-center gap-4 border-b border-base-200/50">
             <div class="flex items-center gap-4">
-              <span class="font-black text-lg">#{{ pedido.id }}</span>
-              <span class="text-sm opacity-60">{{ pedido.created_at | date:'dd/MM/yyyy HH:mm' }}</span>
-            </div>
-            <div class="badge badge-lg font-bold uppercase tracking-wider" [ngClass]="{
-              'badge-warning': pedido.estado === 'pending' || pedido.estado === 'pendiente',
-              'badge-success': pedido.estado === 'completed' || pedido.estado === 'delivered' || pedido.estado === 'entregado' || pedido.estado === 'pagado',
-              'badge-info': pedido.estado === 'shipped' || pedido.estado === 'return_requested' || pedido.estado === 'entregando' || pedido.estado === 'devolucion_solicitada',
-              'badge-error': pedido.estado === 'cancelled' || pedido.estado === 'refunded' || pedido.estado === 'cancelado' || pedido.estado === 'devuelto'
-            }">
-              {{ 'ORDERS.STATUS_LIST.' + pedido.estado | translate }}
-            </div>
-          </div>
-
-          <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Detalles de Envío -->
-            <div>
-              <h4 class="font-bold opacity-50 uppercase text-xs tracking-widest mb-3">{{ 'ORDERS.SHIPPING_TO' | translate }}</h4>
-              <p class="font-semibold text-lg">{{ pedido.nombre }} {{ pedido.apellidos }}</p>
-              <p class="opacity-70">{{ pedido.direccion }}</p>
-              <p class="opacity-70">{{ pedido.codigo_postal }} {{ pedido.ciudad }}</p>
-            </div>
-
-            <!-- Resumen de Pago -->
-            <div class="md:text-right">
-              <h4 class="font-bold opacity-50 uppercase text-xs tracking-widest mb-3">{{ 'ORDERS.TOTAL' | translate }}</h4>
-              <p class="text-3xl font-black text-primary">{{ pedido.total | currency:'EUR' }}</p>
-            </div>
-          </div>
-
-          <!-- Artículos -->
-          <div class="px-6 pb-6 mt-4">
-            <div class="collapse collapse-arrow bg-base-200/30 rounded-xl">
-              <input type="checkbox" /> 
-              <div class="collapse-title font-bold">
-                  {{ 'ORDERS.ITEMS' | translate }} ({{ pedido.order_items.length }})
+              <div class="bg-primary/10 text-primary w-12 h-12 rounded-2xl flex items-center justify-center font-black text-lg border border-primary/20 shadow-inner">
+                #{{ pedido.id }}
               </div>
-              <div class="collapse-content">
-                <div class="divide-y divide-base-200">
-                    @for (articulo of pedido.order_items; track articulo.id) {
-                    <div class="py-3 flex justify-between items-center text-sm">
-                      <div class="flex gap-4 items-center">
-                        <span class="bg-base-300 w-8 h-8 flex items-center justify-center rounded-full font-bold">
-                            {{ articulo.cantidad }}
-                          </span>
-                        <span class="font-medium text-primary">SKU: {{ articulo.producto_id }}</span>
+              <div>
+                <p class="text-xs font-bold uppercase tracking-wider opacity-40">Fecha de compra</p>
+                <p class="font-semibold text-sm">{{ pedido.created_at | date:'dd/MM/yyyy HH:mm' }}</p>
+              </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+              <!-- Badge de Estado General -->
+              <div class="badge badge-lg py-4 px-4 font-bold uppercase tracking-wider text-xs border" [ngClass]="{
+                'badge-warning border-warning/20 bg-warning/10 text-warning': ['pending', 'pendiente'].includes(pedido.estado),
+                'badge-success border-success/20 bg-success/10 text-success': ['completed', 'delivered', 'entregado', 'pagado'].includes(pedido.estado),
+                'badge-info border-info/20 bg-info/10 text-info': ['shipped', 'return_requested', 'entregando', 'devolucion_solicitada'].includes(pedido.estado),
+                'badge-error border-error/20 bg-error/10 text-error': ['cancelled', 'refunded', 'cancelado', 'devuelto'].includes(pedido.estado)
+              }">
+                {{ 'ORDERS.STATUS_LIST.' + pedido.estado | translate }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Cuerpo Principal -->
+          <div class="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Detalles de Envío y Resumen (Columna izquierda) -->
+            <div class="lg:col-span-5 space-y-6">
+              <!-- Tarjeta de Dirección -->
+              <div class="bg-base-200/20 p-5 rounded-2xl border border-base-200/60 shadow-sm">
+                <h4 class="font-bold opacity-40 uppercase text-[11px] tracking-wider mb-3 flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                  {{ 'ORDERS.SHIPPING_TO' | translate }}
+                </h4>
+                <p class="font-bold text-base text-white">{{ pedido.nombre }} {{ pedido.apellidos }}</p>
+                <p class="text-sm opacity-85 mt-1">{{ pedido.direccion }}</p>
+                <p class="text-sm opacity-85">{{ pedido.codigo_postal }} {{ pedido.ciudad }}</p>
+              </div>
+
+              <!-- Tarjeta de Importe Total -->
+              <div class="bg-primary/5 p-5 rounded-2xl border border-primary/10 flex justify-between items-center">
+                <div>
+                  <h4 class="font-bold text-primary/70 uppercase text-[11px] tracking-wider mb-1">
+                    {{ 'ORDERS.TOTAL' | translate }}
+                  </h4>
+                  <p class="text-2xl font-black text-white">{{ pedido.total | currency:'EUR' }}</p>
+                </div>
+                <div class="bg-primary text-primary-content w-10 h-10 rounded-full flex items-center justify-center shadow-lg shadow-primary/20">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stepper Visual Seguimiento (Columna derecha) -->
+            <div class="lg:col-span-7 flex flex-col justify-center">
+              
+              <!-- Si el pedido está activo (pendiente, pagado, entregando, entregado) -->
+              @if (['pendiente', 'pending', 'pagado', 'completed', 'entregando', 'shipped', 'entregado', 'delivered', 'enviado'].includes(pedido.estado)) {
+                <div class="bg-base-200/10 p-6 rounded-3xl border border-base-200/40 relative">
+                  <h4 class="font-bold opacity-40 uppercase text-[11px] tracking-wider mb-6">Seguimiento en Tiempo Real</h4>
+                  
+                  <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 md:gap-4 relative w-full">
+                    
+                    <!-- Línea de conexión de fondo (PC) -->
+                    <div class="hidden md:block absolute left-[15%] right-[15%] top-6 h-1 bg-base-300 rounded-full z-0">
+                      <!-- Línea de progreso activa -->
+                      <div class="h-full bg-primary rounded-full transition-all duration-500"
+                        [ngStyle]="{
+                          'width': ['entregado', 'delivered', 'enviado'].includes(pedido.estado) ? '100%' :
+                                   ['entregando', 'shipped'].includes(pedido.estado) ? '50%' : '0%'
+                        }">
                       </div>
-                      <span class="font-bold">{{ articulo.precio | currency:'EUR' }}</span>
+                    </div>
+
+                    <!-- Paso 1: Pagado -->
+                    <div class="flex md:flex-col items-center gap-4 md:gap-2 z-10 w-full md:w-1/3 text-left md:text-center">
+                      <div class="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 shadow-md border-2"
+                        [ngClass]="{
+                          'bg-primary border-primary text-white shadow-primary/20': ['pagado', 'completed', 'entregando', 'shipped', 'entregado', 'delivered', 'enviado'].includes(pedido.estado),
+                          'bg-base-200 border-base-300 text-base-content/40': ['pendiente', 'pending'].includes(pedido.estado)
+                        }">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                        </svg>
+                      </div>
+                      <div>
+                        <p class="font-bold text-sm text-white">Pago recibido</p>
+                        <p class="text-xs opacity-50">Pedido verificado</p>
+                      </div>
+                    </div>
+
+                    <!-- Paso 2: En Reparto -->
+                    <div class="flex md:flex-col items-center gap-4 md:gap-2 z-10 w-full md:w-1/3 text-left md:text-center">
+                      <div class="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 shadow-md border-2"
+                        [ngClass]="{
+                          'bg-primary border-primary text-white shadow-primary/20': ['entregado', 'delivered', 'enviado'].includes(pedido.estado),
+                          'bg-primary/20 border-primary text-primary animate-pulse': ['entregando', 'shipped'].includes(pedido.estado),
+                          'bg-base-200 border-base-300 text-base-content/40': ['pendiente', 'pending', 'pagado', 'completed'].includes(pedido.estado)
+                        }">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+                          <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v3.07l2.84 2.84A1 1 0 0016.55 13H18v-3a3 3 0 00-3-3h-1z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <p class="font-bold text-sm" [ngClass]="['entregando', 'shipped', 'entregado', 'delivered', 'enviado'].includes(pedido.estado) ? 'text-white' : 'text-base-content/40'">En reparto</p>
+                        <p class="text-xs opacity-50">De camino a tu dirección</p>
+                      </div>
+                    </div>
+
+                    <!-- Paso 3: Entregado -->
+                    <div class="flex md:flex-col items-center gap-4 md:gap-2 z-10 w-full md:w-1/3 text-left md:text-center">
+                      <div class="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 shadow-md border-2"
+                        [ngClass]="{
+                          'bg-success border-success text-white shadow-success/20': ['entregado', 'delivered', 'enviado'].includes(pedido.estado),
+                          'bg-base-200 border-base-300 text-base-content/40': !['entregado', 'delivered', 'enviado'].includes(pedido.estado)
+                        }">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                      </div>
+                      <div>
+                        <p class="font-bold text-sm" [ngClass]="['entregado', 'delivered', 'enviado'].includes(pedido.estado) ? 'text-success' : 'text-base-content/40'">Entregado</p>
+                        <p class="text-xs opacity-50">¡Que lo disfrutes!</p>
+                      </div>
+                    </div>
+
                   </div>
+                </div>
+              } @else if (['devolucion_solicitada', 'return_requested'].includes(pedido.estado)) {
+                <!-- Caso: Devolución solicitada -->
+                <div class="bg-warning/5 border border-warning/20 p-6 rounded-3xl flex items-center gap-4">
+                  <div class="w-12 h-12 rounded-full bg-warning/20 text-warning flex items-center justify-center shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H12" /></svg>
+                  </div>
+                  <div>
+                    <h5 class="font-bold text-warning text-base">Devolución en Trámite</h5>
+                    <p class="text-sm opacity-70 mt-1">Hemos registrado tu solicitud de devolución. El repartidor pasará a recoger el paquete pronto.</p>
+                  </div>
+                </div>
+              } @else if (['devuelto', 'refunded'].includes(pedido.estado)) {
+                <!-- Caso: Devuelto -->
+                <div class="bg-purple-500/10 border border-purple-500/20 p-6 rounded-3xl flex items-center gap-4">
+                  <div class="w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>
+                  </div>
+                  <div>
+                    <h5 class="font-bold text-purple-400 text-base">Pedido Devuelto</h5>
+                    <p class="text-sm opacity-70 mt-1">La devolución se ha completado correctamente y se ha repuesto el stock de los productos.</p>
+                  </div>
+                </div>
+              } @else if (['cancelled', 'cancelado'].includes(pedido.estado)) {
+                <!-- Caso: Cancelado -->
+                <div class="bg-error/5 border border-error/20 p-6 rounded-3xl flex items-center gap-4">
+                  <div class="w-12 h-12 rounded-full bg-error/20 text-error flex items-center justify-center shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                  </div>
+                  <div>
+                    <h5 class="font-bold text-error text-base">Pedido Cancelado</h5>
+                    <p class="text-sm opacity-70 mt-1">Este pedido fue cancelado y no se ha realizado ningún cargo ni envío.</p>
+                  </div>
+                </div>
+              }
+
+            </div>
+
+          </div>
+
+          <!-- Listado de Artículos del Pedido (Acordeón Premium con DaisyUI collapse) -->
+          <div class="px-6 pb-6 border-t border-base-200/30">
+            <div class="collapse collapse-arrow bg-base-200/10 rounded-2xl border border-base-200/50 mt-4">
+              <input type="checkbox" /> 
+              <div class="collapse-title font-bold text-sm flex items-center gap-2 py-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+                <span>{{ 'ORDERS.ITEMS' | translate }} ({{ pedido.order_items.length }})</span>
+              </div>
+              
+              <div class="collapse-content px-4 pb-4">
+                <div class="divide-y divide-base-200/50">
+                  @for (articulo of pedido.order_items; track articulo.id) {
+                    <div class="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 first:pt-2 last:pb-2">
+                      <div class="flex gap-4 items-center">
+                        <!-- Imagen del artículo -->
+                        @if (articulo.variante?.producto?.url_imagen_principal) {
+                          <a [routerLink]="['/producto', articulo.variante.producto.slug]" class="shrink-0 hover:opacity-85 transition-opacity">
+                            <img [src]="articulo.variante.producto.url_imagen_principal" [alt]="articulo.variante.producto.nombre"
+                              class="w-16 h-16 object-cover rounded-xl border border-base-200 bg-base-200 shadow-sm" />
+                          </a>
+                        } @else {
+                          <div class="w-16 h-16 bg-base-300 rounded-xl flex items-center justify-center text-xs opacity-50 shrink-0">
+                            No Img
+                          </div>
+                        }
+
+                        <!-- Nombre e Info del artículo -->
+                        <div>
+                          <a [routerLink]="['/producto', articulo.variante?.producto?.slug]" class="font-bold text-white hover:text-primary transition-colors text-sm sm:text-base leading-tight">
+                            {{ articulo.variante?.producto?.nombre_localizado || articulo.variante?.producto?.nombre || 'Producto #' + articulo.producto_id }}
+                          </a>
+                          <div class="flex flex-wrap gap-2 items-center text-xs mt-1.5 text-base-content/70">
+                            <span class="bg-base-200 px-2 py-0.5 rounded-full font-bold">
+                              {{ 'CART.QUANTITY' | translate }}: {{ articulo.cantidad }}
+                            </span>
+                            @if (articulo.variante?.talla?.nombre) {
+                              <span class="bg-base-200 px-2 py-0.5 rounded-full font-semibold">
+                                Talla: {{ articulo.variante.talla.nombre }}
+                              </span>
+                            }
+                            @if (articulo.variante?.color?.nombre) {
+                              <span class="bg-base-200 px-2 py-0.5 rounded-full font-semibold">
+                                Color: {{ articulo.variante.color.nombre }}
+                              </span>
+                            }
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="text-right sm:self-center shrink-0">
+                        <span class="font-extrabold text-base text-primary">{{ articulo.precio | currency:'EUR' }}</span>
+                        <p class="text-[11px] opacity-50 mt-0.5">Precio unitario</p>
+                      </div>
+                    </div>
                   }
                 </div>
               </div>
             </div>
 
-            <!-- Acciones -->
-            <div class="mt-6 flex justify-end gap-3">
-              @if (pedido.estado === 'pending' || pedido.estado === 'pendiente') {
-                <button (click)="cancelar(pedido.id)" class="btn btn-error btn-sm btn-outline">
+            <!-- Acciones (Cancelar o Devolver) -->
+            <div class="mt-5 flex justify-end gap-3 border-t border-base-200/20 pt-4">
+              @if (['pending', 'pendiente'].includes(pedido.estado)) {
+                <button (click)="cancelar(pedido.id)" class="btn btn-error btn-sm btn-outline rounded-full px-5 hover:bg-error hover:text-white transition-all duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                   {{ 'ORDERS.CANCEL' | translate }}
                 </button>
               }
-              @if (pedido.estado === 'delivered' || pedido.estado === 'entregado' || pedido.estado === 'enviado') {
-                <button (click)="devolver(pedido.id)" class="btn btn-warning btn-sm btn-outline">
+
+              @if (['delivered', 'entregado', 'enviado'].includes(pedido.estado)) {
+                <button (click)="devolver(pedido.id)" class="btn btn-warning btn-sm btn-outline rounded-full px-6 hover:bg-warning hover:text-neutral transition-all duration-300 shadow-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" /></svg>
                   {{ 'ORDERS.RETURN' | translate }}
                 </button>
               }
@@ -89,9 +276,15 @@
           </div>
         </div>
       } @empty {
-        <div class="text-center py-20 bg-base-200/50 rounded-3xl border-2 border-dashed border-base-300">
-          <p class="text-xl opacity-50 mb-6">{{ 'ORDERS.EMPTY' | translate }}</p>
-          <a href="/products" class="btn btn-primary rounded-full px-8">{{ 'NAV.CATALOG' | translate }}</a>
+        <div class="text-center py-24 bg-base-100/50 rounded-3xl border-2 border-dashed border-base-300 flex flex-col items-center justify-center max-w-2xl mx-auto shadow-sm">
+          <div class="w-20 h-20 rounded-full bg-base-200 flex items-center justify-center text-base-content/40 mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+          </div>
+          <p class="text-xl font-bold text-white mb-2">{{ 'ORDERS.EMPTY' | translate }}</p>
+          <p class="text-sm opacity-60 max-w-md mb-8">Una vez realices tu primera compra, podrás realizar el seguimiento en tiempo real desde este historial.</p>
+          <a routerLink="/products/all" class="btn btn-primary rounded-full px-10 shadow-lg shadow-primary/20 hover:scale-105 transition-all duration-300">
+            {{ 'NAV.CATALOG' | translate }}
+          </a>
         </div>
       }
     </div>
