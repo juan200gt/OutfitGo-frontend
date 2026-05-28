@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    <div class="review-form">
+    <div *ngIf="isLoggedIn(); else loginPrompt" class="review-form">
         <h3 class="review-form__title">¿Qué piensas de OutfitGo?</h3>
         <p class="review-form__subtitle">Ayúdanos a mejorar dejando tu reseña sobre nuestra tienda y servicio.</p>
 
@@ -60,4 +60,14 @@
             </button>
         </div>
     </div>
+
+    <ng-template #loginPrompt>
+        <div class="review-form text-center p-8 bg-white border border-slate-200 rounded-2xl shadow-sm max-w-[600px] mx-auto mt-12">
+            <h3 class="text-xl font-bold text-slate-800 mb-2">¿Qué piensas de OutfitGo?</h3>
+            <p class="text-sm text-slate-500 mb-6">Inicia sesión para compartir tu experiencia con nosotros y ayudar a otros compradores.</p>
+            <a routerLink="/login" class="inline-block px-6 py-3 bg-black text-white font-semibold rounded-lg hover:bg-slate-800 transition-all duration-300 shadow-md">
+                Iniciar Sesión
+            </a>
+        </div>
+    </ng-template>
 </section>
