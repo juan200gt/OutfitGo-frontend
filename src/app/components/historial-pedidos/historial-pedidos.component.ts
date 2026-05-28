@@ -64,13 +64,13 @@ export class HistorialPedidosComponent implements OnInit, OnDestroy {
         estadoNormalizado === 'entregando' || 
         estadoNormalizado === 'shipped'
       ) {
-        const now = new Date();
-        const updatedTime = this.parseDateUtc(pedido.updated_at || pedido.created_at);
-        const secondsElapsed = Math.floor((now.getTime() - updatedTime.getTime()) / 1000);
+        // Forzamos que la simulación inicie desde 0 segundos al entrar a la vista
+        // para que el usuario pueda apreciar siempre todo el flujo de entrega
+        const secondsElapsed = 0;
 
-        // 1. Transición a Entregando (15s reales + 1s margen de seguridad = 16s)
+        // 1. Transición a Entregando (15s reales)
         if (estadoNormalizado === 'pagado' || estadoNormalizado === 'completed') {
-          const delay1 = Math.max(0, 16000 - secondsElapsed * 1000);
+          const delay1 = 15000;
           const timer1 = setTimeout(() => {
             this.pedidos.update(pedidos => pedidos.map(p => 
               p.id === pedido.id && (p.estado === 'pagado' || p.estado === 'completed') 
@@ -80,8 +80,9 @@ export class HistorialPedidosComponent implements OnInit, OnDestroy {
           this.deliveryTimers.push(timer1);
         }
 
-        // 2. Transición a Entregado (30s reales + 2s margen de seguridad = 32s)
-        const delay2 = Math.max(0, 32000 - secondsElapsed * 1000);
+        // 2. Transición a Entregado (30s reales)
+        // Si el estado inicial ya es "entregando", la entrega ocurrirá en 15s en vez de 30s
+        const delay2 = (estadoNormalizado === 'entregando' || estadoNormalizado === 'shipped') ? 15000 : 30000;
         const timer2 = setTimeout(() => {
           this.pedidos.update(pedidos => pedidos.map(p => 
             p.id === pedido.id && (
