@@ -7,9 +7,9 @@
         </svg>
       </div>
       <ul tabindex="-1" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[50] mt-3 w-52 p-2 shadow">
-        <li><a routerLink="/products/men" (click)="closeDropdown()">{{ 'NAV.MEN' | translate }}</a></li>
-        <li><a routerLink="/products/women" (click)="closeDropdown()">{{ 'NAV.WOMEN' | translate }}</a></li>
-        <li><a routerLink="/products/kids" (click)="closeDropdown()">{{ 'NAV.KIDS' | translate }}</a></li>
+        <li><a routerLink="/products/men" (click)="closeDropdown()">HOMBRE</a></li>
+        <li><a routerLink="/products/women" (click)="closeDropdown()">MUJER</a></li>
+        <li><a routerLink="/products/kids" (click)="closeDropdown()">INFANTIL</a></li>
         <li><a routerLink="/outfit-wizard" (click)="closeDropdown()" class="text-primary font-bold">✨ AI Shopper</a></li>
       </ul>
     </div>
@@ -17,9 +17,9 @@
   </div>
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal px-1">
-      <li><a routerLink="/products/men">{{ 'NAV.MEN' | translate }}</a></li>
-      <li><a routerLink="/products/women">{{ 'NAV.WOMEN' | translate }}</a></li>
-      <li><a routerLink="/products/kids">{{ 'NAV.KIDS' | translate }}</a></li>
+      <li><a routerLink="/products/men">HOMBRE</a></li>
+      <li><a routerLink="/products/women">MUJER</a></li>
+      <li><a routerLink="/products/kids">INFANTIL</a></li>
       <li><a routerLink="/outfit-wizard" class="text-primary font-bold ml-2">✨ AI Shopper</a></li>
     </ul>
   </div>
@@ -33,8 +33,6 @@
       </svg>
     </a>
     }
-
-    <app-language-selector></app-language-selector>
 
     <a routerLink="/cart" tabindex="0" role="button" class="btn btn-ghost btn-circle">
       <div class="indicator">

@@ -1,8 +1,8 @@
 <div class="w-full">
   <div class="flex justify-between items-center mb-4">
-    <label class="label-text font-bold text-base">{{ 'PROFILE.ADDRESSES' | translate }}</label>
+    <label class="label-text font-bold text-base">Direcciones de Envío</label>
     <button class="btn btn-sm btn-outline btn-primary" (click)="openNewModal()">
-      + {{ 'ADDRESS.ADD_NEW' | translate }}
+      + Añadir Nueva Dirección
     </button>
   </div>
 
@@ -23,7 +23,7 @@
           <h3 class="font-bold flex items-center gap-2">
             {{ addr.nombre_direccion }}
             @if (addr.es_principal) {
-            <span class="badge badge-primary badge-sm">{{ 'ADDRESS.DEFAULT' | translate }}</span>
+            <span class="badge badge-primary badge-sm">Dirección Predeterminada</span>
             }
           </h3>
           <p class="text-sm text-gray-600 mt-1">{{ addr.direccion }}</p>
@@ -33,13 +33,13 @@
 
         <div class="flex flex-col gap-2">
           <div class="join join-vertical lg:join-horizontal">
-            <button class="btn btn-xs join-item" (click)="openEditModal(addr, $event)">✏️ {{ 'COMMON.EDIT' | translate }}</button>
+            <button class="btn btn-xs join-item" (click)="openEditModal(addr, $event)">✏️ Editar</button>
             <button class="btn btn-xs btn-error text-white join-item"
               (click)="deleteAddress(addr.id!, $event)">🗑️</button>
           </div>
           @if (!addr.es_principal) {
           <button class="btn btn-xs btn-ghost text-xs" (click)="setPrimary(addr.id!, $event)">
-            {{ 'ADDRESS.SET_DEFAULT' | translate }}
+            Establecer como predeterminada
           </button>
           }
         </div>
@@ -48,7 +48,7 @@
     }
     @if (addresses().length === 0) {
     <div class="text-center p-6 bg-base-200 rounded-box text-gray-500">
-      {{ 'PROFILE.NO_ADDRESSES' | translate }}
+      No tienes ninguna dirección guardada.
     </div>
     }
   </div>
@@ -58,45 +58,45 @@
 <dialog id="address_modal" class="modal">
   <div class="modal-box max-w-md">
     <h3 class="font-bold text-lg mb-4">
-      {{ editingId() ? ('ADDRESS.EDIT'| translate) : ('ADDRESS.ADD_NEW' | translate) }}
+      {{ editingId() ? 'Editar Dirección' : 'Añadir Nueva Dirección' }}
     </h3>
 
     <form [formGroup]="addressForm" (ngSubmit)="saveAddress()" class="space-y-3">
       <div class="form-control">
-        <input type="text" [placeholder]="'ADDRESS.FORM.NAME_HINT' | translate" formControlName="nombre_direccion"
+        <input type="text" placeholder="Nombre de la dirección (ej: Casa, Trabajo)" formControlName="nombre_direccion"
           class="input input-bordered w-full"
           [class.input-error]="addressForm.get('nombre_direccion')?.invalid && addressForm.get('nombre_direccion')?.touched" />
       </div>
       <div class="form-control">
-        <input type="text" [placeholder]="'ADDRESS.FORM.STREET' | translate" formControlName="direccion"
+        <input type="text" placeholder="Calle" formControlName="direccion"
           class="input input-bordered w-full"
           [class.input-error]="addressForm.get('direccion')?.invalid && addressForm.get('direccion')?.touched" />
       </div>
       <div class="grid grid-cols-2 gap-2">
-        <input type="text" [placeholder]="'ADDRESS.FORM.CITY' | translate" formControlName="ciudad" class="input input-bordered"
+        <input type="text" placeholder="Ciudad" formControlName="ciudad" class="input input-bordered"
           [class.input-error]="addressForm.get('ciudad')?.invalid && addressForm.get('ciudad')?.touched" />
-        <input type="text" [placeholder]="'ADDRESS.FORM.PROVINCE' | translate" formControlName="provincia" class="input input-bordered"
+        <input type="text" placeholder="Provincia" formControlName="provincia" class="input input-bordered"
           [class.input-error]="addressForm.get('provincia')?.invalid && addressForm.get('provincia')?.touched" />
       </div>
       <div class="grid grid-cols-2 gap-2">
-        <input type="text" inputmode="numeric" [placeholder]="'ADDRESS.FORM.ZIP' | translate" formControlName="codigo_postal"
+        <input type="text" inputmode="numeric" placeholder="Código Postal" formControlName="codigo_postal"
           class="input input-bordered"
           [class.input-error]="addressForm.get('codigo_postal')?.invalid && addressForm.get('codigo_postal')?.touched" />
-        <input type="tel" [placeholder]="'CHECKOUT.PHONE' | translate" formControlName="telefono" class="input input-bordered"
+        <input type="tel" placeholder="Teléfono" formControlName="telefono" class="input input-bordered"
           [class.input-error]="addressForm.get('telefono')?.invalid && addressForm.get('telefono')?.touched" />
       </div>
       <div class="form-control">
         <label class="label cursor-pointer justify-start gap-3">
           <input type="checkbox" formControlName="es_principal" class="checkbox checkbox-primary" />
-          <span class="label-text">{{ 'ADDRESS.SET_DEFAULT' | translate }}</span>
+          <span class="label-text">Establecer como dirección principal</span>
         </label>
       </div>
 
       <div class="modal-action">
-        <button type="button" class="btn" onclick="address_modal.close()">{{ 'COMMON.CANCEL' | translate }}</button>
-        <button type="submit" class="btn btn-primary" [disabled]="isSaving()">
+        <button type="button" class="btn btn-ghost" (click)="cancelForm()">Cancelar</button>
+        <button type="submit" class="btn btn-neutral" [disabled]="addressForm.invalid || isSaving()">
           @if(isSaving()){ <span class="loading loading-spinner"></span> }
-          {{ 'ADDRESS.FORM.SAVE' | translate }}
+          Guardar Dirección
         </button>
       </div>
     </form>
@@ -106,15 +106,15 @@
 <dialog #deleteModal class="modal">
   <div class="modal-box">
     <h3 class="font-bold text-lg text-error flex items-center gap-2">
-      ⚠️ {{ 'COMMON.CONFIRM' | translate }}
+      ⚠️ Confirmar
     </h3>
-    <p class="py-4">{{ 'ADDRESS.CONFIRM_DELETE' | translate }}</p>
+    <p class="py-4">¿Estás seguro de que quieres eliminar esta dirección?</p>
 
     <div class="modal-action">
-      <button class="btn" (click)="deleteModal.close()">{{ 'COMMON.CANCEL' | translate }}</button>
+      <button class="btn" (click)="deleteModal.close()">Cancelar</button>
 
       <button class="btn btn-error text-white" (click)="confirmDelete()">
-        {{ 'COMMON.YES_DELETE' | translate }}
+        Sí, eliminar
       </button>
     </div>
   </div>

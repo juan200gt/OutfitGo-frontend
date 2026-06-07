@@ -6,17 +6,15 @@ import { CartService } from '../../services/cart.service';
 import { Product } from '../../interfaces/product.interface';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap, tap, map, catchError, delay, of } from 'rxjs';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-products-page',
   standalone: true,
-  imports: [ProductCardComponent, TranslateModule],
+  imports: [ProductCardComponent],
   templateUrl: './products-page.component.html',
 })
 export class ProductsPageComponent {
   #productService = inject(ProductService);
-  #translate = inject(TranslateService);
   cartService = inject(CartService);
   route = inject(ActivatedRoute);
 
@@ -27,7 +25,7 @@ export class ProductsPageComponent {
   availableColors = signal<{ id: number, nombre: string }[]>([]);
   availableSizes = signal<{ id: number, nombre: string }[]>([]);
 
-  pageTitle = signal('PRODUCTS.TITLE_ALL');
+  pageTitle = signal('Nuestra Colección');
 
   currentPage = signal<number>(1);
   lastPage = signal<number>(1);
@@ -38,17 +36,17 @@ export class ProductsPageComponent {
     this.route.url.subscribe(segments => {
       const path = segments.map(segment => segment.path).join('/');
       let publico = '';
-      let titleKey = 'PRODUCTS.TITLE_ALL';
+      let titleKey = 'Nuestra Colección';
 
       if (path.includes('women')) {
         publico = 'mujer';
-        titleKey = 'PRODUCTS.TITLE_WOMEN';
+        titleKey = 'Ropa para Mujer';
       } else if (path.includes('men')) {
         publico = 'hombre';
-        titleKey = 'PRODUCTS.TITLE_MEN';
+        titleKey = 'Ropa para Hombre';
       } else if (path.includes('kids')) {
         publico = 'infantil';
-        titleKey = 'PRODUCTS.TITLE_KIDS';
+        titleKey = 'Ropa Infantil';
       }
 
       this.filters.update(f => ({ ...f, publico , page: 1}));

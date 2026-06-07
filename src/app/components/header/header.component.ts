@@ -1,12 +1,10 @@
 import { Component, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
-import { LanguageSelectorComponent } from '../language-selector/language-selector.component';
 
 @Component({
     selector: 'app-header',
     standalone: true,
-    imports: [RouterLink, TranslateModule, LanguageSelectorComponent],
+    imports: [RouterLink],
     templateUrl: './header.component.html'
 })
 export class HeaderComponent {
