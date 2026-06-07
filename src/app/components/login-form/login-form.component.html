@@ -16,21 +16,21 @@
           </div>
           }
 
-          <label class="label">{{ 'AUTH.EMAIL' | translate }}</label>
-          <input type="email" formControlName="email" class="input input-bordered w-full" [placeholder]="'AUTH.EMAIL' | translate" />
+          <label class="label">Correo electrónico</label>
+          <input type="email" formControlName="email" class="input input-bordered w-full" placeholder="Correo electrónico" />
 
-          <label class="label">{{ 'AUTH.PASSWORD' | translate }}</label>
+          <label class="label">Contraseña</label>
           <input type="password" formControlName="password" class="input input-bordered w-full"
-            [placeholder]="'AUTH.PASSWORD' | translate" />
+            placeholder="Contraseña" />
 
           <div class="mt-2 text-center">
-            <a routerLink="/forgot-password" class="link link-hover text-sm">{{ 'AUTH.FORGOT_PASSWORD' | translate }}</a>
+            <a routerLink="/forgot-password" class="link link-hover text-sm">¿Olvidaste tu contraseña?</a>
           </div>
 
           <div class="form-control">
             <label class="label cursor-pointer justify-start gap-2">
               <input type="checkbox" formControlName="remember" class="checkbox checkbox-sm checkbox-primary" />
-              <span class="label-text">{{ 'AUTH.REMEMBER_ME' | translate }}</span>
+              <span class="label-text">Recuérdame</span>
             </label>
           </div>
 
@@ -38,10 +38,10 @@
             @if (isLoading()) {
             <span class="loading loading-spinner"></span>
             }
-            {{ 'AUTH.LOGIN_BTN' | translate }}
+            Iniciar Sesión
           </button>
 
-          <div class="divider">{{ 'COMMON.OR' | translate }}</div>
+          <div class="divider">O</div>
 
           <button type="button" class="btn btn-outline w-full" (click)="submitGoogle.emit()">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48">
@@ -54,11 +54,11 @@
               <path fill="#1976D2"
                 d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z" />
             </svg>
-            {{ 'AUTH.CONTINUE_WITH_GOOGLE' | translate }}
+            Continuar con Google
           </button>
 
           <div class="mt-4 text-center">
-            <a routerLink="/register" class="btn btn-link">{{ 'AUTH.NO_ACCOUNT' | translate }}</a>
+            <a routerLink="/register" class="btn btn-link">¿No tienes cuenta?</a>
           </div>
         </form>
       </div>

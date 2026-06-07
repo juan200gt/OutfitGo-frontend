@@ -1,6 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../services/auth.service';
 import { LoginFormComponent } from '../../components/login-form/login-form.component';
 import { LoginCredentials } from '../../interfaces/auth.interface';
@@ -15,7 +14,6 @@ export class LoginPageComponent {
   #authService = inject(AuthService);
   #router = inject(Router);
   #route = inject(ActivatedRoute);
-  #translate = inject(TranslateService);
 
   isLoggingIn = signal<boolean>(false);
   error = signal<string | null>(null);
@@ -25,16 +23,16 @@ export class LoginPageComponent {
   constructor() {
     this.#route.queryParams.subscribe((params: any) => {
       if (params['registered'] === 'true') {
-        this.success.set(this.#translate.instant('AUTH.REGISTERED_SUCCESS'));
+        this.success.set('¡Registro completado con éxito! Por favor, inicia sesión.');
       }
       if (params['registered'] === 'unverified') {
-        this.success.set(this.#translate.instant('AUTH.REGISTERED_UNVERIFIED'));
+        this.success.set('¡Registro exitoso! Por favor, revisa tu correo para verificar tu cuenta antes de iniciar sesión.');
       }
       if (params['verified'] === 'true') {
-        this.success.set(this.#translate.instant('AUTH.VERIFIED_SUCCESS'));
+        this.success.set('¡Correo verificado con éxito! Ya puedes iniciar sesión.');
       }
       if (params['verified'] === 'false') {
-        this.error.set(this.#translate.instant('AUTH.VERIFIED_FAILED'));
+        this.error.set('El enlace de verificación no es válido o ha expirado.');
       }
       if (params['email']) {
         this.prefilledEmail.set(params['email']);

@@ -1,21 +1,20 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-contact-page',
     standalone: true,
-    imports: [CommonModule, TranslateModule],
+    imports: [CommonModule],
     templateUrl: './contact-page.component.html',
     styleUrls: []
 })
 export class ContactPageComponent {
     faqs = [
-        { questionKey: 'CONTACT.FAQS.Q1', answerKey: 'CONTACT.FAQS.A1' },
-        { questionKey: 'CONTACT.FAQS.Q2', answerKey: 'CONTACT.FAQS.A2' },
-        { questionKey: 'CONTACT.FAQS.Q3', answerKey: 'CONTACT.FAQS.A3' },
-        { questionKey: 'CONTACT.FAQS.Q4', answerKey: 'CONTACT.FAQS.A4' },
-        { questionKey: 'CONTACT.FAQS.Q5', answerKey: 'CONTACT.FAQS.A5' },
-        { questionKey: 'CONTACT.FAQS.Q6', answerKey: 'CONTACT.FAQS.A6' }
+        { question: '¿Cuánto tarda en llegar mi pedido?', answer: 'Los envíos estándar tardan entre 3 y 5 días laborables. El envío exprés tarda de 24 a 48 horas.' },
+        { question: '¿Puedo devolver un artículo?', answer: 'Sí, tienes 30 días desde la recepción del pedido para solicitar una devolución de forma gratuita.' },
+        { question: '¿Cómo realizo el seguimiento de mi envío?', answer: 'Puedes ver el estado en tiempo real desde la sección "Mis Pedidos" en tu perfil de usuario.' },
+        { question: '¿Qué métodos de pago están disponibles?', answer: 'Aceptamos pagos con tarjeta de crédito, débito, y pagos seguros mediante Stripe.' },
+        { question: '¿Las tallas coinciden con el estándar?', answer: 'Nuestras prendas siguen un tallaje estándar europeo. Consulta la guía de tallas en cada producto para más seguridad.' },
+        { question: 'He recibido un artículo defectuoso, ¿qué hago?', answer: 'Sentimos el inconveniente. Ponte en contacto con nosotros lo antes posible mediante WhatsApp o teléfono para solucionarlo.' }
     ];
 }
