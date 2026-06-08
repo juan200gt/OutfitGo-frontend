@@ -2,17 +2,15 @@ import { Component, inject, signal } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { ProfileFormComponent } from '../../components/profile-form/profile-form.component';
 import { AddressSelectorComponent } from '../address-selector/address-selector.component';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile-page',
   standalone: true,
-  imports: [ProfileFormComponent, AddressSelectorComponent, TranslateModule],
+  imports: [ProfileFormComponent, AddressSelectorComponent],
   templateUrl: './profile-page.component.html'
 })
 export class ProfilePageComponent {
   authService = inject(AuthService);
-  private translate = inject(TranslateService);
 
   // Estados
   isLoading = signal<boolean>(false);
@@ -28,11 +26,11 @@ export class ProfilePageComponent {
     this.authService.updateProfile(formData).subscribe({
       next: () => {
         this.isLoading.set(false);
-        this.translate.get('PROFILE.UPDATE_SUCCESS').subscribe(msg => this.successMessage.set(msg));
+        this.successMessage.set('Perfil actualizado correctamente.');
       },
       error: (err) => {
         this.isLoading.set(false);
-        this.translate.get('PROFILE.UPDATE_ERROR').subscribe(msg => this.errorMessage.set(msg));
+        this.errorMessage.set('Error al actualizar el perfil.');
       }
     });
   }

@@ -1,25 +1,25 @@
-<div class="space-y-6">
+﻿<div class="space-y-6">
   
   <div class="bg-base-100 p-6 rounded-lg shadow border border-base-200">
-    <h2 class="text-xl font-semibold mb-4 border-b pb-2">{{ 'PROFILE.PERSONAL_DATA' | translate }}</h2>
+    <h2 class="text-xl font-semibold mb-4 border-b pb-2">Datos Personales</h2>
     
     <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="space-y-4">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label class="block text-sm font-medium mb-1">{{ 'AUTH.NAME' | translate }}</label>
+          <label class="block text-sm font-medium mb-1">Nombre completo</label>
           <input type="text" formControlName="name" 
                  class="w-full input input-bordered">
         </div>
         
         <div>
-          <label class="block text-sm font-medium mb-1">{{ 'AUTH.EMAIL' | translate }}</label>
+          <label class="block text-sm font-medium mb-1">Correo electrónico</label>
           <input type="email" formControlName="email" 
                  class="w-full input input-bordered">
         </div>
 
         <div class="md:col-span-2">
-          <label class="block text-sm font-medium mb-1">{{ 'AUTH.PASSWORD' | translate }} ({{ 'COMMON.OPTIONAL' | translate }})</label>
-          <input type="password" formControlName="password" [placeholder]="'PROFILE.PASSWORD_PLACEHOLDER' | translate"
+          <label class="block text-sm font-medium mb-1">Contraseña (Opcional)</label>
+          <input type="password" formControlName="password" placeholder="Déjalo en blanco para mantener la actual"
                  class="w-full input input-bordered">
         </div>
       </div>
@@ -29,9 +29,9 @@
                 class="btn btn-primary">
           @if (isLoading()) {
             <span class="loading loading-spinner"></span>
-            {{ 'COMMON.LOADING' | translate }}
+            Cargando...
           } @else {
-            {{ 'COMMON.SAVE' | translate }}
+            Guardar
           }
         </button>
       </div>

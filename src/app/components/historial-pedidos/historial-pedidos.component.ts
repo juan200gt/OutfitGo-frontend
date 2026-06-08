@@ -2,18 +2,16 @@ import { Component, inject, OnInit, signal, OnDestroy } from '@angular/core';
 import { CommonModule, DatePipe, CurrencyPipe } from '@angular/common';
 import { OrderService } from '../../services/order.service';
 import { Order } from '../../interfaces/order.interface';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-historial-pedidos',
   standalone: true,
-  imports: [CommonModule, DatePipe, CurrencyPipe, TranslateModule],
+  imports: [CommonModule, DatePipe, CurrencyPipe],
   templateUrl: './historial-pedidos.component.html',
   styleUrls: ['./historial-pedidos.component.css']
 })
 export class HistorialPedidosComponent implements OnInit, OnDestroy {
   private orderService = inject(OrderService);
-  private translate = inject(TranslateService);
 
   pedidos = signal<Order[]>([]); 
   cargando = signal<boolean>(true);
@@ -38,7 +36,7 @@ export class HistorialPedidosComponent implements OnInit, OnDestroy {
       },
       error: (err: any) => {
         console.error('Error al cargar historial:', err);
-        this.error.set(this.translate.instant('ORDERS.ERROR_LOAD'));
+        this.error.set('Error al cargar el historial de pedidos.');
         this.cargando.set(false);
       }
     });
@@ -76,10 +74,10 @@ export class HistorialPedidosComponent implements OnInit, OnDestroy {
   }
 
   cancelar(pedidoId: number) {
-    if (confirm(this.translate.instant('ORDERS.CONFIRM_CANCEL'))) {
+    if (confirm("¿Estás seguro de que quieres cancelar este pedido?")) {
       this.orderService.cancelOrder(pedidoId).subscribe({
         next: () => {
-          alert(this.translate.instant('ORDERS.CANCEL_SUCCESS'));
+          alert("Pedido cancelado correctamente.");
           this.pedidos.update((listaActual: Order[]) => 
             listaActual.map((p: Order) => 
               p.id === pedidoId ? { ...p, estado: 'cancelado' } : p
@@ -87,17 +85,17 @@ export class HistorialPedidosComponent implements OnInit, OnDestroy {
           );
         },
         error: (err: any) => {
-          alert(err.error?.message || this.translate.instant('ORDERS.ERROR_GENERIC'));
+          alert(err.error?.message || 'Hubo un error inesperado al procesar tu solicitud.');
         }
       });
     }
   }
 
   devolver(pedidoId: number) {
-    if (confirm(this.translate.instant('ORDERS.CONFIRM_RETURN'))) {
+    if (confirm("¿Estás seguro de que quieres devolver este pedido?")) {
       this.orderService.requestReturn(pedidoId).subscribe({
         next: () => {
-          alert(this.translate.instant('ORDERS.RETURN_SUCCESS'));
+          alert("Devolución solicitada correctamente.");
           this.pedidos.update((listaActual: Order[]) => 
             listaActual.map((p: Order) => 
               p.id === pedidoId ? { ...p, estado: 'devolucion_solicitada' } : p
@@ -105,9 +103,29 @@ export class HistorialPedidosComponent implements OnInit, OnDestroy {
           );
         },
         error: (err: any) => {
-          alert(err.error?.message || this.translate.instant('ORDERS.ERROR_GENERIC'));
+          alert(err.error?.message || 'Hubo un error inesperado al procesar tu solicitud.');
         }
       });
     }
+  }
+
+  getEstadoLabel(estado: string): string {
+    const statusMap: { [key: string]: string } = {
+      'pending': 'Pendiente',
+      'completed': 'Pagado',
+      'shipped': 'Enviado',
+      'delivered': 'Entregado',
+      'cancelled': 'Cancelado',
+      'refunded': 'Reembolsado',
+      'return_requested': 'Devolución en trámite',
+      'pendiente': 'Pendiente',
+      'pagado': 'Pagado',
+      'cancelado': 'Cancelado',
+      'devolucion_solicitada': 'Devolución en trámite',
+      'devuelto': 'Devuelto',
+      'entregando': 'Entregando',
+      'entregado': 'Entregado'
+    };
+    return statusMap[estado.toLowerCase()] || estado;
   }
 }

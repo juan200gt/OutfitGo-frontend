@@ -1,18 +1,18 @@
-<div class="mt-12 border-t border-base-300 pt-8">
-    <h3 class="text-2xl font-bold mb-6">{{ 'PRODUCTS.REVIEWS.TITLE' | translate }}</h3>
+﻿<div class="mt-12 border-t border-base-300 pt-8">
+    <h3 class="text-2xl font-bold mb-6">Opiniones de los clientes</h3>
     
     <!-- Formulario para añadir reseña -->
     @if (isLoggedIn()) {
         <div class="card bg-base-100 shadow-xl border border-primary/20 mb-10 overflow-hidden">
             <div class="card-body p-6">
                 <h4 class="font-bold text-lg mb-4 flex items-center gap-2">
-                    <span class="text-primary">✨</span> {{ 'PRODUCTS.REVIEWS.ADD_TITLE' | translate }}
+                    <span class="text-primary">✨</span> Añade tu opinión
                 </h4>
                 
                 <div class="flex flex-col gap-4">
                     <!-- Selector de estrellas (DaisyUI) -->
                     <div class="form-control">
-                        <label class="label pt-0"><span class="label-text font-medium">{{ 'PRODUCTS.REVIEWS.RATING_LABEL' | translate }}</span></label>
+                        <label class="label pt-0"><span class="label-text font-medium">Tu puntuación</span></label>
                         <div class="rating rating-md">
                             @for (num of [1,2,3,4,5]; track num) {
                                 <input type="radio" name="rating-product" class="mask mask-star-2 bg-orange-400" 
@@ -27,7 +27,7 @@
                     <div class="form-control">
                         <textarea 
                             class="textarea textarea-bordered h-24 focus:textarea-primary transition-all" 
-                            [placeholder]="'PRODUCTS.REVIEWS.COMMENT_PLACEHOLDER' | translate"
+                            placeholder="¿Qué te ha parecido el producto? Cuéntanos tu experiencia..."
                             [(ngModel)]="newComment"
                             [disabled]="isSubmitting()"></textarea>
                     </div>
@@ -36,7 +36,7 @@
                         @if (successMessage()) {
                             <div class="badge badge-success gap-2 py-3 px-4 h-auto text-white animate-bounce">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-4 h-4 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                {{ 'PRODUCTS.REVIEWS.SUCCESS' | translate }}
+                                ¡Gracias por tu opinión!
                             </div>
                         }
                         <button 
@@ -45,9 +45,9 @@
                             [disabled]="newComment().trim().length < 5 || isSubmitting()">
                             @if (isSubmitting()) {
                                 <span class="loading loading-spinner"></span>
-                                {{ 'PRODUCTS.REVIEWS.SUBMITTING' | translate }}
+                                Enviando...
                             } @else {
-                                {{ 'PRODUCTS.REVIEWS.SUBMIT' | translate }}
+                                Publicar reseña
                             }
                         </button>
                     </div>
@@ -58,10 +58,10 @@
         <div class="alert shadow-lg mb-10 border-primary/20 bg-base-100">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-primary shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             <div>
-              <h3 class="font-bold">{{ 'PRODUCTS.REVIEWS.AUTH_PROMPT' | translate }}</h3>
-              <div class="text-xs opacity-70">{{ 'PRODUCTS.REVIEWS.AUTH_SUBTEXT' | translate }}</div>
+              <h3 class="font-bold">¿Quieres dejar tu opinión?</h3>
+              <div class="text-xs opacity-70">Inicia sesión para poder puntuar este producto.</div>
             </div>
-            <button class="btn btn-sm btn-primary" [routerLink]="['/login']">{{ 'AUTH.LOGIN_BTN' | translate }}</button>
+            <button class="btn btn-sm btn-primary" [routerLink]="['/login']">Iniciar Sesión</button>
         </div>
     }
 
@@ -92,7 +92,8 @@
     } @else {
     <div class="bg-base-200 rounded-xl p-10 text-center">
         <div class="text-5xl mb-4 opacity-20">💬</div>
-        <p class="text-xl opacity-60">{{ 'PRODUCTS.REVIEWS.NO_REVIEWS' | translate }}</p>
+        <p class="text-xl opacity-60">Aún no hay opiniones sobre este producto.</p>
     </div>
     }
 </div>
+

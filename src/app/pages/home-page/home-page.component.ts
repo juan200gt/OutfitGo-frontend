@@ -1,12 +1,11 @@
-import { Component, HostListener } from '@angular/core';
+﻿import { Component, HostListener } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
 import { HomeReviewsComponent } from '../../components/home-reviews/home-reviews.component';
 
 @Component({
     selector: 'app-home-page',
     standalone: true,
-    imports: [RouterLink, TranslateModule, HomeReviewsComponent],
+    imports: [RouterLink, HomeReviewsComponent],
     templateUrl: './home-page.component.html'
 })
 export class HomePageComponent {
@@ -19,3 +18,4 @@ export class HomePageComponent {
         this.mouseY = (window.innerHeight / 2 - event.clientY) / 30;
     }
 }
+

@@ -5,19 +5,17 @@ import { AuthService } from '../../services/auth.service';
 import { CurrencyPipe } from '@angular/common';
 import { UserAddress } from '../../interfaces/address.interface';
 import { AddressSelectorComponent } from '../address-selector/address-selector.component';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-checkout-page',
     standalone: true,
-    imports: [AddressSelectorComponent, CurrencyPipe, TranslateModule], 
+    imports: [AddressSelectorComponent, CurrencyPipe], 
     templateUrl: './checkout-page.component.html'
 })
 export class CheckoutPageComponent implements OnInit {
     cartService = inject(CartService);
     authService = inject(AuthService);
     router = inject(Router);
-    #translate = inject(TranslateService);
 
     isProcessing = signal(false);
     selectedAddress = signal<UserAddress | null>(null);
@@ -64,7 +62,7 @@ export class CheckoutPageComponent implements OnInit {
 
     procederAlPago(): void {
         if (!this.selectedAddress()) {
-            this.#translate.get('CHECKOUT.SELECT_ADDRESS_ERROR').subscribe(msg => alert(msg));
+            alert('Por favor, selecciona una dirección de envío');
             return;
         }
 
@@ -95,8 +93,9 @@ export class CheckoutPageComponent implements OnInit {
             error: (err) => {
                 this.isProcessing.set(false);
                 console.error('Stripe error:', err);
-                this.#translate.get('CHECKOUT.STRIPE_ERROR').subscribe(msg => alert(msg));
+                alert('Hubo un error al iniciar el pago seguro.');
             }
         });
     }
 }
+

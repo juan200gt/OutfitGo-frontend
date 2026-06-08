@@ -1,7 +1,7 @@
 <div class="space-y-8">
   <h2 class="text-2xl font-bold flex items-center gap-3">
     <span class="w-2 h-8 bg-primary rounded-full"></span>
-    {{ 'ORDERS.TITLE' | translate }}
+    Mi Historial de Pedidos
   </h2>
 
   @if (cargando()) {
@@ -29,14 +29,14 @@
               'badge-info': pedido.estado === 'shipped' || pedido.estado === 'return_requested' || pedido.estado === 'entregando' || pedido.estado === 'devolucion_solicitada',
               'badge-error': pedido.estado === 'cancelled' || pedido.estado === 'refunded' || pedido.estado === 'cancelado' || pedido.estado === 'devuelto'
             }">
-              {{ 'ORDERS.STATUS_LIST.' + pedido.estado | translate }}
+              {{ getEstadoLabel(pedido.estado) }}
             </div>
           </div>
 
           <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
             <!-- Detalles de Envío -->
             <div>
-              <h4 class="font-bold opacity-50 uppercase text-xs tracking-widest mb-3">{{ 'ORDERS.SHIPPING_TO' | translate }}</h4>
+              <h4 class="font-bold opacity-50 uppercase text-xs tracking-widest mb-3">Enviado a</h4>
               <p class="font-semibold text-lg">{{ pedido.nombre }} {{ pedido.apellidos }}</p>
               <p class="opacity-70">{{ pedido.direccion }}</p>
               <p class="opacity-70">{{ pedido.codigo_postal }} {{ pedido.ciudad }}</p>
@@ -44,7 +44,7 @@
 
             <!-- Resumen de Pago -->
             <div class="md:text-right">
-              <h4 class="font-bold opacity-50 uppercase text-xs tracking-widest mb-3">{{ 'ORDERS.TOTAL' | translate }}</h4>
+              <h4 class="font-bold opacity-50 uppercase text-xs tracking-widest mb-3">Total pagado</h4>
               <p class="text-3xl font-black text-primary">{{ pedido.total | currency:'EUR' }}</p>
             </div>
           </div>
@@ -54,7 +54,7 @@
             <div class="collapse collapse-arrow bg-base-200/30 rounded-xl">
               <input type="checkbox" /> 
               <div class="collapse-title font-bold">
-                  {{ 'ORDERS.ITEMS' | translate }} ({{ pedido.order_items.length }})
+                  Artículos ({{ pedido.order_items.length }})
               </div>
               <div class="collapse-content">
                 <div class="divide-y divide-base-200">
@@ -77,12 +77,12 @@
             <div class="mt-6 flex justify-end gap-3">
               @if (pedido.estado === 'pending' || pedido.estado === 'pendiente') {
                 <button (click)="cancelar(pedido.id)" class="btn btn-error btn-sm btn-outline">
-                  {{ 'ORDERS.CANCEL' | translate }}
+                  Cancelar Pedido
                 </button>
               }
               @if (pedido.estado === 'delivered' || pedido.estado === 'entregado' || pedido.estado === 'enviado') {
                 <button (click)="devolver(pedido.id)" class="btn btn-warning btn-sm btn-outline">
-                  {{ 'ORDERS.RETURN' | translate }}
+                  Solicitar Devolución
                 </button>
               }
             </div>
@@ -90,10 +90,11 @@
         </div>
       } @empty {
         <div class="text-center py-20 bg-base-200/50 rounded-3xl border-2 border-dashed border-base-300">
-          <p class="text-xl opacity-50 mb-6">{{ 'ORDERS.EMPTY' | translate }}</p>
-          <a href="/products" class="btn btn-primary rounded-full px-8">{{ 'NAV.CATALOG' | translate }}</a>
+          <p class="text-xl opacity-50 mb-6">Aún no tienes pedidos en tu historial. ¡Descubre nuestra ropa!</p>
+          <a href="/products" class="btn btn-primary rounded-full px-8">Ver Colección</a>
         </div>
       }
     </div>
   }
 </div>
+

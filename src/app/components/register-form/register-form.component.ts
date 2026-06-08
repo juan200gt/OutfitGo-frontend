@@ -1,14 +1,13 @@
-import { Component, input, output, inject } from '@angular/core';
+﻿import { Component, input, output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
 import { RegisterCredentials } from '../../interfaces/auth.interface';
 
 @Component({
   selector: 'app-register-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, TranslateModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './register-form.component.html'
 })
 export class RegisterFormComponent {
@@ -41,3 +40,4 @@ export class RegisterFormComponent {
     }
   }
 }
+
