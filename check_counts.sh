@@ -1,1 +1,0 @@
-mysql -h db-outfitgo.cdoveyyqvrqx.us-east-1.rds.amazonaws.com -u admin -padmin1234 laravel -e "SELECT (SELECT COUNT(*) FROM categorias) as cats, (SELECT COUNT(*) FROM marcas) as brands, (SELECT COUNT(*) FROM productos) as prods"
