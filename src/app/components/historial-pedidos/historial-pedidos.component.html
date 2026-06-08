@@ -42,12 +42,7 @@
             
             <div class="flex items-center gap-3">
               <!-- Badge de Estado General -->
-              <div class="badge badge-lg py-4 px-4 font-bold uppercase tracking-wider text-xs border" [ngClass]="{
-                'badge-warning border-warning/20 bg-warning/10 text-warning': ['pending', 'pendiente'].includes(pedido.estado),
-                'badge-success border-success/20 bg-success/10 text-success': ['completed', 'delivered', 'entregado', 'pagado'].includes(pedido.estado),
-                'badge-info border-info/20 bg-info/10 text-info': ['shipped', 'return_requested', 'entregando', 'devolucion_solicitada'].includes(pedido.estado),
-                'badge-error border-error/20 bg-error/10 text-error': ['cancelled', 'refunded', 'cancelado', 'devuelto'].includes(pedido.estado)
-              }">
+              <div class="badge badge-lg py-4 px-4 font-bold uppercase tracking-wider text-xs border" [ngClass]="getBadgeClass(pedido.estado)">
                 {{ getEstadoLabel(pedido.estado) }}
               </div>
             </div>
@@ -97,20 +92,14 @@
                     <div class="hidden md:block absolute left-[15%] right-[15%] top-6 h-1 bg-base-300 rounded-full z-0">
                       <!-- Línea de progreso activa -->
                       <div class="h-full bg-primary rounded-full transition-all duration-500"
-                        [ngStyle]="{
-                          'width': ['entregado', 'delivered', 'enviado'].includes(pedido.estado) ? '100%' :
-                                   ['entregando', 'shipped'].includes(pedido.estado) ? '50%' : '0%'
-                        }">
+                        [style.width]="getStepProgressWidth(pedido.estado)">
                       </div>
                     </div>
 
                     <!-- Paso 1: Pagado -->
                     <div class="flex md:flex-col items-center gap-4 md:gap-2 z-10 w-full md:w-1/3 text-left md:text-center">
                       <div class="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 shadow-md border-2"
-                        [ngClass]="{
-                          'bg-primary border-primary text-white shadow-primary/20': ['pagado', 'completed', 'entregando', 'shipped', 'entregado', 'delivered', 'enviado'].includes(pedido.estado),
-                          'bg-base-200 border-base-300 text-base-content/40': ['pendiente', 'pending'].includes(pedido.estado)
-                        }">
+                        [ngClass]="getStep1Class(pedido.estado)">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
                           <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
                         </svg>
@@ -124,11 +113,7 @@
                     <!-- Paso 2: En Reparto -->
                     <div class="flex md:flex-col items-center gap-4 md:gap-2 z-10 w-full md:w-1/3 text-left md:text-center">
                       <div class="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 shadow-md border-2"
-                        [ngClass]="{
-                          'bg-primary border-primary text-white shadow-primary/20': ['entregado', 'delivered', 'enviado'].includes(pedido.estado),
-                          'bg-primary/20 border-primary text-primary animate-pulse': ['entregando', 'shipped'].includes(pedido.estado),
-                          'bg-base-200 border-base-300 text-base-content/40': ['pendiente', 'pending', 'pagado', 'completed'].includes(pedido.estado)
-                        }">
+                        [ngClass]="getStep2Class(pedido.estado)">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
                           <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
                           <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v3.07l2.84 2.84A1 1 0 0016.55 13H18v-3a3 3 0 00-3-3h-1z" />
@@ -143,10 +128,7 @@
                     <!-- Paso 3: Entregado -->
                     <div class="flex md:flex-col items-center gap-4 md:gap-2 z-10 w-full md:w-1/3 text-left md:text-center">
                       <div class="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 shadow-md border-2"
-                        [ngClass]="{
-                          'bg-success border-success text-white shadow-success/20': ['entregado', 'delivered', 'enviado'].includes(pedido.estado),
-                          'bg-base-200 border-base-300 text-base-content/40': !['entregado', 'delivered', 'enviado'].includes(pedido.estado)
-                        }">
+                        [ngClass]="getStep3Class(pedido.estado)">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
                           <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                         </svg>
