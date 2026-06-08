@@ -1,14 +1,13 @@
-import { Component, inject, OnInit, signal, output, viewChild, ElementRef } from '@angular/core';
+﻿import { Component, inject, OnInit, signal, output, viewChild, ElementRef } from '@angular/core';
 import { AddressService } from '../../services/address.service';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserAddress } from '../../interfaces/address.interface';
 import { NgClass } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-address-selector',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, NgClass, TranslateModule],
+  imports: [FormsModule, ReactiveFormsModule, NgClass],
   templateUrl: './address-selector.component.html'
 })
 export class AddressSelectorComponent implements OnInit {

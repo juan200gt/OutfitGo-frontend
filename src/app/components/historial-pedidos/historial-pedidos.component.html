@@ -48,7 +48,7 @@
                 'badge-info border-info/20 bg-info/10 text-info': ['shipped', 'return_requested', 'entregando', 'devolucion_solicitada'].includes(pedido.estado),
                 'badge-error border-error/20 bg-error/10 text-error': ['cancelled', 'refunded', 'cancelado', 'devuelto'].includes(pedido.estado)
               }">
-                {{ pedido.estado | uppercase }}
+                {{ getEstadoLabel(pedido.estado) }}
               </div>
             </div>
           </div>
@@ -282,11 +282,11 @@
           </div>
           <p class="text-xl font-bold text-base-content mb-2">Aún no has realizado ningún pedido</p>
           <p class="text-sm opacity-60 max-w-md mb-8">Una vez realices tu primera compra, podrás realizar el seguimiento en tiempo real desde este historial.</p>
-          <a routerLink="/products/all" class="btn btn-primary rounded-full px-10 shadow-lg shadow-primary/20 hover:scale-105 transition-all duration-300">
+          <a routerLink="/products" class="btn btn-primary rounded-full px-10 shadow-lg shadow-primary/20 hover:scale-105 transition-all duration-300">
             Ir al catálogo
-          </a>
         </div>
       }
     </div>
   }
 </div>
+

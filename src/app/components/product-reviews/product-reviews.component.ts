@@ -1,7 +1,6 @@
-import { Component, input, inject, signal, computed, effect } from '@angular/core';
+﻿import { Component, input, inject, signal, computed, effect } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { ProductService } from '../../services/product.service';
@@ -9,7 +8,7 @@ import { ProductService } from '../../services/product.service';
 @Component({
   selector: 'app-product-reviews',
   standalone: true,
-  imports: [CommonModule, TranslateModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './product-reviews.component.html'
 })
 export class ProductReviewsComponent {
@@ -66,3 +65,4 @@ export class ProductReviewsComponent {
     });
   }
 }
+

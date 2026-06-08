@@ -1,14 +1,13 @@
-import { Component, inject, signal } from '@angular/core';
+﻿import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-forgot-password-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, TranslateModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './forgot-password-page.component.html'
 })
 export class ForgotPasswordPageComponent {
@@ -48,3 +47,4 @@ export class ForgotPasswordPageComponent {
     }
   }
 }
+

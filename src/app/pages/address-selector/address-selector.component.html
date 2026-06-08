@@ -88,13 +88,13 @@
       <div class="form-control">
         <label class="label cursor-pointer justify-start gap-3">
           <input type="checkbox" formControlName="es_principal" class="checkbox checkbox-primary" />
-          <span class="label-text">Establecer como dirección principal</span>
+          <span class="label-text">Establecer como predeterminada</span>
         </label>
       </div>
 
       <div class="modal-action">
-        <button type="button" class="btn btn-ghost" (click)="cancelForm()">Cancelar</button>
-        <button type="submit" class="btn btn-neutral" [disabled]="addressForm.invalid || isSaving()">
+        <button type="button" class="btn" onclick="address_modal.close()">Cancelar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving()">
           @if(isSaving()){ <span class="loading loading-spinner"></span> }
           Guardar Dirección
         </button>

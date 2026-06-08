@@ -1,11 +1,10 @@
-import { Component, effect, input, output } from '@angular/core';
+﻿import { Component, effect, input, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile-form',
   standalone: true,
-  imports: [ReactiveFormsModule, TranslateModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './profile-form.component.html'
 })
 export class ProfileFormComponent {

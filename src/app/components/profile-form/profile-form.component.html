@@ -6,7 +6,7 @@
     <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="space-y-4">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label class="block text-sm font-medium mb-1">Nombre</label>
+          <label class="block text-sm font-medium mb-1">Nombre completo</label>
           <input type="text" formControlName="name" 
                  class="w-full input input-bordered">
         </div>
@@ -19,7 +19,7 @@
 
         <div class="md:col-span-2">
           <label class="block text-sm font-medium mb-1">Contraseña (Opcional)</label>
-          <input type="password" formControlName="password" placeholder="Dejar en blanco para no cambiar"
+          <input type="password" formControlName="password" placeholder="Déjalo en blanco para mantener la actual"
                  class="w-full input input-bordered">
         </div>
       </div>

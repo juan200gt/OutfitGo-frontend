@@ -1,14 +1,13 @@
-import { Component, inject, OnInit } from '@angular/core';
+﻿import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { CartItemComponent } from '../../components/cart-item/cart-item.component';
-import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cart-page',
   standalone: true,
-  imports: [CommonModule, RouterLink, CartItemComponent, TranslateModule],
+  imports: [CommonModule, RouterLink, CartItemComponent],
   templateUrl: './cart-page.component.html'
 })
 export class CartPageComponent implements OnInit {
@@ -26,3 +25,4 @@ export class CartPageComponent implements OnInit {
     this.cartService.updateQuantity(event.id, event.cantidad).subscribe();
   }
 }
+

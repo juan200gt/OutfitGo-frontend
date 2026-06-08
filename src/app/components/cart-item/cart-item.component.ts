@@ -1,12 +1,11 @@
-import { Component, input, output } from '@angular/core';
+﻿import { Component, input, output } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
 import { CartItem } from '../../interfaces/cart.interface';
 
 @Component({
   selector: 'app-cart-item',
   standalone: true,
-  imports: [CurrencyPipe, TranslateModule],
+  imports: [CurrencyPipe],
   template: `
 <div class="flex flex-col sm:flex-row items-center gap-4 border-b border-base-200 py-4 last:border-b-0">
     <img [src]="item().variante.producto.url_imagen_principal" [alt]="item().variante.producto.nombre"
@@ -16,14 +15,14 @@ import { CartItem } from '../../interfaces/cart.interface';
         <div class="flex flex-col">
             <h3 class="font-semibold text-lg">{{ item().variante.producto.nombre }}</h3>
             <p class="text-sm text-base-content/70 font-medium">
-                {{ 'CART.SIZE' | translate }}: {{ item().variante.talla.nombre }} | 
-                {{ 'CART.COLOR' | translate }}: {{ item().variante.color.nombre }}
+                Talla: {{ item().variante.talla.nombre }} | 
+                Color: {{ item().variante.color.nombre }}
             </p>
             
-            <p class="text-sm text-base-content/70 mt-1">{{ 'CART.UNIT_PRICE' | translate }}: {{ item().variante.producto.precio | currency:'EUR' }}</p>
+            <p class="text-sm text-base-content/70 mt-1">Precio Unit.: {{ item().variante.producto.precio | currency:'EUR' }}</p>
             
             <div class="flex items-center gap-2 mt-2">
-                <span class="text-sm text-base-content/70">{{ 'CART.QUANTITY' | translate }}:</span>
+                <span class="text-sm text-base-content/70">Cantidad:</span>
                 <div class="flex items-center gap-2">
                     <button class="btn btn-outline btn-xs btn-square" 
                         (click)="updateQuantity.emit({ id: item().id, cantidad: item().cantidad - 1 })"
@@ -49,7 +48,7 @@ import { CartItem } from '../../interfaces/cart.interface';
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>
-                {{ 'CART.REMOVE' | translate }}
+                Eliminar
             </button>
         </div>
     </div>
@@ -61,3 +60,4 @@ export class CartItemComponent {
   remove = output<number>();
   updateQuantity = output<{ id: number, cantidad: number }>();
 }
+

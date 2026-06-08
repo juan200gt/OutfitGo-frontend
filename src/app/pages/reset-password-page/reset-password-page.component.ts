@@ -1,14 +1,13 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+﻿import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-reset-password-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, TranslateModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './reset-password-page.component.html'
 })
 export class ResetPasswordPageComponent implements OnInit {
@@ -77,3 +76,4 @@ export class ResetPasswordPageComponent implements OnInit {
     }
   }
 }
+

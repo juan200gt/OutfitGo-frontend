@@ -5,13 +5,12 @@ import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Product } from '../../interfaces/product.interface';
-import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { PriceChartComponent } from '../price-chart/price-chart.component';
 @Component({
   selector: 'app-product-detail-info',
   standalone: true,
-  imports: [CommonModule, TranslateModule, FormsModule, PriceChartComponent],
+  imports: [CommonModule, FormsModule, PriceChartComponent],
   templateUrl: './product-detail-info.component.html'
 })
 export class ProductDetailInfoComponent {

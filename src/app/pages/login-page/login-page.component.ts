@@ -94,3 +94,4 @@ export class LoginPageComponent {
     this.#authService.loginWithGoogle();
   }
 }
+

@@ -1,4 +1,4 @@
-import { Component, signal, inject, computed } from '@angular/core';
+﻿import { Component, signal, inject, computed } from '@angular/core';
 import { Router, RouterOutlet, RouterLink } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -34,3 +34,4 @@ export class AppComponent {
         });
     }
 }
+

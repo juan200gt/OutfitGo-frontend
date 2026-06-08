@@ -4,14 +4,12 @@ import { AppComponent } from './app.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        AppComponent,
-        TranslateModule.forRoot()
+        AppComponent
       ],
       providers: [
         provideRouter([]),

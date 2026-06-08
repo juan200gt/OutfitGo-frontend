@@ -110,7 +110,7 @@ export class HistorialPedidosComponent implements OnInit, OnDestroy {
           );
         },
         error: (err: any) => {
-          alert(err.error?.message || 'Ocurrió un error.');
+          alert(err.error?.message || 'Hubo un error inesperado al procesar tu solicitud.');
         }
       });
     }
@@ -128,9 +128,29 @@ export class HistorialPedidosComponent implements OnInit, OnDestroy {
           );
         },
         error: (err: any) => {
-          alert(err.error?.message || 'Ocurrió un error.');
+          alert(err.error?.message || 'Hubo un error inesperado al procesar tu solicitud.');
         }
       });
     }
+  }
+
+  getEstadoLabel(estado: string): string {
+    const statusMap: { [key: string]: string } = {
+      'pending': 'Pendiente',
+      'completed': 'Pagado',
+      'shipped': 'Enviado',
+      'delivered': 'Entregado',
+      'cancelled': 'Cancelado',
+      'refunded': 'Reembolsado',
+      'return_requested': 'Devolución en trámite',
+      'pendiente': 'Pendiente',
+      'pagado': 'Pagado',
+      'cancelado': 'Cancelado',
+      'devolucion_solicitada': 'Devolución en trámite',
+      'devuelto': 'Devuelto',
+      'entregando': 'Entregando',
+      'entregado': 'Entregado'
+    };
+    return statusMap[estado.toLowerCase()] || estado;
   }
 }

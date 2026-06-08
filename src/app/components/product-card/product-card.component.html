@@ -21,7 +21,7 @@
             {{ product().name }}
             @if (product().category) {
 
-            <div class="badge badge-secondary badge-sm">{{ product().category }}</div>
+            <div class="badge badge-secondary badge-sm">{{ getCategoryLabel(product().category) }}</div>
             }
         </h2>
         

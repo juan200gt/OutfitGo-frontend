@@ -10,7 +10,7 @@
         <section class="mb-20">
             <h2 class="text-xs font-bold tracking-widest uppercase mb-8 opacity-60">Preguntas Frecuentes</h2>
             <div class="join join-vertical w-full bg-base-200/30">
-                @for (item of faqs; track item.questionKey) {
+                @for (item of faqs; track item.question) {
                 <div class="collapse collapse-plus join-item border-b border-base-content/10">
                     <input type="radio" name="my-accordion-4" [checked]="$first" />
                     <div class="collapse-title text-sm font-medium uppercase tracking-wider py-5">
@@ -39,7 +39,7 @@
                 class="flex flex-col items-center p-8 bg-base-200/50 hover:bg-base-200 transition-all rounded-lg border border-transparent hover:border-primary/20 group">
                 <i class="fi fi-brands-instagram text-3xl mb-4 opacity-70 group-hover:text-primary transition-colors"></i>
                 <span class="text-xs font-bold uppercase tracking-widest mb-1">Instagram</span>
-                <span class="text-[10px] opacity-50">@outfitgo</span>
+                <span class="text-[10px] opacity-50">&#64;outfitgo</span>
             </a>
 
             <!-- Teléfono -->
