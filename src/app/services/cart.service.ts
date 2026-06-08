@@ -1,4 +1,4 @@
-import { Injectable, inject, signal, computed } from '@angular/core';
+import { Injectable, inject, signal, computed, effect } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, of } from 'rxjs';
 import { CartItem, CartResponse } from '../interfaces/cart.interface';
@@ -36,6 +36,17 @@ export class CartService {
     totalItemsCount = computed(() => {
         return this.cartItems().reduce((count, item) => count + item.cantidad, 0);
     });
+
+    constructor() {
+        effect(() => {
+            const user = this.#authService.currentUser();
+            if (user) {
+                this.syncGuestCartToApi();
+            } else {
+                this.loadCart();
+            }
+        });
+    }
 
     private isLoggedIn(): boolean {
         return !!localStorage.getItem('auth_token') || !!sessionStorage.getItem('auth_token');
@@ -164,17 +175,35 @@ export class CartService {
     syncGuestCartToApi(): void {
         const guestCart = localStorage.getItem('guest_cart');
         if (guestCart && this.isLoggedIn()) {
-            const items: CartItem[] = JSON.parse(guestCart);
-            items.forEach(item => {
-                this.#http.post(this.#apiUrl, { 
-                    producto_id: item.variante.producto.id, 
+            try {
+                const items: CartItem[] = JSON.parse(guestCart);
+                if (items.length === 0) {
+                    localStorage.removeItem('guest_cart');
+                    this.loadCart();
+                    return;
+                }
+                const payload = items.map(item => ({
+                    producto_id: item.variante.producto.id,
                     cantidad: item.cantidad,
                     talla: item.variante.talla.nombre,
                     color: item.variante.color.nombre
-                }).subscribe();
-            });
-            localStorage.removeItem('guest_cart');
-            setTimeout(() => this.loadCart(), 1000);
+                }));
+
+                this.#http.post<CartResponse>(`${this.#apiUrl}/sync`, { items: payload }).subscribe({
+                    next: (res) => {
+                        this.cartItems.set(res.data);
+                        localStorage.removeItem('guest_cart');
+                    },
+                    error: (err) => {
+                        console.error('Error syncing guest cart to api', err);
+                        this.loadCart();
+                    }
+                });
+            } catch (e) {
+                console.error('Failed to parse guest cart storage', e);
+                localStorage.removeItem('guest_cart');
+                this.loadCart();
+            }
         }
     }
 }
