@@ -23,16 +23,16 @@ export class LoginPageComponent {
   constructor() {
     this.#route.queryParams.subscribe((params: any) => {
       if (params['registered'] === 'true') {
-        this.success.set("¡Registro completado con éxito! Por favor, inicia sesión.");
+        this.success.set('¡Registro completado con éxito! Por favor, inicia sesión.');
       }
       if (params['registered'] === 'unverified') {
-        this.success.set("¡Registro exitoso! Por favor, revisa tu correo para verificar tu cuenta antes de iniciar sesión.");
+        this.success.set('¡Registro exitoso! Por favor, revisa tu correo para verificar tu cuenta antes de iniciar sesión.');
       }
       if (params['verified'] === 'true') {
-        this.success.set("¡Correo verificado con éxito! Ya puedes iniciar sesión.");
+        this.success.set('¡Correo verificado con éxito! Ya puedes iniciar sesión.');
       }
       if (params['verified'] === 'false') {
-        this.error.set("El enlace de verificación no es válido o ha expirado.");
+        this.error.set('El enlace de verificación no es válido o ha expirado.');
       }
       if (params['email']) {
         this.prefilledEmail.set(params['email']);

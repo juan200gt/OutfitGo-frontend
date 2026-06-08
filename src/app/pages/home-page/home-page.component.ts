@@ -1,4 +1,4 @@
-﻿import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, ViewEncapsulation } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HomeReviewsComponent } from '../../components/home-reviews/home-reviews.component';
 
@@ -6,7 +6,8 @@ import { HomeReviewsComponent } from '../../components/home-reviews/home-reviews
     selector: 'app-home-page',
     standalone: true,
     imports: [RouterLink, HomeReviewsComponent],
-    templateUrl: './home-page.component.html'
+    templateUrl: './home-page.component.html',
+    encapsulation: ViewEncapsulation.None
 })
 export class HomePageComponent {
     mouseX = 0;

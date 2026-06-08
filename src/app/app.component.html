@@ -1,4 +1,4 @@
-﻿<app-header 
+<app-header 
     [isLoggedIn]="!!authService.currentUser()" 
     [cartItemCount]="cartService.totalItemsCount()"
     (logoutEvent)="handleLogout()">
@@ -6,7 +6,6 @@
 <main class="main-content">
   <router-outlet></router-outlet>
 </main>
-<router-outlet></router-outlet>
 
 <a routerLink="/contacto" 
    class="fixed bottom-6 right-6 z-[999] btn btn-circle btn-primary shadow-2xl hover:scale-110 transition-all duration-300 floating-contact" 

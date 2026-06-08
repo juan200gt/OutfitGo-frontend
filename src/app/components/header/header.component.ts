@@ -16,5 +16,11 @@ export class HeaderComponent {
     onLogout() {
         this.logoutEvent.emit();
     }
+
+    closeDropdown() {
+        if (typeof document !== 'undefined') {
+            (document.activeElement as HTMLElement)?.blur();
+        }
+    }
 }
 

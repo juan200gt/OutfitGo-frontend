@@ -27,7 +27,7 @@
             <div class="flex flex-col gap-4">
                 <div class="form-control w-full">
                     <label class="label"><span class="label-text font-semibold">Categoría</span></label>
-                    <select class="select select-bordered w-full" (change)="updateFilter('categoria_id', $event)" [disabled]="isLoading()">
+                    <select class="select select-bordered w-full" (change)="updateFilter('categoria_id', $event)" [disabled]="isLoading()" [value]="filters().categoria_id">
                         <option value="">Todas las categorías</option>
                         @for(cat of availableCategories(); track cat.id) {
                             <option [value]="cat.id">{{ cat.nombre_localizado || cat.nombre }}</option>
@@ -37,7 +37,7 @@
                 
                 <div class="form-control w-full">
                     <label class="label"><span class="label-text font-semibold">Talla</span></label>
-                    <select class="select select-bordered w-full" (change)="updateFilter('talla', $event)" [disabled]="isLoading()">
+                    <select class="select select-bordered w-full" (change)="updateFilter('talla', $event)" [disabled]="isLoading()" [value]="filters().talla">
                         <option value="">Todas las tallas</option>
                         @for(talla of availableSizes(); track talla.id) {
                             <option [value]="talla.nombre">{{ talla.nombre }}</option>
@@ -47,7 +47,7 @@
 
                 <div class="form-control w-full">
                     <label class="label"><span class="label-text font-semibold">Color</span></label>
-                    <select class="select select-bordered w-full" (change)="updateFilter('color', $event)" [disabled]="isLoading()">
+                    <select class="select select-bordered w-full" (change)="updateFilter('color', $event)" [disabled]="isLoading()" [value]="filters().color">
                         <option value="">Todos los colores</option>
                         @for(color of availableColors(); track color.id) {
                             <option [value]="color.nombre">{{ color.nombre }}</option>
@@ -57,7 +57,7 @@
 
                 <div class="form-control w-full">
                     <label class="label"><span class="label-text font-semibold">Marca</span></label>
-                    <select class="select select-bordered w-full" (change)="updateFilter('marca_id', $event)" [disabled]="isLoading()">
+                    <select class="select select-bordered w-full" (change)="updateFilter('marca_id', $event)" [disabled]="isLoading()" [value]="filters().marca_id">
                         <option value="">Todas las marcas</option>
                         @for(marca of availableBrands(); track marca.id) {
                             <option [value]="marca.id">{{ marca.nombre }}</option>
@@ -91,7 +91,7 @@
                 <div class="col-span-full text-center py-10 bg-base-200 rounded-xl border border-base-300">
                     <div class="text-6xl mb-4">🔍</div>
                     <p class="text-xl opacity-70">No se encontraron productos con estos filtros.</p>
-                    <button class="btn btn-primary mt-4" (click)="filters.set({ publico: '', talla: '', color: '', marca_id: '', categoria_id: '', page: 1 })">
+                    <button class="btn btn-neutral mt-6" (click)="filters.set({ publico: filters().publico, talla: '', color: '', marca_id: '', categoria_id: '', page: 1 })">
                         Recargar
                     </button>
                 </div>

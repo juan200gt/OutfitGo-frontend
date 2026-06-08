@@ -27,7 +27,7 @@
               }
             ],
             "styles": [
-              "src/css/main.css"
+              "src/styles.css"
             ],
             "scripts": []
           },

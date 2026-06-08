@@ -1,17 +1,16 @@
-﻿import { Component, input, output, signal, effect, computed, inject } from '@angular/core';
+import { Component, input, output, signal, effect, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Product } from '../../interfaces/product.interface';
 import { FormsModule } from '@angular/forms';
 import { PriceChartComponent } from '../price-chart/price-chart.component';
-import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-product-detail-info',
   standalone: true,
-  imports: [CommonModule, FormsModule, PriceChartComponent, RouterLink],
+  imports: [CommonModule, FormsModule, PriceChartComponent],
   templateUrl: './product-detail-info.component.html'
 })
 export class ProductDetailInfoComponent {
@@ -30,6 +29,7 @@ export class ProductDetailInfoComponent {
   peso: number | null = null;
   tallaRecomendada = signal<string | null>(null);
   calculandoTalla = signal<boolean>(false);
+  errorCalculo = signal<string | null>(null);
   #http = inject(HttpClient);
 
   currentStock = computed(() => {
@@ -85,6 +85,7 @@ export class ProductDetailInfoComponent {
     if (!this.altura || !this.peso) return;
 
     this.calculandoTalla.set(true);
+    this.errorCalculo.set(null);
 
     this.#http.post<any>(`${environment.apiUrl}/calcular-talla`, {
       altura: this.altura,
@@ -95,7 +96,9 @@ export class ProductDetailInfoComponent {
         this.tallaRecomendada.set(res.talla || res);
         this.calculandoTalla.set(false);
       },
-      error: () => {
+      error: (err: any) => {
+        console.error('Error al calcular talla:', err);
+        this.errorCalculo.set('No se pudo obtener la recomendación de talla en este momento.');
         this.calculandoTalla.set(false);
       }
     });

@@ -25,15 +25,7 @@
             <h1 class="text-4xl font-black mb-2">{{ product().nombre_localizado || product().name }}</h1>
             <p class="text-3xl font-bold text-accent mb-4">{{ product().price }} €</p>
 
-            <div class="mt-8 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">Historial de precios</h3>
-                
-                <app-price-chart [productoId]="product().id"></app-price-chart>
-                
-                <p class="text-xs text-gray-400 mt-4 italic">
-                    * Los precios pueden variar según ofertas y temporada.
-                </p>
-            </div>
+
                 
             <p class="text-base-content/80 mt-3 text-lg mb-8 leading-relaxed">
                {{ product().descripcion_localizada || product().description }}
@@ -78,9 +70,12 @@
             <div class="mb-8 p-4 bg-gray-50 border border-gray-100 rounded-xl">
                 <h4 class="font-bold text-sm mb-3 text-gray-700">¿No sabes tu talla? Te ayudamos</h4>
                 @if (tallaRecomendada()) {
-                    <p class="text-sm text-green-700 font-medium">
-                        Según tus medidas, te recomendamos la talla <strong>{{ tallaRecomendada() }}</strong>
-                    </p>
+                    <div class="flex items-center justify-between flex-wrap gap-2">
+                        <p class="text-sm text-green-700 font-medium">
+                            Según tus medidas, te recomendamos la talla <strong>{{ tallaRecomendada() }}</strong>
+                        </p>
+                        <button class="btn btn-link btn-xs text-xs text-primary p-0 h-auto min-h-0 normal-case" (click)="tallaRecomendada.set(null)">Calcular de nuevo</button>
+                    </div>
                 } @else {
                     <div class="flex flex-wrap items-center gap-3">
                         <input type="number" placeholder="Altura (cm)" class="input input-bordered input-sm w-32 bg-white" [(ngModel)]="altura" />
@@ -93,13 +88,18 @@
                             }
                         </button>
                     </div>
+                    @if (errorCalculo()) {
+                        <p class="text-xs text-error mt-2 font-medium flex items-center gap-1">
+                            <span>⚠️</span> {{ errorCalculo() }}
+                        </p>
+                    }
                 }
             </div>
 
             <div class="mt-8 bg-base-200 p-6 rounded-2xl">
                 <div class="flex justify-between items-center mb-4">
                     <span class="text-sm font-semibold text-base-content/70">
-                        Stock disponible: <span [class.text-error]="currentStock() < 5">{{ currentStock() }} uds.</span>
+                        Disponibilidad: <span [class.text-error]="currentStock() < 5">{{ currentStock() }} unidades</span>
                     </span>
                 </div>
                 
@@ -119,5 +119,15 @@
             </div>
             
         </div>
+    </div>
+
+    <div class="mt-12 p-6 bg-white rounded-xl shadow-sm border border-gray-100 max-w-4xl mx-auto">
+        <h3 class="text-lg font-bold text-gray-900 mb-4">Historial de precios</h3>
+        
+        <app-price-chart [productoId]="product().id"></app-price-chart>
+        
+        <p class="text-xs text-gray-400 mt-4 italic">
+            * Los precios pueden variar según ofertas y temporada.
+        </p>
     </div>
 </div>
