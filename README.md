@@ -15,6 +15,7 @@ Para consultar guías detalladas específicas de la interfaz, accede a los sigui
 
 1.  👉 **[Guía de Desarrollo de Interfaz (Angular)](file:///d:/Mis%20Datos/Documentos/GitHub/Frontend/docs/DEVELOPMENT_GUIDE.md)**: Detalle técnico de la arquitectura Standalone, manejo de estado reactivo con Signals y RxJS, configuración de rutas y guards de seguridad, multiidioma (ngx-translate), simulador visual de pedidos y panel del chat Outfit Wizard.
 2.  👉 **[Guía de Operaciones y Despliegue (DevOps)](file:///d:/Mis%20Datos/Documentos/GitHub/Frontend/docs/DEPLOYMENT_GUIDE.md)**: Configuración de contenedores Docker (desarrollo y producción), proxy inverso en Nginx local, pipeline automatizado de CI/CD en GitHub Actions y transición futura al balanceador de carga multi-instancia.
+3.  🎨 **[Diseño UI/UX (Figma)](https://www.figma.com/design/IwRQym2ZbtiaiJkNosTvLc/OutfitGo?node-id=0-1&p=f&t=V2PRxRqxRLgpy6cq-0)**: Mockups oficiales del proyecto OutfitGo, prototipos interactivos y recursos del sistema de diseño visual.
 
 ---
 
