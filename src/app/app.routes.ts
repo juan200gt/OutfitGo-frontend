@@ -10,6 +10,7 @@ import { CheckoutSuccessPageComponent } from './pages/checkout-success-page/chec
 import { ContactPageComponent } from './pages/contact-page/contact-page.component';
 import { ForgotPasswordPageComponent } from './pages/forgot-password-page/forgot-password-page.component';
 import { ResetPasswordPageComponent } from './pages/reset-password-page/reset-password-page.component';
+import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
 
 // Importamos los Guards
 import { authGuard } from './guards/auth.guard';
@@ -120,9 +121,10 @@ export const routes: Routes = [
         title: 'Mis Favoritos'
     },
 
-    // 🗑️ RUTA COMODÍN (Cualquier error 404 manda a Inicio)
+    // 🗑️ RUTA COMODÍN (Cualquier error 404)
     {
         path: '**',
-        redirectTo: ''
+        component: NotFoundPageComponent,
+        title: 'Página no encontrada'
     }
 ];
