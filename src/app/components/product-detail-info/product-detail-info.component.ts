@@ -103,4 +103,8 @@ export class ProductDetailInfoComponent {
       }
     });
   }
+
+  onImgError(event: Event) {
+    (event.target as HTMLImageElement).src = '/no-image.png';
+  }
 }

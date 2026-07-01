@@ -23,6 +23,10 @@ export class ProductCardComponent {
     this.favoriteService.toggleFavorite(this.product().id).subscribe();
   }
 
+  onImgError(event: Event) {
+    (event.target as HTMLImageElement).src = '/no-image.png';
+  }
+
   getCategoryLabel(category: string): string {
     const lower = category.toLowerCase();
     if (lower === 'man' || lower === 'men' || lower === 'hombre') return 'Hombre';

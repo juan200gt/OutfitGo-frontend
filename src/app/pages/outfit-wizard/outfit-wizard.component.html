@@ -37,7 +37,7 @@
         @for(producto of resultado()?.productos; track producto.id) {
           <div class="border p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow flex flex-col group">
             <div class="relative aspect-[4/5] overflow-hidden rounded-md mb-4">
-              <img [src]="producto.image" [alt]="producto.name" class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500" />
+              <img [src]="producto.image || '/no-image.png'" [alt]="producto.name" (error)="onImgError($event)" class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500" />
             </div>
             <h4 class="font-bold line-clamp-2" [title]="producto.name">{{ producto.name }}</h4>
             <p class="text-green-600 font-semibold mt-2">{{ producto.price }}€</p>

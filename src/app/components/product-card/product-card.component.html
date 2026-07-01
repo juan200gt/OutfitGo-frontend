@@ -12,7 +12,7 @@
     </button>
 
     <figure class="cursor-pointer" [routerLink]="['/producto', product().slug]">
-        <img [src]="product().image" [alt]="product().name"
+        <img [src]="product().image || '/no-image.png'" [alt]="product().name" (error)="onImgError($event)"
             class="object-cover h-64 w-full transition-transform duration-300 group-hover:scale-105" />
     </figure>
     

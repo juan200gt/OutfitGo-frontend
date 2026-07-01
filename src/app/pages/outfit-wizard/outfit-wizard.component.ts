@@ -45,4 +45,8 @@ export class OutfitWizardComponent {
         }
       });
   }
+
+  onImgError(event: Event) {
+    (event.target as HTMLImageElement).src = '/no-image.png';
+  }
 }
