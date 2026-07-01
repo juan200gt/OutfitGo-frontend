@@ -46,3 +46,10 @@ docker-compose.override.yml
 certs/
 DockerFile
 docker-compose.prod.yml
+
+# Environment files with credentials
+.env*
+!.env.example
+
+# Database dumps
+*.sql
