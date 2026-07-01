@@ -24,8 +24,8 @@ export class RegisterPageComponent {
     this.#authService.register(credentials).subscribe({
       next: () => {
         this.isRegistering.set(false);
-        // Redirigimos al login con un mensaje de que debe verificar el correo
-        this.#router.navigate(['/login'], { queryParams: { registered: 'unverified', email: credentials.email } });
+        // Redirigimos al login con un mensaje de que se ha registrado con éxito
+        this.#router.navigate(['/login'], { queryParams: { registered: 'true', email: credentials.email } });
       },
       error: (err) => {
         this.isRegistering.set(false);
