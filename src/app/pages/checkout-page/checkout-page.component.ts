@@ -81,7 +81,8 @@ export class CheckoutPageComponent implements OnInit {
 
         const payload = {
             address_id: this.selectedAddress()?.id,
-            productos: productosParaLaravel
+            productos: productosParaLaravel,
+            coupon_code: this.cartService.appliedCoupon()?.codigo || null
         };
 
         this.cartService.checkout(payload).subscribe({

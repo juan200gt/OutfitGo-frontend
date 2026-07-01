@@ -164,44 +164,43 @@ export class CartService {
     }
 
     checkout(data: any): Observable<any> {
-        return this.#http.post(`${environment.apiUrl}/checkout/iniciar`, data).pipe(
-            tap(() => {
-                this.cartItems.set([]);
-                localStorage.removeItem('guest_cart');
-            })
-        );
+        return this.#http.post(`${environment.apiUrl}/checkout/iniciar`, data);
     }
 
     syncGuestCartToApi(): void {
         const guestCart = localStorage.getItem('guest_cart');
-        if (guestCart && this.isLoggedIn()) {
-            try {
-                const items: CartItem[] = JSON.parse(guestCart);
-                if (items.length === 0) {
+        if (this.isLoggedIn()) {
+            if (guestCart) {
+                try {
+                    const items: CartItem[] = JSON.parse(guestCart);
+                    if (items.length === 0) {
+                        localStorage.removeItem('guest_cart');
+                        this.loadCart();
+                        return;
+                    }
+                    const payload = items.map(item => ({
+                        producto_id: item.variante.producto.id,
+                        cantidad: item.cantidad,
+                        talla: item.variante.talla.nombre,
+                        color: item.variante.color.nombre
+                    }));
+
+                    this.#http.post<CartResponse>(`${this.#apiUrl}/sync`, { items: payload }).subscribe({
+                        next: (res) => {
+                            this.cartItems.set(res.data);
+                            localStorage.removeItem('guest_cart');
+                        },
+                        error: (err) => {
+                            console.error('Error syncing guest cart to api', err);
+                            this.loadCart();
+                        }
+                    });
+                } catch (e) {
+                    console.error('Failed to parse guest cart storage', e);
                     localStorage.removeItem('guest_cart');
                     this.loadCart();
-                    return;
                 }
-                const payload = items.map(item => ({
-                    producto_id: item.variante.producto.id,
-                    cantidad: item.cantidad,
-                    talla: item.variante.talla.nombre,
-                    color: item.variante.color.nombre
-                }));
-
-                this.#http.post<CartResponse>(`${this.#apiUrl}/sync`, { items: payload }).subscribe({
-                    next: (res) => {
-                        this.cartItems.set(res.data);
-                        localStorage.removeItem('guest_cart');
-                    },
-                    error: (err) => {
-                        console.error('Error syncing guest cart to api', err);
-                        this.loadCart();
-                    }
-                });
-            } catch (e) {
-                console.error('Failed to parse guest cart storage', e);
-                localStorage.removeItem('guest_cart');
+            } else {
                 this.loadCart();
             }
         }

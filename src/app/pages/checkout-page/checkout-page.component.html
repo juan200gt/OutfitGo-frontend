@@ -51,8 +51,8 @@
                 </div>
                 } @else {
                 <div class="join w-full">
-                    <input #couponInput type="text" class="input input-bordered input-sm join-item w-full"
-                        placeholder="Código de descuento" [value]="couponCode()"
+                    <input #couponInput type="text" class="input input-bordered input-sm join-item w-full bg-white"
+                        placeholder="Código de descuento (Ej: BIENVENIDA10)" [value]="couponCode()"
                         (input)="couponCode.set(couponInput.value)">
 
                     <button class="btn btn-primary btn-sm join-item" (click)="applyCoupon()"
