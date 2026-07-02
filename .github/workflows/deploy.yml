@@ -1,67 +1,36 @@
-name: Deploy Frontend to AWS EC2
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ "main" ]
-  workflow_dispatch: {}
+    branches:
+      - main
+
+permissions:
+  contents: write
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          host: ${{ secrets.FRONTEND_HOST }}
-          username: ubuntu
-          key: ${{ secrets.SSH_KEY }}
-          proxy_host: ${{ secrets.BASTION_HOST }}
-          proxy_username: ubuntu
-          proxy_key: ${{ secrets.SSH_KEY }}
-          command_timeout: 30m
-          script: |
-            # Instalar Docker si no existe
-            if ! command -v docker &> /dev/null; then
-              echo "Instalando Docker..."
-              curl -fsSL https://get.docker.com -o get-docker.sh
-              sudo sh get-docker.sh
-              sudo usermod -aG docker ubuntu
-              sleep 10
-            fi
+          node-version: 20
 
-            # Crear Swap de 2GB si no existe
-            if [ ! -f /swapfile ]; then
-              echo "Creando archivo Swap de 2GB..."
-              sudo fallocate -l 2G /swapfile || sudo dd if=/dev/zero of=/swapfile bs=1M count=2048
-              sudo chmod 600 /swapfile
-              sudo mkswap /swapfile
-              sudo swapon /swapfile
-              echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
-            fi
+      - name: Install dependencies
+        run: npm ci
 
-            mkdir -p /home/ubuntu/frontend
-            cd /home/ubuntu/frontend
-            if [ ! -d ".git" ]; then
-              git clone -b main https://github.com/${{ github.repository }}.git .
-            else
-              git pull origin main
-            fi
+      - name: Build Angular App
+        run: npx ng build --configuration production --base-href /OutfitGo-frontend/
 
-            # Bajamos contenedores anteriores (liberamos puerto 80) y limpiamos espacio
-            sudo docker compose -f docker-compose.prod.yml down --remove-orphans
-            sudo docker system prune -af
+      - name: Copy index.html to 404.html for client-side routing
+        run: cp dist/outfit-go-angular19/browser/index.html dist/outfit-go-angular19/browser/404.html
 
-            # Instalar Certbot y generar certificado si no existe
-            if ! command -v certbot &> /dev/null; then
-              sudo apt-get update
-              sudo apt-get install -y certbot
-            fi
-            if [ ! -d "/etc/letsencrypt/live/outfitgo.duckdns.org" ]; then
-              sudo certbot certonly --standalone -d outfitgo.duckdns.org --non-interactive --agree-tos -m admin@outfitgo.duckdns.org
-            fi
-
-            # Levantamos el sistema completo y compilamos la nueva imagen
-            sudo docker compose -f docker-compose.prod.yml up -d --build
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist/outfit-go-angular19/browser
+          branch: gh-pages

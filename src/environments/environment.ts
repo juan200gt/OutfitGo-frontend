@@ -1,3 +1,3 @@
 export const environment = {
-    apiUrl: 'https://outfitgo.duckdns.org/api'
+    apiUrl: 'https://outfitgo-backend.onrender.com/api'
 };
