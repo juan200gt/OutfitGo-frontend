@@ -47,6 +47,11 @@ export class OutfitWizardComponent {
   }
 
   onImgError(event: Event) {
-    (event.target as HTMLImageElement).src = '/no-image.png';
+    const img = event.target as HTMLImageElement;
+    if (img.src.includes('no-image.png') || img.src.includes('data:image')) {
+      img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="%23ccc"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="%23666">No Image</text></svg>';
+      return;
+    }
+    img.src = '/OutfitGo-frontend/no-image.png';
   }
 }
