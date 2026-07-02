@@ -10,7 +10,7 @@ He hecho un fork de este proyecto original para arreglar cosas que vea oportunas
 
 Actualmente, el flujo principal de la aplicación (catálogo, carrito y checkout seguro) funciona perfectamente. Sin embargo, hay algunas consideraciones a tener en cuenta:
 
-- **Asistente de IA:** La funcionalidad del asistente virtual de Inteligencia Artificial (Outfit Wizard) **tampoco va** en este despliegue.
+- **Asistente de IA:** La funcionalidad del asistente virtual de Inteligencia Artificial (Outfit Wizard) **tampoco va** en este despliegue por un problema de configuración/caducidad de las claves de la API.
 - **Sistema de Correos:** Básicamente **no funciona el tema de los correos** electrónicos (verificaciones de cuenta, correos de confirmación de pedidos, etc.). No obstante, la página funciona perfectamente sin el correo, ya que el registro se auto-verifica al instante y el checkout/pago se procesa con éxito de forma resiliente.
 - **Panel de Administración:** Hay un **sistema completo de gestión de usuarios y artículos** integrado en la aplicación, pero **no voy a dejar acceder** al mismo en esta versión desplegada. Y creo que nada más.
 
